@@ -2,10 +2,11 @@
   "name": "backend",
   "private": true,
   "version": "0.1.0",
-  "description": "Node.js Hello world app using docker features for easy docker-compose local dev and solid production defaults",
+  "description": "",
   "author": "",
   "main": "src/index.js",
   "scripts": {
+    "preinstall": "npm i nodemon -g",
     "start": "node src/index.js",
     "start-watch": "nodemon src/index.js --inspect=0.0.0.0:9229",
     "start-wait-debuger": "nodemon src/index.js --inspect-brk=0.0.0.0:9229",
