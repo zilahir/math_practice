@@ -1,3 +1,4 @@
+version: '3'
 services:
   backend:
     build:
@@ -12,7 +13,7 @@ services:
       - DATABASE_HOST=db
       - NODE_ENV=development
     ports:
-      - 80:80
+      - 81:81
       - 9229:9229
       - 9230:9230
     secrets:
@@ -43,6 +44,22 @@ services:
     environment:
       - MYSQL_DATABASE=example
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    ports:
+      - "6033:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    restart: always
+    networks:
+      - public
+      - private
+    ports:
+      - 8081:80
+
   frontend:
     build:
       context: frontend
