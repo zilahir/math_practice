@@ -1,0 +1,9 @@
+{
+    "extends": ["eslint:recommended", "plugin:n/recommended"],
+    "plugins": [
+        "eslint-plugin-import",
+        "eslint-plugin-sonarjs",
+        "eslint-plugin-unicorn"
+    ],
+    "rules": {}
+}
