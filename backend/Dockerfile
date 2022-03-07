@@ -15,7 +15,10 @@ EXPOSE $PORT 9229 9230
 
 COPY package.json /code/package.json
 COPY package-lock.json /code/package-lock.json
-RUN npm ci
+RUN npm install
+
+ENV NODE_PATH=/code/node_modules
+VOLUME ${NODE_PATH}
 
 # check every 30s to ensure this service returns HTTP 200
 HEALTHCHECK --interval=30s \
