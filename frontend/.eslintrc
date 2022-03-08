@@ -11,6 +11,8 @@
         "semi": "error",
         "quotes": ["error", "double"],
         "import/no-unresolved": 0,
+        // "react/forbid-prop-types": "off",
+        // "import/no-extraneous-dependencies": "off"
     },
     "settings": {
         "import/core-modules": ["react"]
