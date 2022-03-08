@@ -10,6 +10,7 @@
     "rules": {
         "semi": "error",
         "quotes": ["error", "double"],
+        "import/no-unresolved": 0,
     },
     "settings": {
         "import/core-modules": ["react"]
