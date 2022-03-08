@@ -1,0 +1,17 @@
+{
+    "extends": ["airbnb"],
+    "plugins": [
+        "eslint-plugin-import",
+        "eslint-plugin-jsdoc",
+        "eslint-plugin-react-hooks",
+        "eslint-plugin-unicorn"
+    ],
+    "rules": {
+        "semi": "error",
+        "quotes": ["error", "double"],
+    },
+    "settings": {
+        "import/core-modules": ["react"]
+    },
+    "root": false
+}
