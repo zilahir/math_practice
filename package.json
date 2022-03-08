@@ -12,11 +12,12 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.39",
-    "eslint": "^8.10.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsdoc": "^37.9.7",
     "eslint-plugin-n": "^15.0.1",
+    "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-sonarjs": "^0.12.0",
     "eslint-plugin-unicorn": "^41.0.0",
