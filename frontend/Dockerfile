@@ -1,7 +1,7 @@
 FROM node:lts AS development
 
 ENV CI=false
-ENV PORT=
+ENV PORT=3000
 ENV SKIP_PREFLIGHT_CHECK=true
 
 WORKDIR /code
