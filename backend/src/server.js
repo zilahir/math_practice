@@ -14,7 +14,7 @@ const morgan = require("morgan");
 
 const database = require("./database");
 
-const testRoutes = require("./test/routes");
+//const testRoutes = require("./test/routes");
 
 // Appi
 const app = express();
@@ -35,6 +35,6 @@ app.get("/healthz", function(req, res) {
   res.send("I am happy and healthy\n");
 });
 
-app.use('/test', testRoutes);
+// app.use('/test', testRoutes);
 
 module.exports = app;
