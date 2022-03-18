@@ -14,6 +14,8 @@ const morgan = require("morgan");
 
 const database = require("./database");
 
+const testRoutes = require("./test/routes");
+
 // Appi
 const app = express();
 
@@ -32,5 +34,7 @@ app.get("/healthz", function(req, res) {
   // if you want, you should be able to restrict this to localhost (include ipv4 and ipv6)
   res.send("I am happy and healthy\n");
 });
+
+app.use('/test', testRoutes);
 
 module.exports = app;
