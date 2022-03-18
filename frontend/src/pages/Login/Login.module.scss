@@ -1,0 +1,15 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 300px;
+
+    .loginInput {
+        margin-bottom: 10px;
+        
+        &.textBox {
+            border: 2px solid #000;
+        }
+    }
+}

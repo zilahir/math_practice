@@ -1,0 +1,13 @@
+.inputContainer {
+    input {
+        width: 100%;
+        border: 0;
+        background: none;
+        height: 40px;
+
+        &:focus {
+            outline: none;
+            background: rgba($color: #ccc, $alpha: 0.5);
+        }
+    }
+}
