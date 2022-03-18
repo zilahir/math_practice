@@ -25,6 +25,10 @@ class MySQL {
             })
         })
     }
+
+    cloeConnection() {
+        return this.connection.destroy()
+    }
 }
 
 export default MySQL;
