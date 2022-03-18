@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import classnames from "classnames";
 
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
 import styles from "./Login.module.scss";
+import AuthContext from "../../context/AuthContext/context";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setAuthenticated } = useContext(AuthContext);
 
   function handleLogin() {
     if (username.length !== 0 && password.length !== 0) {
@@ -16,6 +19,7 @@ function Login() {
         password,
       };
       console.log("loginObject", loginObject);
+      setAuthenticated(true);
     } else {
       // TODO: handle error
     }
