@@ -9,7 +9,8 @@
         "eslint-plugin-unicorn"
     ],
     "rules": {
-        "no-console": ["error"]
+        "no-console": ["error", { "allow": ["info", "error"] }],
+        "n/no-process-exit": "0"
     },
     "root": false
 }
