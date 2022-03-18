@@ -1,0 +1,11 @@
+.headerRootContainer {
+    display: flex;
+    justify-content: end;
+    padding: 10px 20px;
+
+    .menuContainer {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+    }
+}

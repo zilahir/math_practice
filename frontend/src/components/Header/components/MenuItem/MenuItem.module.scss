@@ -1,0 +1,17 @@
+@import '../../../../styles/variables';
+
+.menuItem {
+    font-size: 22px;
+    padding-left: 10px;
+
+    &.active {
+        a {
+            color: red;
+        }
+    }
+
+    a {
+        text-decoration: none;
+        color: $menu-item-color;
+    }
+}

@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import classnames from "classnames";
 
-function MenuItem({ label, to }) {
+import styles from "./MenuItem.module.scss";
+
+function MenuItem({ label, to, isActive }) {
   return (
-    <li>
+    <li className={classnames(styles.menuItem, isActive && styles.active)}>
       <Link to={to}>
         {label}
       </Link>
@@ -11,9 +14,14 @@ function MenuItem({ label, to }) {
   );
 }
 
+MenuItem.defaultProps = {
+  isActive: false,
+};
+
 MenuItem.propTypes = {
   label: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
 };
 
 export default MenuItem;
