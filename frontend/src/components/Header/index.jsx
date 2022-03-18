@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/forbid-prop-types */
 import PropTypes from "prop-types";
 import MenuItem from "./components/MenuItem";
 
@@ -18,7 +16,10 @@ function Header({ menuItem }) {
 }
 
 Header.propTypes = {
-  menuItem: PropTypes.array.isRequired,
+  menuItem: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    target: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default Header;
