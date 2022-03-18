@@ -1,8 +1,12 @@
+@import "../../styles/variables";
+
 .headerRootContainer {
     display: flex;
     justify-content: end;
     padding: 10px 20px;
     background: rgba($color: #ccc, $alpha: 1);
+    height: $header-height;
+    align-items: center;
 
     .menuContainer {
         list-style-type: none;
