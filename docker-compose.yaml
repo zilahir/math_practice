@@ -5,7 +5,7 @@ services:
       args:
       - NODE_ENV=development
       context: backend
-    command: npm run start-watch
+    command: npm run start:dev:babel
     environment:
       - DATABASE_DB=example
       - DATABASE_USER=root

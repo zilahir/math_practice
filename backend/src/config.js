@@ -3,7 +3,7 @@ const fs = require("fs");
 const readFileSync = filename => fs.readFileSync(filename).toString("utf8");
 
 // Constants
-module.exports = {
+export const serverConfig = {
   database: {
     host: process.env.DATABASE_HOST || "localhost",
     port: process.env.DATABASE_PORT,
