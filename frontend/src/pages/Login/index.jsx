@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import classnames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../../components/common/Input";
 import Button from "../../components/common/Button";
@@ -10,16 +11,16 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setAuthenticated } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   function handleLogin() {
     if (username.length !== 0 && password.length !== 0) {
       const loginObject = {
-        username,
+        email: username,
         password,
       };
-      console.log("loginObject", loginObject);
-      setAuthenticated(true);
+      signIn(loginObject, () => navigate("/tasks"));
     } else {
       // TODO: handle error
     }

@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import menuItems from "./fakeApi/menuItems";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import AuthProvider from "./context/AuthContext/AuthProvider";
+import Tasks from "./pages/Tasks";
 
 function App() {
   return (
@@ -26,6 +27,14 @@ function App() {
             element={(
               <ProtectedRoute>
                 <Admin />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="/tasks"
+            element={(
+              <ProtectedRoute>
+                <Tasks />
               </ProtectedRoute>
             )}
           />
