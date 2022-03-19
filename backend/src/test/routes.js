@@ -4,5 +4,7 @@ import { test } from "./controller";
 const router = Router();
 
 router.get('/test', [
-    test()
+    test
 ])
+
+export default router

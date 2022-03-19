@@ -14,7 +14,7 @@
     "test": "cross-env NODE_ENV=test PORT=8081 mocha --timeout 10000 --exit --inspect=0.0.0.0:9230",
     "test-watch": "nodemon --exec \"npm test\"",
     "test-wait-debuger": "cross-env NODE_ENV=test PORT=8081 mocha --no-timeouts --exit --inspect-brk=0.0.0.0:9230",
-    "start:dev:babel": "nodemon —exec babel-node --config-file babel.config.js src/index.js --inspect=0.0.0.0:9229"
+    "start:dev:babel": "nodemon --exec \"babel-node src/index.js\" --inspect=0.0.0.0:9229"
   },
   "engines": {
     "node": ">=16"

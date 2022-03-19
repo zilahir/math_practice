@@ -1,9 +1,9 @@
-const knex = require('knex');
-const { database } = require('./config');
+import knex from 'knex';
+import { serverConfig } from './config';
 
 const dbConfig = knex({
   client: 'mysql2',
-  connection: database,
+  connection: serverConfig.database
 });
 
 export default dbConfig
