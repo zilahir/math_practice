@@ -1,8 +1,8 @@
 # Érettésgi feladat generátor
 
 - [] frontend pages (routes)
-    - [] home (főoldal)
-    - [] login
+    - [X] home (főoldal)
+    - [X] login (API missing)
     - [] admin (root)
     - [] logout (session destroy handling)
     - [] tasks (feladatok lista)
