@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "setup": "npm i -D",
-    "del:images": "rimraf ./public/upload/*"
+    "del:images": "rimraf **/upload/*"
   },
   "repository": {
     "type": "git",
