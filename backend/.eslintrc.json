@@ -1,16 +1,24 @@
 {
     "env": {
-        "node": true
+        "node": true,
+        "browser": true,
+        "es6": true
     },
-    "extends": ["eslint:recommended", "plugin:n/recommended"],
+    "extends": ["eslint:recommended"],
     "plugins": [
         "eslint-plugin-import",
         "eslint-plugin-sonarjs",
         "eslint-plugin-unicorn"
     ],
     "rules": {
-        "no-console": ["error", { "allow": ["info", "error"] }],
-        "n/no-process-exit": "0"
+        "no-console": ["error", { "allow": ["info", "error", "debug"] }],
+        "n/no-process-exit": 0
     },
-    "root": false
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "sourceType": "module",
+        "allowImportExportEverywhere": true,
+        "ecmaVersion": 8,
+        "requireConfigFile": false
+    }
 }

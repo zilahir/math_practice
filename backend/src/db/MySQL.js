@@ -17,12 +17,10 @@ class MySQL {
     }
 
     convertQueryResultToObject(queryResult) {
-        console.log("queryResult", queryResult);
         return JSON.parse((JSON.stringify(queryResult)))
     }
 
     query(queryToExecute) {
-        console.log("queryToExecute", queryToExecute);
         return new Promise((resolve, reject) => {
             this.connection.query(queryToExecute, (err, result) => {
                 if (err) reject(err)

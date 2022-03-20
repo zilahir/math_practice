@@ -4,14 +4,18 @@ import express from "express";
 
 import database from "./database";
 import testRoutes from "./test/routes";
+import uploadRoutes from './files/routes.files';
 
 const app = express();
 
 app.use(morgan("common"));
+app.use(express.json());
+
+app.use(express.static(__dirname + '/public'));
 
 app.get("/", function(req, res, next) {
   database.raw('select VERSION() version')
-    .then(([rows, columns]) => rows[0])
+    .then(([rows]) => rows[0])
     .then((row) => res.json({ message: `Hello from MySQL ${row.version}` }))
     .catch(next);
 });
@@ -21,5 +25,6 @@ app.get("/healthz", function(req, res) {
 });
 
 app.use('/test', testRoutes);
+app.use('/upload', uploadRoutes);
 
 export default app;

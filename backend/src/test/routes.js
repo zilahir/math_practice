@@ -3,7 +3,7 @@ import { test } from "./controller";
 
 const router = Router();
 
-router.get('/test', [
+router.get('/', [
     test
 ])
 
