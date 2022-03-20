@@ -1,8 +1,8 @@
 import multer from "multer";
-import { upload } from "../storage";
+import { imageFilter, storage } from "../storage";
 
 function uploadFile(req, res) {
-    // console.debug('uploadReq', req.file);
+    const upload = multer({ storage: storage, fileFilter: imageFilter }).single('profile_pic');
     upload(req, res, function(err) {
         // req.file contains information of uploaded file
         // req.body contains information of text fields, if there were any

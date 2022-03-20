@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "npm i -D"
+    "setup": "npm i -D",
+    "del:images": "rimraf ./public/upload/*"
   },
   "repository": {
     "type": "git",
@@ -30,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/zilahir/math_practice/issues"
   },
-  "homepage": "https://github.com/zilahir/math_practice#readme"
+  "homepage": "https://github.com/zilahir/math_practice#readme",
+  "dependencies": {
+    "rimraf": "^3.0.2"
+  }
 }

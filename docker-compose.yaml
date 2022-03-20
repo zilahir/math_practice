@@ -23,7 +23,7 @@ services:
       - ./backend/src:/code/src:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json
-      - ./public/upload:/code/public/upload
+      - ./backend/public/upload:/media
       - back-notused:/opt/app/node_modules
       - /code/node_modules
     networks:
