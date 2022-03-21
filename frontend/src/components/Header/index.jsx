@@ -6,7 +6,6 @@ import MenuItem from "./components/MenuItem";
 import styles from "./Header.module.scss";
 
 function getMenuItems(hasAuth, scope) {
-  console.log('hasAuth', hasAuth, scope);
   if (!hasAuth) {
     return menuApi.menuItems;
   }
