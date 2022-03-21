@@ -6,6 +6,7 @@ import MenuItem from "./components/MenuItem";
 import styles from "./Header.module.scss";
 
 function getMenuItems(hasAuth, scope) {
+  console.log('hasAuth', hasAuth, scope);
   if (!hasAuth) {
     return menuApi.menuItems;
   }
@@ -20,7 +21,7 @@ function Header() {
     <header className={styles.headerRootContainer}>
       <ul className={styles.menuContainer}>
         {
-            getMenuItems(isAuthenticated, loggedInUser.scope).map((value) => (
+            getMenuItems(isAuthenticated, loggedInUser.userLevel).map((value) => (
               <MenuItem
                 isActive={value.target === location.pathname}
                 to={value.target}

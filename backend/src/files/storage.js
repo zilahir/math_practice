@@ -3,6 +3,7 @@ import multer from "multer";
 
 export const storage = multer.diskStorage({
     destination: function(req, file, cb) {
+        console.debug(__dirname)
         cb(null, path.resolve('/media'))
     },
 

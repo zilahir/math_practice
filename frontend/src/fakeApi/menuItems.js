@@ -5,7 +5,7 @@ export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
 
 const menuItems = [
-  { label: "Főoldal", target: "/", scopes: [ALL] },
+  { label: "Főoldal", target: "/", scopes: [USER, ADMIN] },
   { label: "Belépés", target: "/login", scopes: [LOGGEDOUT] },
   { label: "Feladatok", target: "/tasks", scopes: [USER, ADMIN] },
 ];
