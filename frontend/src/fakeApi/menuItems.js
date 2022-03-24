@@ -8,6 +8,7 @@ const menuItems = [
   { label: "Főoldal", target: "/", scopes: [USER, ADMIN] },
   { label: "Belépés", target: "/login", scopes: [LOGGEDOUT] },
   { label: "Feladatok", target: "/tasks", scopes: [USER, ADMIN] },
+  { label: "Regisztráció", target: "/signup", scopes: [LOGGEDOUT] },
 ];
 
 const adminMenuItems = [

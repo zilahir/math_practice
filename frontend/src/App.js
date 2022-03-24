@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import AuthProvider from "./context/AuthContext/AuthProvider";
 import Tasks from "./pages/Tasks";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/admin"
             element={(

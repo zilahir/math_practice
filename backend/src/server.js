@@ -3,8 +3,8 @@ import morgan from "morgan";
 import express from "express";
 
 import database from "./database";
-import testRoutes from "./test/routes";
 import uploadRoutes from './files/routes.files';
+import userRoutes from './user/user.routes';
 
 const app = express();
 
@@ -24,7 +24,8 @@ app.get("/healthz", function(req, res) {
   res.send("I am happy and healthy\n");
 });
 
-app.use('/test', testRoutes);
 app.use('/upload', uploadRoutes);
+
+app.use('/user', userRoutes)
 
 export default app;
