@@ -19,15 +19,7 @@ function SignUp() {
       email,
       password,
     });
-    /* api.post("/user", {
-      email,
-      password,
-    }).then(() => {
-      console.log("READY!!!");
-    }); */
   }
-
-  console.log('loading', loading);
 
   return (
     <div className={styles.loginContainer}>
