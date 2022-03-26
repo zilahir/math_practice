@@ -8,6 +8,12 @@
     - [] tasks (feladatok lista)
         - [] filter (by year / category)
         - [] tasks/:id
+- [] frontend generic components
+    - [] button
+    - [] input
+    - [notification]
+    - [global error]
+    - [global loading]
 
 # Implementáció
 
