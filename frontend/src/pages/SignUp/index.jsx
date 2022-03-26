@@ -4,21 +4,30 @@ import classnames from "classnames";
 import Input from "../../components/common/Input";
 import styles from "../Login/Login.module.scss";
 import Button from "../../components/common/Button";
-import api from "../../api";
-// import useApi from "../../hooks/useAPI";
+// import api from "../../api";
+import useApi from "../../hooks/useAPI";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loading, apiResponse, apiRequestHandler } = useApi({
+    pathName: "/user",
+  });
 
-  function handleRegistration() {
-    api.post("/user", {
+  async function handleRegistration() {
+    await apiRequestHandler({
+      email,
+      password,
+    });
+    /* api.post("/user", {
       email,
       password,
     }).then(() => {
       console.log("READY!!!");
-    });
+    }); */
   }
+
+  console.log('loading', loading);
 
   return (
     <div className={styles.loginContainer}>

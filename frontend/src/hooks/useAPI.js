@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import api from "../api";
 
-function useApi({ pathName, body }) {
+function useApi({ pathName }) {
   const [loading, isLoading] = useState(false);
   const [apiReponse, setApiResposne] = useState(undefined);
-  // const [error, setError] = useState();
+  const [error, setError] = useState(undefined);
 
-  useEffect(() => {
+  const apiRequestHandler = useCallback(async (body) => {
     isLoading(true);
-    async function fetchData() {
+    try {
       const response = await api.post(pathName, {
         ...body,
       });
-      isLoading(false);
-      return response;
+      setApiResposne(response);
+    } catch (apiError) {
+      setError(apiError);
     }
+    isLoading(false);
+  }, [pathName]);
 
-    const response = fetchData();
-    setApiResposne(response);
-  }, [pathName, body]);
-
-  return { loading, apiReponse };
+  return {
+    loading, apiReponse, error, apiRequestHandler,
+  };
 }
 
 export default useApi;
