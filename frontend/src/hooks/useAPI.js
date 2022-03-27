@@ -7,7 +7,7 @@ funkciokat, ujrafelhasznalhato modon. (Pl useState, useEffect, stb.)
 
 Ebben a hookban 3 stat van (loding, apiResponse, error).
 
-Maga a funcion nagyon egyszerű, egy objecttel tér vissza amiben 4 property van: 
+Maga a funcion nagyon egyszerű, egy objecttel tér vissza amiben 4 property van:
 
 loading, apiReponse, error, apiRequestHandler
 
