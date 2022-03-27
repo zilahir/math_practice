@@ -9,6 +9,7 @@ const menuItems = [
   { label: "Belépés", target: "/login", scopes: [LOGGEDOUT] },
   { label: "Feladatok", target: "/tasks", scopes: [USER, ADMIN] },
   { label: "Regisztráció", target: "/signup", scopes: [LOGGEDOUT] },
+  { label: "Kijelentkezés", target: "/signout", scopes: [LOGGEDIN] },
 ];
 
 const adminMenuItems = [
@@ -23,7 +24,7 @@ const menuApi = {
     (desiredScope, userLevel) => [
       ...menuItems, ...adminMenuItems,
     ].filter((menuItem) => menuItem.scopes.some(
-      (scope) => scope === userLevel,
+      (scope) => scope === userLevel || scope === desiredScope,
     )),
 };
 

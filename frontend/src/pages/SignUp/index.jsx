@@ -4,7 +4,6 @@ import classnames from "classnames";
 import Input from "../../components/common/Input";
 import styles from "../Login/Login.module.scss";
 import Button from "../../components/common/Button";
-// import api from "../../api";
 import useApi from "../../hooks/useAPI";
 
 function SignUp() {

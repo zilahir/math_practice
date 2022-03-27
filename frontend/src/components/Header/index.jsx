@@ -1,14 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext/AuthProvider";
-import menuApi, { LOGGEDIN } from "../../fakeApi/menuItems";
+import { USER } from "../../fakeApi/fakeUsers";
+import menuApi, { LOGGEDIN, LOGGEDOUT } from "../../fakeApi/menuItems";
 
 import MenuItem from "./components/MenuItem";
 import styles from "./Header.module.scss";
 
 function getMenuItems(hasAuth, scope) {
   if (!hasAuth) {
-    return menuApi.menuItems;
+    return menuApi.getMenuItemsForScope(LOGGEDOUT, USER);
   }
+
   const loggedInMenuItems = menuApi.getMenuItemsForScope(LOGGEDIN, scope);
   return loggedInMenuItems;
 }
@@ -20,7 +22,10 @@ function Header() {
     <header className={styles.headerRootContainer}>
       <ul className={styles.menuContainer}>
         {
-            getMenuItems(isAuthenticated, loggedInUser.userLevel).map((value) => (
+            getMenuItems(
+              isAuthenticated,
+              loggedInUser ? loggedInUser.userLevel : USER,
+            ).map((value) => (
               <MenuItem
                 isActive={value.target === location.pathname}
                 to={value.target}

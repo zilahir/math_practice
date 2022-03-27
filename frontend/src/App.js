@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import AuthProvider from "./context/AuthContext/AuthProvider";
 import Tasks from "./pages/Tasks";
 import SignUp from "./pages/SignUp";
+import SignOut from "./pages/SignOut";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/signout" element={<SignOut />} />
           <Route
             path="/admin"
             element={(

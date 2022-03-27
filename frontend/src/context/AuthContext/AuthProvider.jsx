@@ -8,8 +8,16 @@ import { ALL } from "../../fakeApi/menuItems";
 
 export const useAuth = () => useContext(AuthContext);
 
+function handleLocalStorage(isLoggedIn) {
+  if (isLoggedIn) {
+    window.localStorage.setItem("isLoggedIn", true);
+  } else {
+    window.localStorage.setItem("isLoggedIn", false);
+  }
+}
+
 function AuthProvider({ children }) {
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(window.localStorage.getItem("isLoggedIn") ?? false);
   const [loggedInUser, setLoggedInUser] = useState({
     scope: ALL,
   });
@@ -19,6 +27,7 @@ function AuthProvider({ children }) {
     if (hasUser) {
       // we have the user and the password is correct, we can login
       setAuthenticated(true);
+      handleLocalStorage(true);
       setLoggedInUser(hasUser);
       callback();
     } else {
@@ -29,6 +38,7 @@ function AuthProvider({ children }) {
   function signOut() {
     setAuthenticated(false);
     setLoggedInUser();
+    handleLocalStorage(false);
   }
 
   const value = {
