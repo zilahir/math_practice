@@ -5,6 +5,7 @@ import express from "express";
 import database from "./database";
 import uploadRoutes from './files/routes.files';
 import userRoutes from './user/user.routes';
+import categoriesRoutes from './categories/categories.routes';
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.get("/healthz", function(req, res) {
 });
 
 app.use('/upload', uploadRoutes);
-
-app.use('/user', userRoutes)
+app.use('/user', userRoutes);
+app.use('/categories', categoriesRoutes);
 
 export default app;

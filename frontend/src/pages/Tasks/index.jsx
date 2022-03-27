@@ -1,7 +1,11 @@
+import styles from "./Tasks.module.scss";
+
 function Tasks() {
   return (
-    <div>
-      tasks
+    <div className={styles.tasksRootContainer}>
+      <h1>
+        Feladatok
+      </h1>
     </div>
   );
 }

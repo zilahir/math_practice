@@ -9,9 +9,17 @@ function Input({
   inputType,
   placeHolder,
   className,
+  inputLabel,
 }) {
   return (
     <div className={classnames(styles.inputContainer, className)}>
+      {
+        inputLabel && (
+          <label>
+            {inputLabel}
+          </label>
+        )
+      }
       <input
         type={inputType}
         value={value}
@@ -25,6 +33,7 @@ function Input({
 Input.defaultProps = {
   className: undefined,
   inputType: "text",
+  inputLabel: false,
 };
 
 Input.propTypes = {
@@ -33,6 +42,7 @@ Input.propTypes = {
   onChangeHandler: PropTypes.func.isRequired,
   inputType: PropTypes.oneOf(["text", "password"]),
   placeHolder: PropTypes.string.isRequired,
+  inputLabel: PropTypes.string,
 };
 
 export default Input;
