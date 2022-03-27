@@ -11,6 +11,7 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const { loading, apiResponse, apiRequestHandler } = useApi({
     pathName: "/user",
+    method: "POST",
   });
 
   async function handleRegistration() {
