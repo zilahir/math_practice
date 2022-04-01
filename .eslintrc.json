@@ -1,6 +1,7 @@
 {
-    "rules": {},
-    "settings": {
-        "import/external-module-folders": []
-    }
+  "extends": ["plugin:jsdoc/recommended", "prettier"],
+  "rules": {},
+  "settings": {
+    "import/external-module-folders": []
+  }
 }

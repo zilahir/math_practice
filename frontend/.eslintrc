@@ -1,5 +1,5 @@
 {
-    "extends": ["react-app", "airbnb", "plugin:react/jsx-runtime"],
+    "extends": ["react-app", "airbnb", "plugin:react/jsx-runtime", "../.eslintrc.json"],
     "plugins": [
         "eslint-plugin-import",
         "eslint-plugin-jsdoc",
