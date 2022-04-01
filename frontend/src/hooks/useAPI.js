@@ -5,8 +5,9 @@ import api from "../api";
  * @param root0
  * @param root0.pathName
  * @param root0.method
+ * @param root0.requestOptions
  */
-function useApi({ pathName, method }) {
+function useApi({ pathName, method, requestOptions }) {
   const [loading, isLoading] = useState(false);
   const [apiReponse, setApiResposne] = useState(undefined);
   const [error, setError] = useState(undefined);
@@ -16,9 +17,12 @@ function useApi({ pathName, method }) {
       isLoading(true);
       if (method === "POST") {
         try {
-          const response = await api.post(pathName, {
-            ...body,
-          });
+          const response = await api.post(
+            pathName,
+            body
+            // { ...requestOptions }
+          );
+          console.debug("apiResponse", apiReponse);
           setApiResposne(response);
         } catch (apiError) {
           setError(apiError);

@@ -5,12 +5,7 @@
       "jsx": true
     }
   },
-  "extends": [
-    "react-app",
-    "airbnb",
-    "plugin:react/jsx-runtime",
-    "../.eslintrc.json"
-  ],
+  "extends": ["react-app", "airbnb", "plugin:react/jsx-runtime"],
   "plugins": [
     "eslint-plugin-import",
     "eslint-plugin-react-hooks",
@@ -20,7 +15,8 @@
   "rules": {
     "semi": "error",
     "quotes": ["error", "double"],
-    "import/no-unresolved": 0
+    "import/no-unresolved": 0,
+    "react/jsx-props-no-spreading": 0
   },
   "settings": {
     "import/core-modules": ["react"]

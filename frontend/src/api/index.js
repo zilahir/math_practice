@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import apiEndpoints from "./apiEndpoints";
+
 const API_ROOT_URL = "/api";
 
 const api = axios.create({
@@ -8,3 +10,4 @@ const api = axios.create({
 });
 
 export default api;
+export { apiEndpoints };

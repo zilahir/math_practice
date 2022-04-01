@@ -1,9 +1,9 @@
-version: '3'
+version: "3"
 services:
   backend:
     build:
       args:
-      - NODE_ENV=development
+        - NODE_ENV=development
       context: backend
     command: npm run start:dev:babel
     environment:
@@ -23,7 +23,7 @@ services:
       - ./backend/src:/code/src:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json
-      - ./backend/public/upload:/media
+      - ./backend/public/upload:/code/public/upload
       - back-notused:/opt/app/node_modules
       - /code/node_modules
     networks:
@@ -36,7 +36,7 @@ services:
     image: mariadb:10.6.4-focal
     # If you really want to use MySQL, uncomment the following line
     #image: mysql:8.0.27
-    command: '--default-authentication-plugin=mysql_native_password'
+    command: "--default-authentication-plugin=mysql_native_password"
     restart: always
     secrets:
       - db-password

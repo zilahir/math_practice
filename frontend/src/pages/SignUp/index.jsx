@@ -5,12 +5,13 @@ import Input from "../../components/common/Input";
 import styles from "../Login/Login.module.scss";
 import Button from "../../components/common/Button";
 import useApi from "../../hooks/useAPI";
+import { apiEndpoints } from "../../api";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, apiResponse, apiRequestHandler } = useApi({
-    pathName: "/user",
+    pathName: apiEndpoints.signUp,
     method: "POST",
   });
 

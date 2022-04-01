@@ -1,9 +1,9 @@
 import app from "./server";
 import { serverConfig } from "./config";
 
-console.info('serverConfig.port', serverConfig.port)
+console.info("serverConfig.port", serverConfig.port);
 
-const server = app.listen(serverConfig.port, function() {
+const server = app.listen(serverConfig.port, function () {
   console.info("Webserver is ready");
 });
 
