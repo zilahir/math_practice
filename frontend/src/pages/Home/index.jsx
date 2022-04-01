@@ -1,9 +1,7 @@
 function Home() {
   return (
     <div>
-      <p>
-        Főoldal
-      </p>
+      <p>Főoldal</p>
     </div>
   );
 }

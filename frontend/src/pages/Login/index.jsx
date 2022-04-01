@@ -27,8 +27,19 @@ function Login() {
   }
   return (
     <div className={styles.loginContainer}>
-      <Input className={classnames(styles.loginInput, styles.textBox)} placeHolder="Felhasználói név" value={username} onChangeHandler={setUsername} />
-      <Input className={classnames(styles.loginInput, styles.textBox)} inputType="password" placeHolder="Jelszó" value={password} onChangeHandler={setPassword} />
+      <Input
+        className={classnames(styles.loginInput, styles.textBox)}
+        placeHolder="Felhasználói név"
+        value={username}
+        onChangeHandler={setUsername}
+      />
+      <Input
+        className={classnames(styles.loginInput, styles.textBox)}
+        inputType="password"
+        placeHolder="Jelszó"
+        value={password}
+        onChangeHandler={setPassword}
+      />
       <Button
         label="Bejelentkezés"
         onClickHandler={() => handleLogin()}
