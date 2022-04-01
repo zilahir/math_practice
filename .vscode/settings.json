@@ -10,6 +10,10 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "javascript.format.enable": true,
   "editor.formatOnSave": true,
   "editor.renderWhitespace": "all",
