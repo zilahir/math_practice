@@ -8,6 +8,7 @@ import { ALL } from "../../fakeApi/menuItems";
 
 export const useAuth = () => useContext(AuthContext);
 
+/** @param isLoggedIn */
 function handleLocalStorage(isLoggedIn) {
   if (isLoggedIn) {
     window.localStorage.setItem("isLoggedIn", true);
@@ -16,14 +17,28 @@ function handleLocalStorage(isLoggedIn) {
   }
 }
 
+/**
+ * @param root0
+ * @param root0.children
+ */
 function AuthProvider({ children }) {
-  const [isAuthenticated, setAuthenticated] = useState(window.localStorage.getItem("isLoggedIn") ?? false);
+  const [isAuthenticated, setAuthenticated] = useState(
+    window.localStorage.getItem("isLoggedIn") ?? false
+  );
   const [loggedInUser, setLoggedInUser] = useState({
     scope: ALL,
   });
 
+  /**
+   * @param root0
+   * @param root0.email
+   * @param root0.password
+   * @param callback
+   */
   function signIn({ email, password }, callback) {
-    const hasUser = fakeUsers.find((user) => user.email === email && user.password === password);
+    const hasUser = fakeUsers.find(
+      (user) => user.email === email && user.password === password
+    );
     if (hasUser) {
       // we have the user and the password is correct, we can login
       setAuthenticated(true);
@@ -48,13 +63,7 @@ function AuthProvider({ children }) {
     signIn,
     signOut,
   };
-  return (
-    (
-      <AuthContext.Provider value={value}>
-        {children}
-      </AuthContext.Provider>
-    )
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 AuthProvider.propTypes = {
