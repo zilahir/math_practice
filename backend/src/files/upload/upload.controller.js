@@ -1,32 +1,61 @@
 import multer from "multer";
+
 import { imageFilter, storage } from "../storage";
+import { serverConfig } from "../../config";
+import MySQL from "../../db/MySQL";
+
+const { host, port, user, password } = serverConfig.database;
+
+const database = new MySQL(host, port, user, password, "erettsegi");
 
 /**
- * @param req
- * @param res
+ * @param request
+ * @param response
+ * @param next
  */
-function uploadFile(req, res) {
+function uploadFile(request, response, next) {
   const upload = multer({ storage: storage, fileFilter: imageFilter }).single(
     "file"
   );
-  upload(req, res, function (err) {
-    // req.file contains information of uploaded file
-    // req.body contains information of text fields, if there were any
+  upload(request, response, function (err) {
+    // request.file contains information of uploaded file
+    // request.body contains information of text fields, if there were any
 
-    if (req.fileValidationError) {
-      return res.send(req.fileValidationError);
-    } else if (!req.file) {
-      return res.send("Please select an image to upload");
+    if (request.fileValidationError) {
+      return response.send(request.fileValidationError);
+    } else if (!request.file) {
+      return response.send("Please select an image to upload");
     } else if (err instanceof multer.MulterError) {
-      return res.send(err);
+      return response.send(err);
     } else if (err) {
-      return res.send(err);
+      return response.send(err);
     }
 
-    // Display uploaded image for user validation
-    res.send(
-      `You have uploaded this image: <hr/><img src="${req.file.path}" width="500"><hr /><a href="./">Upload another image</a>`
-    );
+    request.filePath = request.file.filename;
+
+    next();
+  });
+}
+
+/**
+ * @param request
+ * @param response
+ * @param next
+ */
+export async function saveImageInDatabase(request, response) {
+  const { filePath } = request;
+
+  const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${filePath}") `;
+  try {
+    await database.query(newImageQuery);
+  } catch {
+    response.status(500).response({
+      error: "Inserint into the database has failed",
+    });
+  }
+
+  response.status(200).send({
+    filePath: filePath,
   });
 }
 
