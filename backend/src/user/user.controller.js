@@ -1,33 +1,45 @@
-import { serverConfig } from "../config"
-import MySQL from "../db/MySQL"
+import crypto from "crypto";
 
-const { host, port, user, password } = serverConfig.database
+import { serverConfig } from "../config";
+import MySQL from "../db/MySQL";
 
-const database = new MySQL(host, port, user, password, "erettsegi")
+const { host, port, user, password } = serverConfig.database;
+
+const database = new MySQL(host, port, user, password, "erettsegi");
 
 // todo
 // create new user
 // get user by user id
 // delete user by user id
 
-
+/**
+ * @param request
+ * @param response
+ */
 export async function createUser(request, response) {
-    const { email, password } = request.body
-    if (!email || !password) {
-        response.status(500).send({
-            error: true,
-            message: "Hibás request"
-        })
-    }
-    if (email.length !== 0 && password.length !== 0) {
-        // input is ok
-        const newUser = await database.query(`INSERT INTO users (email, passw) VALUES ("${email}", "${password}")`)
-        response.status(200).send({
-            success: true,
-            newUser: {
-                ...newUser
-            }
-        })
-    }
+  const { email, password } = request.body;
+  if (!email || !password) {
+    response.status(500).send({
+      error: true,
+      message: "Hibás request",
+    });
+  }
+  if (email.length !== 0 && password.length !== 0) {
+    // input is ok
+    const salt = crypto.randomBytes(16).toString("base64");
+    const hash = crypto
+      .createHmac("sha512", salt)
+      .update(password)
+      .digest("base64");
+    const hashedPassword = `${salt}$${hash}`;
+    const newUser = await database.query(
+      `INSERT INTO users (email, passw) VALUES ("${email}", "${hashedPassword}")`
+    );
+    response.status(200).send({
+      success: true,
+      newUser: {
+        ...newUser,
+      },
+    });
+  }
 }
-
