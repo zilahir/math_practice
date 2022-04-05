@@ -17,8 +17,6 @@ function NewTask() {
     { label: "2023 Május", value: 2 },
   ];
 
-  console.log("periodId", periodId);
-
   return (
     <NewTaskContext.Provider
       value={{
@@ -39,6 +37,7 @@ function NewTask() {
           id="period"
           options={periodOptions}
           setValue={setPeriodId}
+          loading={false}
         />
       </div>
     </NewTaskContext.Provider>
