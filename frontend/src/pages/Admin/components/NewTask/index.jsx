@@ -4,6 +4,7 @@ import DropDown from "../../../../components/common/Dropdown";
 
 import ImageUpload from "../ImageUpload";
 import NewTaskContext from "./Context";
+import Button from "../../../../components/common/Button";
 
 function NewTask() {
   const [taskImagePath, setTaskImagePath] = useState();
@@ -16,6 +17,10 @@ function NewTask() {
     { label: "2021 Május", value: 1 },
     { label: "2023 Május", value: 2 },
   ];
+
+  function handleNewTaskSave() {
+    console.log("saving!!!");
+  }
 
   return (
     <NewTaskContext.Provider
@@ -39,6 +44,7 @@ function NewTask() {
           setValue={setPeriodId}
           loading={false}
         />
+        <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />
       </div>
     </NewTaskContext.Provider>
   );
