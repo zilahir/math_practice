@@ -27,13 +27,13 @@ function Header() {
       <ul className={styles.menuContainer}>
         {getMenuItems(
           isAuthenticated,
-          loggedInUser ? loggedInUser.userLevel : USER
+          loggedInUser ? loggedInUser.userLevel : USER,
         ).map((value) => (
           <MenuItem
+            key={value.target}
             isActive={value.target === location.pathname}
             to={value.target}
             label={value.label}
-            key={value.target}
           />
         ))}
       </ul>

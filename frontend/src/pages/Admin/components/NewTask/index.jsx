@@ -8,8 +8,8 @@ import Button from "../../../../components/common/Button";
 
 function NewTask() {
   const [taskImagePath, setTaskImagePath] = useState();
-  const [topicId, setTopicId] = useState();
-  const [periodId, setPeriodId] = useState();
+  const [topic, setTopic] = useState();
+  const [period, setPeriod] = useState();
   const [taskPoint, setTaskPoint] = useState();
   // const [taskTitle, setTaskTitle] = useState();
 
@@ -18,8 +18,18 @@ function NewTask() {
     { label: "2023 Május", value: 2 },
   ];
 
+  const topicOptions = [
+    { label: "Kombinatorika", value: 1 },
+    { label: "Sorozatok", value: 2 },
+  ];
+
   function handleNewTaskSave() {
-    console.log("saving!!!");
+    const newTaskObject = {
+      taskImagePath,
+      topicId: topic.value,
+      periodId: period.value,
+    };
+    console.log("saving!!!", newTaskObject);
   }
 
   return (
@@ -27,10 +37,10 @@ function NewTask() {
       value={{
         taskImagePath,
         setTaskImagePath,
-        topicId,
-        setTopicId,
-        periodId,
-        setPeriodId,
+        topic,
+        setTopic,
+        period,
+        setPeriod,
         taskPoint,
         setTaskPoint,
       }}
@@ -38,10 +48,17 @@ function NewTask() {
       <div>
         <ImageUpload setTaskImagePath={setTaskImagePath} />
         <DropDown
-          labelValue="Vállasz időszakot"
+          labelValue="Válassz időszakot"
           id="period"
           options={periodOptions}
-          setValue={setPeriodId}
+          setValue={setPeriod}
+          loading={false}
+        />
+        <DropDown
+          labelValue="Válassz témakör"
+          id="topic"
+          options={topicOptions}
+          setValue={setTopic}
           loading={false}
         />
         <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />

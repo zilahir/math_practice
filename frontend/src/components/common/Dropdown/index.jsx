@@ -13,7 +13,9 @@ function DropDown({ labelValue, id, options, setValue, loading }) {
       {!loading ? (
         <select onChange={(event) => handleChange(event)} name={id} id={id}>
           {options.map((option) => (
-            <option value={options.value}>{option.label}</option>
+            <option key={options.value} value={options.value}>
+              {option.label}
+            </option>
           ))}
         </select>
       ) : (
@@ -28,7 +30,7 @@ DropDown.propTypes = {
   id: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
       label: PropTypes.string.isRequired,
     }),
   ).isRequired,
