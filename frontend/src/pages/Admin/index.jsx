@@ -8,7 +8,7 @@ function Admin() {
         {/*
           <ImageUpload />
             input for task title
-            imageupload
+            imageupload pipa
             dropdown for topics (set topic id)
             dropdown for periods (set period id)
             input for task number (set task number)
