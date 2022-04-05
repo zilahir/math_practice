@@ -18,7 +18,6 @@ CREATE TABLE users (
 
 CREATE TABLE `erettsegi`.`tasks`(
     `id` INT NOT NULL AUTO_INCREMENT,
-    `task_title` VARCHAR (100) NOT NULL,
     `task_image_id` INT NOT NULL,
     `topic_id` INT NOT NULL,
     `period_id` INT NOT NULL,
