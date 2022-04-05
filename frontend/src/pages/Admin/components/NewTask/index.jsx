@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { useState } from "react";
+import DropDown from "../../../../components/common/Dropdown";
 
 import ImageUpload from "../ImageUpload";
 import NewTaskContext from "./Context";
@@ -10,6 +11,13 @@ function NewTask() {
   const [periodId, setPeriodId] = useState();
   const [taskPoint, setTaskPoint] = useState();
   // const [taskTitle, setTaskTitle] = useState();
+
+  const periodOptions = [
+    { label: "2021 Május", value: 1 },
+    { label: "2023 Május", value: 2 },
+  ];
+
+  console.log("periodId", periodId);
 
   return (
     <NewTaskContext.Provider
@@ -26,6 +34,12 @@ function NewTask() {
     >
       <div>
         <ImageUpload setTaskImagePath={setTaskImagePath} />
+        <DropDown
+          labelValue="Vállasz időszakot"
+          id="period"
+          options={periodOptions}
+          setValue={setPeriodId}
+        />
       </div>
     </NewTaskContext.Provider>
   );
