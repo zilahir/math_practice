@@ -13,13 +13,7 @@ function Input({
 }) {
   return (
     <div className={classnames(styles.inputContainer, className)}>
-      {
-        inputLabel && (
-          <label>
-            {inputLabel}
-          </label>
-        )
-      }
+      {inputLabel && <label>{inputLabel}</label>}
       <input
         type={inputType}
         value={value}
@@ -40,7 +34,7 @@ Input.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChangeHandler: PropTypes.func.isRequired,
-  inputType: PropTypes.oneOf(["text", "password"]),
+  inputType: PropTypes.oneOf(["text", "password", "number"]),
   placeHolder: PropTypes.string.isRequired,
   inputLabel: PropTypes.string,
 };

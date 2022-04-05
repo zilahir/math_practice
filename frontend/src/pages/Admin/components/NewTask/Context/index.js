@@ -11,6 +11,8 @@ const newTaskContext = createContext({
   setTaskPoint: () => {},
   taskTitle: undefined,
   setTaskTitle: () => {},
+  taskNo: undefined,
+  setTaskNo: () => {},
 });
 
 export default newTaskContext;

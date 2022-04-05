@@ -5,12 +5,19 @@ import DropDown from "../../../../components/common/Dropdown";
 import ImageUpload from "../ImageUpload";
 import NewTaskContext from "./Context";
 import Button from "../../../../components/common/Button";
+import Input from "../../../../components/common/Input";
+
+const DEFAULT_OPTION = {
+  value: "",
+  label: "",
+};
 
 function NewTask() {
   const [taskImagePath, setTaskImagePath] = useState();
-  const [topic, setTopic] = useState();
-  const [period, setPeriod] = useState();
+  const [topic, setTopic] = useState(DEFAULT_OPTION);
+  const [period, setPeriod] = useState(DEFAULT_OPTION);
   const [taskPoint, setTaskPoint] = useState();
+  const [taskNo, setTaskNo] = useState();
   // const [taskTitle, setTaskTitle] = useState();
 
   const periodOptions = [
@@ -24,6 +31,7 @@ function NewTask() {
   ];
 
   function handleNewTaskSave() {
+    // check if everything is filled
     const newTaskObject = {
       taskImagePath,
       topicId: topic.value,
@@ -60,6 +68,20 @@ function NewTask() {
           options={topicOptions}
           setValue={setTopic}
           loading={false}
+        />
+        <Input
+          value={taskPoint}
+          onChangeHandler={setTaskPoint}
+          placeholder="Pontszám"
+          inputLabel="Pontszám"
+          inputType="number"
+        />
+        <Input
+          value={taskNo}
+          onChangeHandler={setTaskNo}
+          placeholder="Feladat sorszáma"
+          inputLabel="Feladat sorszáma"
+          inputType="number"
         />
         <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />
       </div>
