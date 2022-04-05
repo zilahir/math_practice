@@ -3,8 +3,8 @@ CREATE DATABASE IF NOT EXISTS  erettsegi
 USE erettsegi
 
 DROP TABLE IF EXISTS
-    users
-
+    users,
+    tasks
 
 CREATE TABLE users (
     id int NOT NULL AUTO_INCREMENT,
@@ -15,3 +15,17 @@ CREATE TABLE users (
         id
     )
 );
+
+CREATE TABLE `erettsegi`.`tasks`(
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `task_title` VARCHAR (100) NOT NULL,
+    `task_image_id` INT NOT NULL,
+    `topic_id` INT NOT NULL,
+    `period_id` INT NOT NULL,
+    `task_no` INT NOT NULL,
+    `task_point_no` INT NOT NULL,
+    PRIMARY KEY(`id`),
+    FOREIGN KEY fk_topic(topic_id) REFERENCES topics(id),
+    FOREIGN KEY fk_period(period_id) REFERENCES periods(id),
+    FOREIGN KEY fk_task_image(task_image_id) REFERENCES task_images(id)
+) ENGINE = InnoDB;

@@ -1,11 +1,20 @@
-import ImageUpload from "./components/ImageUpload";
+import NewTask from "./components/NewTask";
 
 function Admin() {
   return (
     <div>
-      admin
-      <div id="newTaskContainer">
-        <ImageUpload />
+      <NewTask />
+      <div>
+        {/*
+          <ImageUpload />
+            input for task title
+            imageupload
+            dropdown for topics (set topic id)
+            dropdown for periods (set period id)
+            input for task number (set task number)
+            input for task point (set task point)
+            save button
+          */}
       </div>
     </div>
   );

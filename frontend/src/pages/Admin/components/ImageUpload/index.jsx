@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { apiEndpoints } from "../../../../api";
+import PropTypes from "prop-types";
 
+import { apiEndpoints } from "../../../../api";
 import useApi from "../../../../hooks/useAPI";
 
-function ImageUpload() {
-  const [fileToUpload, setFileToUpload] = useState();
-  const { loading, apiResponse, apiRequestHandler } = useApi({
+function ImageUpload({ setTaskImagePath }) {
+  const { loading, apiRequestHandler } = useApi({
     pathName: apiEndpoints.uploadImage,
     method: "POST",
     requestOptions: {
@@ -19,10 +19,13 @@ function ImageUpload() {
     (acceptedFiles) => {
       const fd = new FormData();
       fd.append("file", acceptedFiles[0]);
-      apiRequestHandler(fd);
+      apiRequestHandler(fd).then((response) => {
+        setTaskImagePath(response.filePath);
+      });
     },
-    [apiRequestHandler],
+    [apiRequestHandler, setTaskImagePath],
   );
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
@@ -36,5 +39,9 @@ function ImageUpload() {
     </div>
   );
 }
+
+ImageUpload.propTypes = {
+  setTaskImagePath: PropTypes.func.isRequired,
+};
 
 export default ImageUpload;

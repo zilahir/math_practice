@@ -9,7 +9,7 @@ import api from "../api";
  */
 function useApi({ pathName, method, requestOptions }) {
   const [loading, isLoading] = useState(false);
-  const [apiReponse, setApiResposne] = useState(undefined);
+  const [apiReponse, setApiResponse] = useState(undefined);
   const [error, setError] = useState(undefined);
 
   const apiRequestHandler = useCallback(
@@ -17,13 +17,9 @@ function useApi({ pathName, method, requestOptions }) {
       isLoading(true);
       if (method === "POST") {
         try {
-          const response = await api.post(
-            pathName,
-            body
-            // { ...requestOptions }
-          );
-          console.debug("apiResponse", apiReponse);
-          setApiResposne(response);
+          const response = await api.post(pathName, body);
+          setApiResponse(response.data);
+          return response.data;
         } catch (apiError) {
           setError(apiError);
         }
@@ -31,14 +27,15 @@ function useApi({ pathName, method, requestOptions }) {
       } else {
         try {
           const response = await api.get(pathName);
-          setApiResposne(response);
+          setApiResponse(response.data);
+          return response.data;
         } catch (apiError) {
           setError(apiError);
         }
         isLoading(false);
       }
     },
-    [pathName, method]
+    [pathName, method],
   );
 
   return {
