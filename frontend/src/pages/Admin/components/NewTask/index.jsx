@@ -29,7 +29,7 @@ function NewTask() {
     if (apiReponse && Array.isArray(apiReponse)) {
       return apiReponse.map((currentPeriod) => ({
         label: currentPeriod.periodName,
-        value: currentPeriod.value,
+        value: currentPeriod.id,
       }));
     }
 
@@ -60,13 +60,15 @@ function NewTask() {
         options={transformPeriodApiRespnse()}
         setValue={setPeriod}
         loading={loading}
+        value={period}
       />
       <DropDown
-        labelValue="Válassz témakör"
+        labelValue="Válassz témakört"
         id="topic"
         options={topicOptions}
         setValue={setTopic}
         loading={false}
+        value={topic}
       />
       <Input
         value={taskPoint}
