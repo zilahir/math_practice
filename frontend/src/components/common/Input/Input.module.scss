@@ -1,13 +1,17 @@
 .inputContainer {
-    input {
-        width: 100%;
-        border: 0;
-        background: none;
-        height: 40px;
+  label {
+    background: unset;
+  }
+  input {
+    width: 100%;
+    border: 0;
+    background: none;
+    height: 40px;
+    font-size: 18px;
 
-        &:focus {
-            outline: none;
-            background: rgba($color: #ccc, $alpha: 0.5);
-        }
+    &:focus {
+      outline: none;
+      background: rgba($color: #ccc, $alpha: 0.5);
     }
+  }
 }

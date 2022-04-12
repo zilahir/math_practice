@@ -1,0 +1,14 @@
+@import "../../../styles/variables";
+
+.errorRootContainer {
+  border-radius: 10px;
+  margin: 10px;
+  background: rgba($color: $error-bg-color, $alpha: 1);
+  padding: 10px 20px;
+
+  p {
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+  }
+}
