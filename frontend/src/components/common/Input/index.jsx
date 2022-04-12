@@ -10,10 +10,11 @@ function Input({
   placeHolder,
   className,
   inputLabel,
+  htmlFor,
 }) {
   return (
     <div className={classnames(styles.inputContainer, className)}>
-      {inputLabel && <label>{inputLabel}</label>}
+      {inputLabel && <label htmlFor={htmlFor}>{inputLabel}</label>}
       <input
         type={inputType}
         value={value}
@@ -37,6 +38,7 @@ Input.propTypes = {
   inputType: PropTypes.oneOf(["text", "password", "number"]),
   placeHolder: PropTypes.string.isRequired,
   inputLabel: PropTypes.string,
+  htmlFor: PropTypes.string.isRequired,
 };
 
 export default Input;

@@ -38,6 +38,7 @@ function Periods() {
         placeHolder="Időszak"
         inputLabel="Új érettségi időszak felvétele"
         className={styles.newPeriodInput}
+        htmlFor="period"
       />
       <Button
         className={styles.saveNewPeriod}
