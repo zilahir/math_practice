@@ -26,14 +26,14 @@ export async function createUser(request, response) {
   }
   if (email.length !== 0 && password.length !== 0) {
     // input is ok
-    /*const salt = crypto.randomBytes(16).toString("base64");
+    const salt = crypto.randomBytes(16).toString("base64");
     const hash = crypto
       .createHmac("sha512", salt)
       .update(password)
       .digest("base64");
-    // const hashedPassword = `${salt}$${hash}`;*/
+    const hashedPassword = `${salt}$${hash}`;
     const newUser = await database.query(
-      `INSERT INTO users (email, passw) VALUES ("${email}", "${password}")`
+      `INSERT INTO users (email, passw) VALUES ("${email}", "${hashedPassword}")`
     );
     response.status(200).send({
       success: true,
