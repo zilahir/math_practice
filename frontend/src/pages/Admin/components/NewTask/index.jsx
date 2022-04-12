@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DropDown from "../../../../components/common/Dropdown";
 import useApi from "../../../../hooks/useAPI";
 
 import ImageUpload from "../ImageUpload";
-import NewTaskContext from "./Context";
 import Button from "../../../../components/common/Button";
 import Input from "../../../../components/common/Input";
 import { apiEndpoints } from "../../../../api";
+import styles from "./NewTask.module.scss";
 
 const DEFAULT_OPTION = {
   value: "",
@@ -52,51 +52,40 @@ function NewTask() {
   }
 
   return (
-    <NewTaskContext.Provider
-      value={{
-        taskImagePath,
-        setTaskImagePath,
-        topic,
-        setTopic,
-        period,
-        setPeriod,
-        taskPoint,
-        setTaskPoint,
-      }}
-    >
-      <div>
-        <ImageUpload setTaskImagePath={setTaskImagePath} />
-        <DropDown
-          labelValue="Válassz időszakot"
-          id="period"
-          options={transformPeriodApiRespnse()}
-          setValue={setPeriod}
-          loading={loading}
-        />
-        <DropDown
-          labelValue="Válassz témakör"
-          id="topic"
-          options={topicOptions}
-          setValue={setTopic}
-          loading={false}
-        />
-        <Input
-          value={taskPoint}
-          onChangeHandler={setTaskPoint}
-          placeholder="Pontszám"
-          inputLabel="Pontszám"
-          inputType="number"
-        />
-        <Input
-          value={taskNo}
-          onChangeHandler={setTaskNo}
-          placeholder="Feladat sorszáma"
-          inputLabel="Feladat sorszáma"
-          inputType="number"
-        />
-        <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />
-      </div>
-    </NewTaskContext.Provider>
+    <div className={styles.newTaskRootContainer}>
+      <ImageUpload setTaskImagePath={setTaskImagePath} />
+      <DropDown
+        labelValue="Válassz időszakot"
+        id="period"
+        options={transformPeriodApiRespnse()}
+        setValue={setPeriod}
+        loading={loading}
+      />
+      <DropDown
+        labelValue="Válassz témakör"
+        id="topic"
+        options={topicOptions}
+        setValue={setTopic}
+        loading={false}
+      />
+      <Input
+        value={taskPoint}
+        onChangeHandler={setTaskPoint}
+        placeholder="Pontszám"
+        inputLabel="Pontszám"
+        inputType="number"
+        className={styles.input}
+      />
+      <Input
+        value={taskNo}
+        onChangeHandler={setTaskNo}
+        placeholder="Feladat sorszáma"
+        inputLabel="Feladat sorszáma"
+        inputType="number"
+        className={styles.input}
+      />
+      <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />
+    </div>
   );
 }
 

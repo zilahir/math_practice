@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import Select from "react-select";
 
 import styles from "./Dropdown.module.scss";
 
@@ -9,6 +10,7 @@ function DropDown({ labelValue, id, options, setValue, loading }) {
   }
   return (
     <div className={styles.dropDownRootContainer}>
+      {/*
       <label htmlFor={id}>{labelValue}</label>
       {!loading ? (
         <select onChange={(event) => handleChange(event)} name={id} id={id}>
@@ -21,6 +23,8 @@ function DropDown({ labelValue, id, options, setValue, loading }) {
       ) : (
         <p>loading</p>
       )}
+        */}
+      <Select options={options} />
     </div>
   );
 }
