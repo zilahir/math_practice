@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import api from "../api";
 
 /**
@@ -24,19 +24,27 @@ function useApi({ pathName, method, requestOptions }) {
           setError(apiError);
         }
         isLoading(false);
-      } else {
-        try {
-          const response = await api.get(pathName);
-          setApiResponse(response.data);
-          return response.data;
-        } catch (apiError) {
-          setError(apiError);
-        }
-        isLoading(false);
       }
     },
     [pathName, method],
   );
+
+  useEffect(() => {
+    if (method === "GET") {
+      isLoading(true);
+      api
+        .get(pathName)
+        .then((response) => {
+          setApiResponse(response.data);
+        })
+        .catch((err) => {
+          setError(err);
+        })
+        .finally(() => {
+          isLoading(false);
+        });
+    }
+  }, [method, pathName]);
 
   return {
     loading,

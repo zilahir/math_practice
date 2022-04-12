@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DropDown from "../../../../components/common/Dropdown";
+import useApi from "../../../../hooks/useAPI";
 
 import ImageUpload from "../ImageUpload";
 import NewTaskContext from "./Context";
 import Button from "../../../../components/common/Button";
 import Input from "../../../../components/common/Input";
+import { apiEndpoints } from "../../../../api";
 
 const DEFAULT_OPTION = {
   value: "",
@@ -18,12 +20,21 @@ function NewTask() {
   const [period, setPeriod] = useState(DEFAULT_OPTION);
   const [taskPoint, setTaskPoint] = useState();
   const [taskNo, setTaskNo] = useState();
-  // const [taskTitle, setTaskTitle] = useState();
+  const { apiReponse, loading } = useApi({
+    method: "GET",
+    pathName: apiEndpoints.periods,
+  });
 
-  const periodOptions = [
-    { label: "2021 Május", value: 1 },
-    { label: "2023 Május", value: 2 },
-  ];
+  function transformPeriodApiRespnse() {
+    if (apiReponse && Array.isArray(apiReponse)) {
+      return apiReponse.map((currentPeriod) => ({
+        label: currentPeriod.periodName,
+        value: currentPeriod.value,
+      }));
+    }
+
+    return [];
+  }
 
   const topicOptions = [
     { label: "Kombinatorika", value: 1 },
@@ -58,9 +69,9 @@ function NewTask() {
         <DropDown
           labelValue="Válassz időszakot"
           id="period"
-          options={periodOptions}
+          options={transformPeriodApiRespnse()}
           setValue={setPeriod}
-          loading={false}
+          loading={loading}
         />
         <DropDown
           labelValue="Válassz témakör"

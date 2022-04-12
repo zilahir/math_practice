@@ -30,8 +30,8 @@ DropDown.propTypes = {
   id: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired,
+      value: PropTypes.number,
+      label: PropTypes.string,
     }),
   ).isRequired,
   setValue: PropTypes.func.isRequired,

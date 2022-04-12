@@ -15,3 +15,13 @@ export async function insertNewPeriod(request, response) {
 
   response.status(200).send(newPeriodSqlResult);
 }
+
+/**
+ * @param request
+ * @param response
+ */
+export async function getAllPeriods(request, response) {
+  const sqlQuery = "SELECT * from periods";
+  const allPeriodResult = await database.query(sqlQuery);
+  response.status(200).send(allPeriodResult);
+}

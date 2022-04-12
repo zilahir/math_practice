@@ -27,11 +27,18 @@ function Periods() {
       };
 
       await apiRequestHandler(newPeriod);
+      setPeriod("");
     }
   }
   return (
     <div className={styles.periodsRootContainer}>
-      {errors.length > 0 && errors.map((error) => <Error errorText={error} />)}
+      {errors.length > 0 &&
+        errors.map((error) => (
+          <Error
+            key={error.substring(0, 5).replace(" ", "")}
+            errorText={error}
+          />
+        ))}
       <Input
         value={period}
         onChangeHandler={setPeriod}
