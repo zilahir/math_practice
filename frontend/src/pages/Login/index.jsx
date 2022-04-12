@@ -12,12 +12,12 @@ function Login() {
   const [username, setUsername] = useState(
     process.env.NODE_ENV === "development"
       ? fakeUsers.find((user) => user.email.includes("zilahi")).email
-      : ""
+      : "",
   );
   const [password, setPassword] = useState(
     process.env.NODE_ENV === "development"
       ? fakeUsers.find((user) => user.email.includes("zilahi")).password
-      : ""
+      : "",
   );
 
   const { signIn } = useContext(AuthContext);

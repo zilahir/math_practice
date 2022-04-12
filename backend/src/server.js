@@ -6,6 +6,7 @@ import database from "./database";
 import uploadRoutes from "./files/routes.files";
 import userRoutes from "./user/user.routes";
 import categoriesRoutes from "./categories/categories.routes";
+import periodsRoutes from "./periods/periods.routes";
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.get("/healthz", function (req, res) {
 app.use("/upload", uploadRoutes);
 app.use("/user", userRoutes);
 app.use("/categories", categoriesRoutes);
+app.use("/periods", periodsRoutes);
 
 export default app;
