@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
 import { useState } from "react";
 import DropDown from "../../../../components/common/Dropdown";
 import useApi from "../../../../hooks/useAPI";
