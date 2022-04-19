@@ -3,8 +3,7 @@ import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 import AuthContext from "./context";
-import { fakeUsers, USER } from "../../fakeApi/fakeUsers";
-// import { ALL } from "../../fakeApi/menuItems";
+import { fakeUsers } from "../../fakeApi/fakeUsers";
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -24,7 +23,7 @@ function helpLocalStorage() {
     JSON.parse(storageValue);
     result = true;
   } catch {
-    console.error("nem jó!");
+    console.error("error");
   }
   return result;
 }
