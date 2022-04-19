@@ -15,8 +15,8 @@ const DEFAULT_OPTION = {
 
 function NewTask() {
   const [taskImagePath, setTaskImagePath] = useState();
-  const [topic, setTopic] = useState(DEFAULT_OPTION);
-  const [period, setPeriod] = useState(DEFAULT_OPTION);
+  const [topic, setTopic] = useState(null);
+  const [period, setPeriod] = useState(null);
   const [taskPoint, setTaskPoint] = useState();
   const [taskNo, setTaskNo] = useState();
   const { apiReponse, loading } = useApi({

@@ -13,7 +13,8 @@ function DropDown({ labelValue, id, options, setValue, value, loading }) {
       <Select
         onChange={(event) => handleChange(event)}
         options={options}
-        value={value}
+        defaultValue={value}
+        name={id}
         isLoading={loading}
         placeholder={labelValue}
       />
