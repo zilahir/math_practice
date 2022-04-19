@@ -8,11 +8,6 @@ import Input from "../../../../components/common/Input";
 import { apiEndpoints } from "../../../../api";
 import styles from "./NewTask.module.scss";
 
-const DEFAULT_OPTION = {
-  value: "",
-  label: "",
-};
-
 function NewTask() {
   const [taskImagePath, setTaskImagePath] = useState();
   const [topic, setTopic] = useState(null);
