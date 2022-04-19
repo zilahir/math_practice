@@ -1,0 +1,20 @@
+@import "../../../../styles/variables";
+
+.dropdownRootContainer {
+  .innerContainer {
+    display: flex;
+    flex-direction: row;
+    .previewImage {
+      max-width: 200px;
+      box-sizing: border-box;
+      border: 2px solid transparent;
+    }
+  }
+
+  .filePath {
+    border: 2px solid #000;
+    color: $error-bg-color;
+    font-size: 14px;
+    padding: 10px;
+  }
+}

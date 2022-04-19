@@ -1,7 +1,7 @@
 const apiEndpoints = {
   signUp: "/user",
   uploadImage: "/upload",
-  static: "/static",
+  static: "/static/upload",
   periods: "/periods",
 };
 
