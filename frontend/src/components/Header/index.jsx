@@ -6,29 +6,22 @@ import menuApi, { LOGGEDIN, LOGGEDOUT } from "../../fakeApi/menuItems";
 import MenuItem from "./components/MenuItem";
 import styles from "./Header.module.scss";
 
-/**
- * @param hasAuth
- * @param scope
- */
-function getMenuItems(hasAuth, scope) {
-  if (!hasAuth) {
-    return menuApi.getMenuItemsForScope(LOGGEDOUT, USER);
-  }
-
-  const loggedInMenuItems = menuApi.getMenuItemsForScope(LOGGEDIN, scope);
-  return loggedInMenuItems;
-}
-
 function Header() {
   const location = useLocation();
   const { isAuthenticated, loggedInUser } = useAuth();
+
+  function getMenuItems() {
+    if (isAuthenticated) {
+      return menuApi.getMenuItemsByUserLevelAndScope(loggedInUser.userLevel);
+    }
+
+    return menuApi.getMenuItemsByUserLevelAndScope(USER);
+  }
+
   return (
     <header className={styles.headerRootContainer}>
       <ul className={styles.menuContainer}>
-        {getMenuItems(
-          isAuthenticated,
-          loggedInUser ? loggedInUser.userLevel : USER,
-        ).map((value) => (
+        {getMenuItems().map((value) => (
           <MenuItem
             key={value.target}
             isActive={value.target === location.pathname}

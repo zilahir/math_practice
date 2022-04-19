@@ -3,18 +3,30 @@ import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 
 import AuthContext from "./context";
-import { fakeUsers } from "../../fakeApi/fakeUsers";
-import { ALL } from "../../fakeApi/menuItems";
+import { fakeUsers, USER } from "../../fakeApi/fakeUsers";
+// import { ALL } from "../../fakeApi/menuItems";
 
 export const useAuth = () => useContext(AuthContext);
 
 /** @param isLoggedIn */
-function handleLocalStorage(isLoggedIn) {
-  if (isLoggedIn) {
-    window.localStorage.setItem("isLoggedIn", true);
+function handleLocalStorage(loggedInUser) {
+  if (loggedInUser && loggedInUser.isLoggedIn) {
+    window.localStorage.setItem("isLoggedIn", JSON.stringify(loggedInUser));
   } else {
-    window.localStorage.setItem("isLoggedIn", false);
+    window.localStorage.setItem("isLoggedIn", undefined);
   }
+}
+
+function helpLocalStorage() {
+  const storageValue = window.localStorage.getItem("isLoggedIn");
+  let result = false;
+  try {
+    JSON.parse(storageValue);
+    result = true;
+  } catch {
+    console.error("nem jó!");
+  }
+  return result;
 }
 
 /**
@@ -23,11 +35,15 @@ function handleLocalStorage(isLoggedIn) {
  */
 function AuthProvider({ children }) {
   const [isAuthenticated, setAuthenticated] = useState(
-    window.localStorage.getItem("isLoggedIn") ?? false
+    helpLocalStorage()
+      ? JSON.parse(window.localStorage.getItem("isLoggedIn")).isLoggedIn
+      : undefined,
   );
-  const [loggedInUser, setLoggedInUser] = useState({
-    scope: ALL,
-  });
+  const [loggedInUser, setLoggedInUser] = useState(
+    helpLocalStorage()
+      ? JSON.parse(window.localStorage.getItem("isLoggedIn")).user
+      : undefined,
+  );
 
   /**
    * @param root0
@@ -37,12 +53,15 @@ function AuthProvider({ children }) {
    */
   function signIn({ email, password }, callback) {
     const hasUser = fakeUsers.find(
-      (user) => user.email === email && user.password === password
+      (user) => user.email === email && user.password === password,
     );
     if (hasUser) {
       // we have the user and the password is correct, we can login
       setAuthenticated(true);
-      handleLocalStorage(true);
+      handleLocalStorage({
+        isLoggedIn: true,
+        user: hasUser,
+      });
       setLoggedInUser(hasUser);
       callback();
     } else {
@@ -53,7 +72,7 @@ function AuthProvider({ children }) {
   function signOut() {
     setAuthenticated(false);
     setLoggedInUser();
-    handleLocalStorage(false);
+    handleLocalStorage(undefined);
   }
 
   const value = {
