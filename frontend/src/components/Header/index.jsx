@@ -12,10 +12,13 @@ function Header() {
 
   function getMenuItems() {
     if (isAuthenticated) {
-      return menuApi.getMenuItemsByUserLevelAndScope(loggedInUser.userLevel);
+      return menuApi.getMenuItemsByUserLevelAndScope(
+        loggedInUser.userLevel,
+        LOGGEDIN,
+      );
     }
 
-    return menuApi.getMenuItemsByUserLevelAndScope(USER);
+    return menuApi.getMenuItemsByUserLevelAndScope(USER, LOGGEDOUT);
   }
 
   return (
