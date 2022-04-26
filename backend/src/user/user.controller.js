@@ -1,4 +1,4 @@
-// import crypto from "crypto";
+import crypto from "crypto";
 
 import { serverConfig } from "../config";
 import MySQL from "../db/MySQL";
@@ -7,10 +7,11 @@ const { host, port, user, password } = serverConfig.database;
 
 const database = new MySQL(host, port, user, password, "erettsegi");
 
-// todo
-// create new user
-// get user by user id
-// delete user by user id
+/*
+  // TODO: 
+  1) az email email-e
+  2) az email létezik-e az adatbázisban
+*/
 
 /**
  * @param request
