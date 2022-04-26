@@ -6,24 +6,35 @@ import styles from "../Login/Login.module.scss";
 import Button from "../../components/common/Button";
 import useApi from "../../hooks/useAPI";
 import { apiEndpoints } from "../../api";
+import Error from "../../components/common/Error";
 
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loading, apiResponse, apiRequestHandler } = useApi({
+  const [errors, setErrors] = useState([]);
+  const { apiRequestHandler } = useApi({
     pathName: apiEndpoints.signUp,
     method: "POST",
   });
 
-  async function handleRegistration() {
-    await apiRequestHandler({
+  function handleRegistration() {
+    setErrors([]);
+    apiRequestHandler({
       email,
       password,
+    }).then((response) => {
+      if (Object.hasOwn(response, "errors") && Array.isArray(response.errors)) {
+        setErrors(response.errors);
+      }
     });
   }
 
   return (
     <div className={styles.loginContainer}>
+      {errors.length > 0 &&
+        errors.map((error) => (
+          <Error key={error.value} errorText={error.msg} />
+        ))}
       <Input
         className={classnames(styles.loginInput, styles.textBox)}
         inputType="text"

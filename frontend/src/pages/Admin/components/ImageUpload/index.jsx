@@ -24,7 +24,6 @@ function ImageUpload({ setTaskImagePath }) {
       const fd = new FormData();
       fd.append("file", acceptedFiles[0]);
       apiRequestHandler(fd).then((response) => {
-        console.log("response", response);
         setPreviewImageUrl(response.filePath);
         setTaskImagePath(response.filePath);
       });

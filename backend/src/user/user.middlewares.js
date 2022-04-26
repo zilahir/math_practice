@@ -15,7 +15,7 @@ const database = new MySQL(host, port, user, password, "erettsegi");
 export function validateNewUserRequest(request, response, next) {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
-    return response.status(400).json({ errors: errors.array() });
+    return response.status(200).json({ errors: errors.array() });
   }
 
   return next();
@@ -38,7 +38,7 @@ export async function checkForEmail(request, response, next) {
     return next();
   }
 
-  response.status(500).send({
+  response.status(200).send({
     errors: [
       {
         value: email,

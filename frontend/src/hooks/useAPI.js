@@ -22,8 +22,8 @@ function useApi({ pathName, method, requestOptions }) {
           return response.data;
         } catch (apiError) {
           setError(apiError);
+          return apiError;
         }
-        isLoading(false);
       }
     },
     [pathName, method],
