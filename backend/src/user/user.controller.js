@@ -9,7 +9,6 @@ const database = new MySQL(host, port, user, password, "erettsegi");
 
 /*
   // TODO: 
-  1) az email email-e
   2) az email létezik-e az adatbázisban
 */
 
