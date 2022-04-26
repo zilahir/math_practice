@@ -1,10 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
@@ -27,19 +23,19 @@ function App() {
           <Route path="/signout" element={<SignOut />} />
           <Route
             path="/admin"
-            element={(
+            element={
               <ProtectedRoute>
                 <Admin />
               </ProtectedRoute>
-            )}
+            }
           />
           <Route
             path="/tasks"
-            element={(
+            element={
               <ProtectedRoute>
                 <Tasks />
               </ProtectedRoute>
-            )}
+            }
           />
         </Routes>
       </AuthProvider>

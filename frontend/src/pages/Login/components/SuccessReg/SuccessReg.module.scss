@@ -1,0 +1,12 @@
+@import "../../../../styles/variables";
+
+.successRegRootContainer {
+  margin: 20px;
+  padding: 10px 20px;
+  background: rgba($color: $success-bg-color, $alpha: 1);
+
+  p {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+}

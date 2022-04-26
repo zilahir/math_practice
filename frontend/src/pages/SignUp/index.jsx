@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classnames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../../components/common/Input";
 import styles from "../Login/Login.module.scss";
@@ -17,6 +18,8 @@ function SignUp() {
     method: "POST",
   });
 
+  const navigate = useNavigate();
+
   function handleRegistration() {
     setErrors([]);
     apiRequestHandler({
@@ -25,6 +28,13 @@ function SignUp() {
     }).then((response) => {
       if (Object.hasOwn(response, "errors") && Array.isArray(response.errors)) {
         setErrors(response.errors);
+      } else {
+        // sikeres regisztráció
+        navigate("/login", {
+          state: {
+            newReg: true,
+          },
+        });
       }
     });
   }
@@ -35,6 +45,7 @@ function SignUp() {
         errors.map((error) => (
           <Error key={error.value} errorText={error.msg} />
         ))}
+
       <Input
         className={classnames(styles.loginInput, styles.textBox)}
         inputType="text"
