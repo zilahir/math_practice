@@ -12,7 +12,6 @@ router.post("/", [
   body("password")
     .isLength({ min: 5 })
     .withMessage(errorMessages.wrongPassword),
-
   validateNewUserRequest,
   checkForEmail,
   createUser,
