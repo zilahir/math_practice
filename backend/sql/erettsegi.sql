@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: May 03, 2022 at 04:17 PM
+-- Generation Time: May 03, 2022 at 04:21 PM
 -- Server version: 10.6.4-MariaDB-1:10.6.4+maria~focal
 -- PHP Version: 8.0.15
 
@@ -110,17 +110,6 @@ INSERT INTO `task_images` (`id`, `filePath`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `topics`
---
-
-CREATE TABLE `topics` (
-  `id` int(11) NOT NULL,
-  `topicName` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -197,12 +186,6 @@ ALTER TABLE `task_images`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `topics`
---
-ALTER TABLE `topics`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -235,12 +218,6 @@ ALTER TABLE `tasks`
 --
 ALTER TABLE `task_images`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `topics`
---
-ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
