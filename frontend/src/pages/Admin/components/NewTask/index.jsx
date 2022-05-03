@@ -9,9 +9,11 @@ import { apiEndpoints } from "../../../../api";
 import styles from "./NewTask.module.scss";
 import SuccessNotification from "../../../../components/common/components/SuccessNotification";
 import { newTaskSchema } from "../../../../api/schemas";
+import Error from "../../../../components/common/Error";
 
 function NewTask() {
   const [taskImageId, setTaskImageId] = useState();
+  const [error, setError] = useState();
   const [isSuccess, setSuccess] = useState(false);
   const [category, setCategory] = useState(null);
   const [period, setPeriod] = useState(null);
@@ -47,25 +49,27 @@ function NewTask() {
   function handleNewTaskSave() {
     const newTaskObject = {
       taskImageId,
-      categoryId: category.value,
-      periodId: period.value,
+      categoryId: category ? category.value : undefined,
+      periodId: period ? period.value : undefined,
       taskPoints: Number(taskPoint),
       taskNo: Number(taskNo),
     };
 
     const isValid = newTaskSchema.validate(newTaskObject);
 
-    console.log("isValid", isValid);
-
-    apiRequestHandler(newTaskObject).then(() => {
-      setDeletePreview(true);
-      setTaskImageId();
-      setCategory(null);
-      setPeriod(null);
-      setTaskPoint("");
-      setTaskNo("");
-      setSuccess(true);
-    });
+    if (Object.hasOwn(isValid, "error")) {
+      setError("Hiányos adatok");
+    } else {
+      apiRequestHandler(newTaskObject).then(() => {
+        setDeletePreview(true);
+        setTaskImageId();
+        setCategory(null);
+        setPeriod(null);
+        setTaskPoint("");
+        setTaskNo("");
+        setSuccess(true);
+      });
+    }
   }
 
   return (
@@ -75,6 +79,8 @@ function NewTask() {
           successMessages={["A feladat létrehozása sikeres!"]}
         />
       )}
+
+      {error && <Error errorText={error} />}
       <ImageUpload
         deletePreview={deletePreview}
         setTaskImagePath={setTaskImageId}
