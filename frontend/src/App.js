@@ -12,6 +12,7 @@ import SignUp from "./pages/SignUp";
 import SignOut from "./pages/SignOut";
 import { adminRoutes } from "./fakeApi/menuItems";
 import Edit from "./pages/Admin/pages/Edit";
+import AllTask from "./pages/Admin/pages/AllTasks";
 
 function App() {
   return (
@@ -32,10 +33,10 @@ function App() {
             }
           />
           <Route
-            path={`${adminRoutes.editTask}`}
+            path={`${adminRoutes.allTask}`}
             element={
               <ProtectedRoute>
-                <p>itt lesz majd az összes task</p>
+                <AllTask />
               </ProtectedRoute>
             }
           />
