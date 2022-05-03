@@ -32,17 +32,19 @@ function useApi({ pathName, method, requestOptions }) {
   useEffect(() => {
     if (method === "GET") {
       isLoading(true);
-      api
-        .get(pathName)
-        .then((response) => {
-          setApiResponse(response.data);
-        })
-        .catch((err) => {
-          setError(err);
-        })
-        .finally(() => {
-          isLoading(false);
-        });
+      setTimeout(() => {
+        api
+          .get(pathName)
+          .then((response) => {
+            setApiResponse(response.data);
+          })
+          .catch((err) => {
+            setError(err);
+          })
+          .finally(() => {
+            isLoading(false);
+          });
+      }, 500);
     }
   }, [method, pathName]);
 

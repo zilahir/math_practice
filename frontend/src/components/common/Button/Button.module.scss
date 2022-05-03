@@ -17,5 +17,13 @@
     &:hover {
       cursor: pointer;
     }
+
+    &.danger {
+      background: rgba($color: $error-bg-color, $alpha: 0.55);
+
+      &:hover {
+        background: rgba($color: $error-bg-color, $alpha: 0.8);
+      }
+    }
   }
 }

@@ -9,11 +9,10 @@ function AllTask() {
   });
 
   console.log("alltask", apiReponse);
-  return (
-    apiReponse &&
-    Array.isArray(apiReponse) &&
-    apiReponse.length > 0 &&
+  return apiReponse && Array.isArray(apiReponse) && apiReponse.length > 0 ? (
     apiReponse.map((task) => <Task task={task} />)
+  ) : (
+    <p>loading</p>
   );
 }
 

@@ -1,23 +1,35 @@
 import PropTypes from "prop-types";
+
 import { apiEndpoints, API_ROOT_URL } from "../../../api";
+import Button from "../Button";
 
 import styles from "./Task.module.scss";
 
 function Task({ task }) {
   return (
     <div className={styles.singleTaskRootContainer}>
-      <p>Témakör: {task.categoryName}</p>
-      <p>Érettségi időszak: {task.periodName}</p>
-      <p>
-        Feladat sorszáma:
-        {task.task_no}
-      </p>
-      <p>Feladat pontszáma: {task.task_point_no}</p>
+      <div className={styles.innerContainer}>
+        <div className={styles.metaContainer}>
+          <p>Témakör: {task.categoryName}</p>
+          <p>Érettségi időszak: {task.periodName}</p>
+          <p>
+            Feladat sorszáma:
+            {task.task_no}
+          </p>
+          <p>Feladat pontszáma: {task.task_point_no}</p>
+        </div>
 
-      <img
-        src={`${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`}
-        alt="feadat"
-      />
+        <div className={styles.imageContainer}>
+          <img
+            src={`${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`}
+            alt="feadat"
+          />
+        </div>
+      </div>
+      <div className={styles.buttonContainer}>
+        <Button className={styles.button} label="Módosítás" />
+        <Button variant="danger" className={styles.button} label="Törlés" />
+      </div>
     </div>
   );
 }

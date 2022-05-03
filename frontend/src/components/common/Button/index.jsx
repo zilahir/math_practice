@@ -3,11 +3,11 @@ import classnames from "classnames";
 
 import styles from "./Button.module.scss";
 
-function Button({ label, onClickHandler, className }) {
+function Button({ label, onClickHandler, className, variant }) {
   return (
     <div className={styles.buttonContainer}>
       <button
-        className={classnames(styles.button, className)}
+        className={classnames(styles.button, className, styles[variant])}
         type="button"
         onClick={onClickHandler}
       >
@@ -19,12 +19,14 @@ function Button({ label, onClickHandler, className }) {
 
 Button.defaultProps = {
   className: undefined,
+  variant: "default",
 };
 
 Button.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   onClickHandler: PropTypes.func.isRequired,
+  variant: PropTypes.string,
 };
 
 export default Button;

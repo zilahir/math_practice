@@ -1,12 +1,33 @@
 .singleTaskRootContainer {
-  display: flex;
-  flex-direction: column;
+  border-bottom: 2px solid #444;
   margin: 10px 0;
   padding: 10px 20px;
   background: rgba($color: #ccc, $alpha: 0.15);
-  border-bottom: 2px solid #444;
 
-  img {
-    max-width: 200px;
+  .innerContainer {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    .metaContainer {
+      flex: 1;
+    }
+
+    .imageContainer {
+      img {
+        max-width: 200px;
+      }
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: right;
+
+    .button {
+      width: 130px;
+    }
   }
 }
