@@ -47,6 +47,8 @@ function NewTask() {
   ];
 
   function handleNewTaskSave() {
+    setError(undefined);
+    isSuccess(false);
     const newTaskObject = {
       taskImageId,
       categoryId: category ? category.value : undefined,
