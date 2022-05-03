@@ -1,13 +1,14 @@
 import { useState } from "react";
+
 import DropDown from "../../../../components/common/Dropdown";
 import useApi from "../../../../hooks/useAPI";
-
 import ImageUpload from "../ImageUpload";
 import Button from "../../../../components/common/Button";
 import Input from "../../../../components/common/Input";
 import { apiEndpoints } from "../../../../api";
 import styles from "./NewTask.module.scss";
 import SuccessNotification from "../../../../components/common/components/SuccessNotification";
+import { newTaskSchema } from "../../../../api/schemas";
 
 function NewTask() {
   const [taskImageId, setTaskImageId] = useState();
@@ -44,7 +45,6 @@ function NewTask() {
   ];
 
   function handleNewTaskSave() {
-    // check if everything is filled
     const newTaskObject = {
       taskImageId,
       categoryId: category.value,
@@ -52,6 +52,10 @@ function NewTask() {
       taskPoints: Number(taskPoint),
       taskNo: Number(taskNo),
     };
+
+    const isValid = newTaskSchema.validate(newTaskObject);
+
+    console.log("isValid", isValid);
 
     apiRequestHandler(newTaskObject).then(() => {
       setDeletePreview(true);
