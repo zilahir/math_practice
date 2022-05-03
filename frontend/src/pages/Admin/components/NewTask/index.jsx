@@ -7,16 +7,24 @@ import Button from "../../../../components/common/Button";
 import Input from "../../../../components/common/Input";
 import { apiEndpoints } from "../../../../api";
 import styles from "./NewTask.module.scss";
+import SuccessNotification from "../../../../components/common/components/SuccessNotification";
 
 function NewTask() {
-  const [taskImagePath, setTaskImagePath] = useState();
-  const [topic, setTopic] = useState(null);
+  const [taskImageId, setTaskImageId] = useState();
+  const [isSuccess, setSuccess] = useState(false);
+  const [category, setCategory] = useState(null);
   const [period, setPeriod] = useState(null);
+  const [deletePreview, setDeletePreview] = useState(false);
   const [taskPoint, setTaskPoint] = useState();
   const [taskNo, setTaskNo] = useState();
   const { apiReponse, loading } = useApi({
     method: "GET",
     pathName: apiEndpoints.periods,
+  });
+
+  const { apiRequestHandler } = useApi({
+    method: "POST",
+    pathName: apiEndpoints.newTask,
   });
 
   function transformPeriodApiRespnse() {
@@ -38,16 +46,35 @@ function NewTask() {
   function handleNewTaskSave() {
     // check if everything is filled
     const newTaskObject = {
-      taskImagePath,
-      topicId: topic.value,
+      taskImageId,
+      categoryId: category.value,
       periodId: period.value,
+      taskPoints: Number(taskPoint),
+      taskNo: Number(taskNo),
     };
-    console.log("saving!!!", newTaskObject);
+
+    apiRequestHandler(newTaskObject).then(() => {
+      setDeletePreview(true);
+      setTaskImageId();
+      setCategory(null);
+      setPeriod(null);
+      setTaskPoint("");
+      setTaskNo("");
+      setSuccess(true);
+    });
   }
 
   return (
     <div className={styles.newTaskRootContainer}>
-      <ImageUpload setTaskImagePath={setTaskImagePath} />
+      {isSuccess && (
+        <SuccessNotification
+          successMessages={["A feladat létrehozása sikeres!"]}
+        />
+      )}
+      <ImageUpload
+        deletePreview={deletePreview}
+        setTaskImagePath={setTaskImageId}
+      />
       <DropDown
         labelValue="Válassz időszakot"
         id="period"
@@ -60,9 +87,9 @@ function NewTask() {
         labelValue="Válassz témakört"
         id="topic"
         options={topicOptions}
-        setValue={setTopic}
+        setValue={setCategory}
         loading={false}
-        value={topic}
+        value={category}
       />
       <Input
         value={taskPoint}

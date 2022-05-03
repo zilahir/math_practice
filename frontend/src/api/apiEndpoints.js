@@ -3,6 +3,7 @@ const apiEndpoints = {
   uploadImage: "/upload",
   static: "/static/upload",
   periods: "/periods",
+  newTask: "/tasks",
 };
 
 export default apiEndpoints;

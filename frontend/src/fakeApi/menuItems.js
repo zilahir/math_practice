@@ -5,6 +5,12 @@ export const ALL = "ALL";
 export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
 
+export const adminRoutes = {
+  newTask: "/admin/task/new",
+  allTask: "/admin/task",
+  editTask: "/admin/task",
+};
+
 const menuItems = [
   {
     label: "Főoldal",
@@ -41,7 +47,7 @@ const menuItems = [
 const adminMenuItems = [
   {
     label: "Admin",
-    target: "/admin",
+    target: adminRoutes.newTask,
     userLevels: [ADMIN],
     scopes: [LOGGEDIN],
   },

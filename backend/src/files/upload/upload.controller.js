@@ -45,9 +45,10 @@ function uploadFile(request, response, next) {
 export async function saveImageInDatabase(request, response) {
   const { filePath } = request;
 
+  let sqlQueryResult = {};
   const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${filePath}") `;
   try {
-    await database.query(newImageQuery);
+    sqlQueryResult = await database.query(newImageQuery);
   } catch {
     response.status(500).response({
       error: "Inserint into the database has failed",
@@ -56,6 +57,7 @@ export async function saveImageInDatabase(request, response) {
 
   response.status(200).send({
     filePath: filePath,
+    ...sqlQueryResult,
   });
 }
 

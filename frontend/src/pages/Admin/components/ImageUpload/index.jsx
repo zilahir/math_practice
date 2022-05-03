@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import PropTypes from "prop-types";
 
@@ -7,7 +7,7 @@ import { apiEndpoints, API_ROOT_URL } from "../../../../api";
 import useApi from "../../../../hooks/useAPI";
 import { baseStyle, focusedStyle, acceptStyle, rejectStyle } from "./styles";
 
-function ImageUpload({ setTaskImagePath }) {
+function ImageUpload({ setTaskImagePath, deletePreview }) {
   const [previewImageUrl, setPreviewImageUrl] = useState(undefined);
   const { loading, apiRequestHandler, apiReponse } = useApi({
     pathName: apiEndpoints.uploadImage,
@@ -25,7 +25,7 @@ function ImageUpload({ setTaskImagePath }) {
       fd.append("file", acceptedFiles[0]);
       apiRequestHandler(fd).then((response) => {
         setPreviewImageUrl(response.filePath);
-        setTaskImagePath(response.filePath);
+        setTaskImagePath(response.insertId);
       });
     },
     [apiRequestHandler, setTaskImagePath],
@@ -39,6 +39,12 @@ function ImageUpload({ setTaskImagePath }) {
     isDragAccept,
     isDragReject,
   } = useDropzone({ onDrop });
+
+  useEffect(() => {
+    if (deletePreview) {
+      setPreviewImageUrl(undefined);
+    }
+  }, [deletePreview]);
 
   const customStyle = useMemo(
     () => ({
@@ -75,6 +81,7 @@ function ImageUpload({ setTaskImagePath }) {
 }
 
 ImageUpload.propTypes = {
+  deletePreview: PropTypes.bool.isRequired,
   setTaskImagePath: PropTypes.func.isRequired,
 };
 

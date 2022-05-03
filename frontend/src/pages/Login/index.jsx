@@ -7,7 +7,7 @@ import Button from "../../components/common/Button";
 import styles from "./Login.module.scss";
 import AuthContext from "../../context/AuthContext/context";
 import { fakeUsers } from "../../fakeApi/fakeUsers";
-import SuccessReg from "./components/SuccessReg";
+import SuccessNotification from "../../components/common/components/SuccessNotification";
 
 function Login() {
   const { state } = useLocation();
@@ -38,7 +38,11 @@ function Login() {
   }
   return (
     <div className={styles.loginContainer}>
-      {state && Object.hasOwn(state, "newReg") && <SuccessReg />}
+      {state && Object.hasOwn(state, "newReg") && (
+        <SuccessNotification
+          successMessages={["Sikeres regisztráció!", "A folytatáshoz lépj be"]}
+        />
+      )}
       <div className={styles.innerContainer}>
         <Input
           className={classnames(styles.loginInput, styles.textBox)}
