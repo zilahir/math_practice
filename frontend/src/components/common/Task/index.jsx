@@ -1,13 +1,26 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
+import classnames from "classnames";
 
 import { apiEndpoints, API_ROOT_URL } from "../../../api";
 import Button from "../Button";
 
 import styles from "./Task.module.scss";
 
-function Task({ task }) {
+function Task({ task, handleTaskDelete }) {
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  function handleDelete() {
+    setIsDeleted(true);
+    handleTaskDelete(task.id);
+  }
   return (
-    <div className={styles.singleTaskRootContainer}>
+    <div
+      className={classnames(
+        styles.singleTaskRootContainer,
+        isDeleted && styles.deleted,
+      )}
+    >
       <div className={styles.innerContainer}>
         <div className={styles.metaContainer}>
           <p>Témakör: {task.categoryName}</p>
@@ -28,7 +41,12 @@ function Task({ task }) {
       </div>
       <div className={styles.buttonContainer}>
         <Button className={styles.button} label="Módosítás" />
-        <Button variant="danger" className={styles.button} label="Törlés" />
+        <Button
+          onClickHandler={() => handleDelete()}
+          variant="danger"
+          className={styles.button}
+          label="Törlés"
+        />
       </div>
     </div>
   );
@@ -46,6 +64,7 @@ Task.propTypes = {
     categoryName: PropTypes.string.isRequired,
     periodName: PropTypes.string.isRequired,
   }).isRequired,
+  handleTaskDelete: PropTypes.func.isRequired,
 };
 
 export default Task;

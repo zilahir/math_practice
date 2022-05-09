@@ -14,6 +14,7 @@ function useApi({ pathName, method, requestOptions }) {
 
   const apiRequestHandler = useCallback(
     async (body) => {
+      console.log("pathName", pathName);
       isLoading(true);
       if (method === "POST") {
         try {

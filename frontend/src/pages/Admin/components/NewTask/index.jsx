@@ -25,6 +25,11 @@ function NewTask() {
     pathName: apiEndpoints.periods,
   });
 
+  const { apiReponse: categories } = useApi({
+    method: "GET",
+    pathName: apiEndpoints.categories,
+  });
+
   const { apiRequestHandler } = useApi({
     method: "POST",
     pathName: apiEndpoints.newTask,
@@ -41,14 +46,20 @@ function NewTask() {
     return [];
   }
 
-  const topicOptions = [
-    { label: "Kombinatorika", value: 1 },
-    { label: "Sorozatok", value: 2 },
-  ];
+  function transformCategoriesApiResponse() {
+    if (categories && Array.isArray(categories)) {
+      return categories.map((currentCat) => ({
+        label: currentCat.name,
+        value: currentCat.id,
+      }));
+    }
+
+    return [];
+  }
 
   function handleNewTaskSave() {
     setError(undefined);
-    isSuccess(false);
+    setSuccess(false);
     const newTaskObject = {
       taskImageId,
       categoryId: category ? category.value : undefined,
@@ -98,7 +109,7 @@ function NewTask() {
       <DropDown
         labelValue="Válassz témakört"
         id="topic"
-        options={topicOptions}
+        options={transformCategoriesApiResponse()}
         setValue={setCategory}
         loading={false}
         value={category}

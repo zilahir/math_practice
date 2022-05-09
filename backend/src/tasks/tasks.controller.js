@@ -14,7 +14,6 @@ export async function createNewTask(request, response) {
     request.body;
 
   const insertSqlQuery = `INSERT INTO tasks (task_image_id, category_id, period_id, task_no, task_point_no) VALUES (${taskImageId}, ${categoryId}, ${periodId}, ${taskNo}, ${taskPoints})`;
-
   const sqlQueryResult = await database.query(insertSqlQuery);
 
   response.status(200).send(sqlQueryResult);
@@ -45,4 +44,25 @@ export async function getTaskById(request, response) {
   const task = await database.query(sqlQuery);
 
   response.status(200).send(task);
+}
+
+/**
+ * @param request
+ * @param response
+ */
+export async function deleteTaskById(request, response) {
+  const { taskId } = request.body;
+
+  // console.log("taskId", taskId);
+
+  const sqlQuery = `DELETE from tasks WHERE id = "${taskId}"`;
+
+  console.log("sqlQuery", sqlQuery);
+
+  const deleteResponse = await database.query(sqlQuery);
+
+  response.status(200).send({
+    ...deleteResponse,
+    isDeleted: true,
+  });
 }

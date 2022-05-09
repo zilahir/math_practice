@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: May 03, 2022 at 04:21 PM
+-- Generation Time: May 07, 2022 at 05:36 PM
 -- Server version: 10.6.4-MariaDB-1:10.6.4+maria~focal
 -- PHP Version: 8.0.15
 
@@ -38,7 +38,18 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`) VALUES
 (1, 'Kombinatorika'),
-(2, 'Valószínűségszámítás');
+(2, 'Valószínűségszámítás'),
+(3, 'Sorozatok'),
+(4, 'Síkgeometria'),
+(5, 'Számok és műveletek, számelmélet'),
+(6, 'Függvények'),
+(7, 'Térgeometria'),
+(8, 'Statisztika'),
+(9, 'Exponenciális és logaritmusos feladatok'),
+(11, 'Koordinátageometria'),
+(12, 'Logika'),
+(13, 'Halmazok'),
+(14, 'Trigonometria');
 
 -- --------------------------------------------------------
 
@@ -58,7 +69,9 @@ CREATE TABLE `periods` (
 INSERT INTO `periods` (`id`, `periodName`) VALUES
 (3, '2021 Október'),
 (4, '2021 Május'),
-(5, '2021 Május – Idegennyelvű');
+(5, '2021 Május – Idegennyelvű'),
+(6, '2020. október'),
+(7, '2020. május');
 
 -- --------------------------------------------------------
 
@@ -74,6 +87,24 @@ CREATE TABLE `tasks` (
   `task_no` int(11) NOT NULL,
   `task_point_no` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `task_image_id`, `category_id`, `period_id`, `task_no`, `task_point_no`) VALUES
+(4, 34, 13, 3, 2, 1),
+(5, 35, 1, 3, 2, 2),
+(6, 36, 4, 3, 3, 3),
+(7, 37, 5, 3, 4, 3),
+(8, 38, 6, 3, 5, 2),
+(9, 39, 7, 3, 6, 2),
+(10, 40, 8, 3, 7, 3),
+(11, 41, 9, 3, 8, 2),
+(12, 42, 5, 3, 9, 3),
+(13, 43, 3, 3, 10, 2),
+(14, 44, 11, 3, 11, 4),
+(15, 45, 2, 3, 12, 3);
 
 -- --------------------------------------------------------
 
@@ -91,21 +122,22 @@ CREATE TABLE `task_images` (
 --
 
 INSERT INTO `task_images` (`id`, `filePath`) VALUES
-(1, 'file-1649187963451.png'),
-(2, 'file-1649188137536.png'),
-(3, 'file-1649190838974.png'),
-(4, 'file-1649190935404.png'),
-(5, 'file-1649191026843.png'),
-(6, 'file-1649191129733.png'),
-(7, 'file-1649191328636.png'),
-(8, 'file-1649191337624.png'),
-(9, 'file-1649191367829.png'),
-(10, 'file-1649191404926.png'),
-(11, 'file-1649193402658.png'),
-(12, 'file-1649802721817.png'),
-(13, 'file-1650398675936.png'),
-(14, 'file-1650399087548.png'),
-(15, 'file-1650399416869.png');
+(30, 'file-1651658792627.png'),
+(31, 'file-1651658851334.png'),
+(32, 'file-1651658911902.png'),
+(33, 'file-1651659010617.png'),
+(34, 'file-1651695101954.png'),
+(35, 'file-1651695154466.png'),
+(36, 'file-1651695164053.png'),
+(37, 'file-1651695210467.png'),
+(38, 'file-1651695231827.png'),
+(39, 'file-1651695252230.png'),
+(40, 'file-1651695274185.png'),
+(41, 'file-1651695302698.png'),
+(42, 'file-1651695319936.png'),
+(43, 'file-1651695404655.png'),
+(44, 'file-1651695433650.png'),
+(45, 'file-1651695441568.png');
 
 -- --------------------------------------------------------
 
@@ -199,25 +231,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `periods`
 --
 ALTER TABLE `periods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `task_images`
 --
 ALTER TABLE `task_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `users`
