@@ -18,13 +18,18 @@ function handleLocalStorage(loggedInUser) {
 
 function helpLocalStorage() {
   const storageValue = window.localStorage.getItem("isLoggedIn");
+  console.log("storageValue", storageValue);
   let result = false;
-  try {
-    JSON.parse(storageValue);
-    result = true;
-  } catch {
-    console.error("error");
+  if (storageValue !== null) {
+    try {
+      JSON.parse(storageValue);
+      result = true;
+    } catch {
+      console.error("error");
+    }
   }
+
+  console.log("result", result);
   return result;
 }
 
