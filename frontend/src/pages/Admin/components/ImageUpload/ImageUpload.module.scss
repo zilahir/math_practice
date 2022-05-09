@@ -3,9 +3,8 @@
 .dropdownRootContainer {
   .innerContainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     .previewImage {
-      max-width: 200px;
       box-sizing: border-box;
       border: 2px solid transparent;
     }

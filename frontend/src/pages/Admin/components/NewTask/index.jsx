@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import DropDown from "../../../../components/common/Dropdown";
 import useApi from "../../../../hooks/useAPI";
@@ -11,18 +12,36 @@ import SuccessNotification from "../../../../components/common/components/Succes
 import { newTaskSchema } from "../../../../api/schemas";
 import Error from "../../../../components/common/Error";
 
-function NewTask() {
-  const [taskImageId, setTaskImageId] = useState();
+function NewTask({
+  taskImageId: iTaskImageId = null,
+  category: iCategory = null,
+  period: iPeriod = null,
+  taskPoint: iTaskPoint = null,
+  taskNo: iTaskNo = null,
+  isModify = false,
+  taskId = null,
+  taskImagePath = null,
+}) {
+  const [taskImageId, setTaskImageId] = useState(iTaskImageId);
   const [error, setError] = useState();
   const [isSuccess, setSuccess] = useState(false);
-  const [category, setCategory] = useState(null);
-  const [period, setPeriod] = useState(null);
+  const [category, setCategory] = useState(iCategory);
+  const [period, setPeriod] = useState(iPeriod);
   const [deletePreview, setDeletePreview] = useState(false);
-  const [taskPoint, setTaskPoint] = useState();
-  const [taskNo, setTaskNo] = useState();
+  const [taskPoint, setTaskPoint] = useState(iTaskPoint);
+  const [taskNo, setTaskNo] = useState(iTaskNo);
   const { apiReponse, loading } = useApi({
     method: "GET",
     pathName: apiEndpoints.periods,
+  });
+
+  const {
+    apiReponse: modifyApiResponse,
+    loading: modifyApiLoading,
+    apiRequestHandler: modifyApiRequestHandler,
+  } = useApi({
+    method: "PATCH",
+    pathName: apiEndpoints.modifyTask,
   });
 
   const { apiReponse: categories } = useApi({
@@ -57,7 +76,7 @@ function NewTask() {
     return [];
   }
 
-  function handleNewTaskSave() {
+  function handleTask() {
     setError(undefined);
     setSuccess(false);
     const newTaskObject = {
@@ -70,18 +89,24 @@ function NewTask() {
 
     const isValid = newTaskSchema.validate(newTaskObject);
 
-    if (Object.hasOwn(isValid, "error")) {
-      setError("Hiányos adatok");
+    if (!isModify) {
+      if (Object.hasOwn(isValid, "error")) {
+        setError("Hiányos adatok");
+      } else {
+        apiRequestHandler(newTaskObject).then(() => {
+          setDeletePreview(true);
+          setTaskImageId();
+          setCategory(null);
+          setPeriod(null);
+          setTaskPoint("");
+          setTaskNo("");
+          setSuccess(true);
+        });
+      }
     } else {
-      apiRequestHandler(newTaskObject).then(() => {
-        setDeletePreview(true);
-        setTaskImageId();
-        setCategory(null);
-        setPeriod(null);
-        setTaskPoint("");
-        setTaskNo("");
-        setSuccess(true);
-      });
+      const modifyObject = { ...newTaskObject, taskId };
+      console.log("modifyObject", modifyObject);
+      modifyApiRequestHandler(modifyObject);
     }
   }
 
@@ -97,6 +122,7 @@ function NewTask() {
       <ImageUpload
         deletePreview={deletePreview}
         setTaskImagePath={setTaskImageId}
+        iPreviewImageUrl={taskImagePath}
       />
       <DropDown
         labelValue="Válassz időszakot"
@@ -130,9 +156,31 @@ function NewTask() {
         inputType="number"
         className={styles.input}
       />
-      <Button label="Mentés" onClickHandler={() => handleNewTaskSave()} />
+      <Button label="Mentés" onClickHandler={() => handleTask()} />
     </div>
   );
 }
+
+NewTask.defaultProps = {
+  taskImageId: null,
+  category: null,
+  period: null,
+  taskPoint: null,
+  taskNo: null,
+  isModify: false,
+  taskId: null,
+  taskImagePath: null,
+};
+
+NewTask.propTypes = {
+  taskImagePath: PropTypes.string,
+  taskImageId: PropTypes.number,
+  category: PropTypes.string,
+  period: PropTypes.number,
+  taskPoint: PropTypes.number,
+  taskNo: PropTypes.number,
+  isModify: PropTypes.bool,
+  taskId: PropTypes.number,
+};
 
 export default NewTask;

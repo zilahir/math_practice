@@ -7,18 +7,26 @@ import api from "../api";
  * @param root0.method
  * @param root0.requestOptions
  */
-function useApi({ pathName, method, requestOptions }) {
+function useApi({ pathName, method }) {
   const [loading, isLoading] = useState(false);
   const [apiReponse, setApiResponse] = useState(undefined);
   const [error, setError] = useState(undefined);
 
   const apiRequestHandler = useCallback(
     async (body) => {
-      console.log("pathName", pathName);
       isLoading(true);
       if (method === "POST") {
         try {
           const response = await api.post(pathName, body);
+          setApiResponse(response.data);
+          return response.data;
+        } catch (apiError) {
+          setError(apiError);
+          return apiError;
+        }
+      } else if (method === "PATCH") {
+        try {
+          const response = await api.patch(pathName, body);
           setApiResponse(response.data);
           return response.data;
         } catch (apiError) {

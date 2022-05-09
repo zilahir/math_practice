@@ -1,14 +1,18 @@
-import { useCallback, useMemo, useState, useEffect } from "react";
+import {
+  useCallback, useMemo, useState, useEffect,
+} from "react";
 import { useDropzone } from "react-dropzone";
 import PropTypes from "prop-types";
 
 import styles from "./ImageUpload.module.scss";
 import { apiEndpoints, API_ROOT_URL } from "../../../../api";
 import useApi from "../../../../hooks/useAPI";
-import { baseStyle, focusedStyle, acceptStyle, rejectStyle } from "./styles";
+import {
+  baseStyle, focusedStyle, acceptStyle, rejectStyle,
+} from "./styles";
 
-function ImageUpload({ setTaskImagePath, deletePreview }) {
-  const [previewImageUrl, setPreviewImageUrl] = useState(undefined);
+function ImageUpload({ setTaskImagePath, deletePreview, iPreviewImageUrl }) {
+  const [previewImageUrl, setPreviewImageUrl] = useState(iPreviewImageUrl);
   const { loading, apiRequestHandler, apiReponse } = useApi({
     pathName: apiEndpoints.uploadImage,
     method: "POST",

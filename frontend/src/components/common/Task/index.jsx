@@ -1,14 +1,18 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 import { apiEndpoints, API_ROOT_URL } from "../../../api";
+import { adminRoutes } from "../../../fakeApi/menuItems";
 import Button from "../Button";
 
 import styles from "./Task.module.scss";
 
 function Task({ task, handleTaskDelete }) {
   const [isDeleted, setIsDeleted] = useState(false);
+
+  const navigate = useNavigate();
 
   function handleDelete() {
     setIsDeleted(true);
@@ -40,7 +44,11 @@ function Task({ task, handleTaskDelete }) {
         </div>
       </div>
       <div className={styles.buttonContainer}>
-        <Button className={styles.button} label="Módosítás" />
+        <Button
+          onClickHandler={() => navigate(`${adminRoutes.editTask}/${task.id}`)}
+          className={styles.button}
+          label="Módosítás"
+        />
         <Button
           onClickHandler={() => handleDelete()}
           variant="danger"

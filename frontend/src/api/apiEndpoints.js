@@ -7,6 +7,8 @@ const apiEndpoints = {
   allTask: "/tasks/all",
   categories: "/categories",
   deleteTask: "/tasks/delete",
+  getTaskById: "/tasks",
+  modifyTask: "/tasks",
 };
 
 export default apiEndpoints;
