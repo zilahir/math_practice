@@ -34,6 +34,8 @@ function useApi({ pathName, method }) {
           return apiError;
         }
       }
+
+      return undefined;
     },
     [pathName, method],
   );

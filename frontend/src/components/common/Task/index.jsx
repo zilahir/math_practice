@@ -4,9 +4,7 @@ import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
 
 import { apiEndpoints, API_ROOT_URL } from "../../../api";
-import { adminRoutes } from "../../../fakeApi/menuItems";
 import Button from "../Button";
-
 import styles from "./Task.module.scss";
 
 function Task({ task, handleTaskDelete }) {
@@ -45,7 +43,7 @@ function Task({ task, handleTaskDelete }) {
       </div>
       <div className={styles.buttonContainer}>
         <Button
-          onClickHandler={() => navigate(`${adminRoutes.editTask}/${task.id}`)}
+          onClickHandler={() => navigate(`/admin/task/${task.id}`)}
           className={styles.button}
           label="Módosítás"
         />

@@ -4,7 +4,7 @@ import useApi from "../../../../hooks/useAPI";
 import apiEndpoints from "../../../../api/apiEndpoints";
 import NewTask from "../../components/NewTask";
 
-function Edit() {
+function EditPage() {
   const { taskId } = useParams();
   const { loading, apiReponse } = useApi({
     pathName: `${apiEndpoints.getTaskById}/${taskId}`,
@@ -35,4 +35,4 @@ function Edit() {
   );
 }
 
-export default Edit;
+export default EditPage;

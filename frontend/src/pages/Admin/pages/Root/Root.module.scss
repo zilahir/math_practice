@@ -1,0 +1,15 @@
+.adminRootContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 80px 0;
+
+  .innerButtonContainer {
+    display: flex;
+    gap: 20px;
+
+    .btn {
+      padding: 8px 12px;
+    }
+  }
+}

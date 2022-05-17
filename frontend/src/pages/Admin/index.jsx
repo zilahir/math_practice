@@ -1,13 +1,11 @@
-import NewTask from "./components/NewTask";
-import Periods from "./components/Periods";
+import AdminRoot from "./pages/Root";
+import NewTaskPage from "./pages/NewTask";
+import AllTaskPage from "./pages/AllTasks";
+import EditPage from "./pages/Edit";
 
-function Admin() {
-  return (
-    <div>
-      <Periods />
-      <NewTask />
-    </div>
-  );
-}
-
-export default Admin;
+export const AdminPages = {
+  AdminRoot,
+  NewTaskPage,
+  AllTaskPage,
+  EditPage,
+};

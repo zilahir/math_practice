@@ -1,15 +1,37 @@
-/* eslint-disable implicit-arrow-linebreak */
 import { ADMIN, USER } from "./fakeUsers";
 
 export const ALL = "ALL";
 export const LOGGEDIN = "LOGGEDIN";
 export const LOGGEDOUT = "LOGGEDOUT";
 
-export const adminRoutes = {
-  newTask: "/admin/task/new",
-  allTask: "/admin/task",
-  editTask: "/admin/task",
-};
+export const adminRoutes = [
+  {
+    path: "/admin",
+    name: "adminRoot",
+    PageComponent: "AdminRoot",
+    isMenu: false,
+  },
+  {
+    path: "/admin/task/new",
+    name: "newTask",
+    PageComponent: "NewTaskPage",
+    isMenu: true,
+    menuLabel: "Új feladat",
+  },
+  {
+    path: "/admin/task",
+    name: "allTask",
+    PageComponent: "AllTaskPage",
+    isMenu: true,
+    menuLabel: "Összes feladat",
+  },
+  /* {
+    path: "/admin/task/:taskId",
+    name: "editTask",
+    PageComponent: "EditPage",
+    isMenu: false,
+  }, */
+];
 
 const menuItems = [
   {
@@ -47,7 +69,7 @@ const menuItems = [
 const adminMenuItems = [
   {
     label: "Admin",
-    target: adminRoutes.newTask,
+    target: adminRoutes.find((route) => route.isMenu === false).path,
     userLevels: [ADMIN],
     scopes: [LOGGEDIN],
   },

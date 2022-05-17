@@ -6,7 +6,7 @@ import useApi from "../../../../hooks/useAPI";
 
 function AllTask() {
   const [isDeleted, setIsDeleted] = useState(false);
-  const { apiReponse, loading } = useApi({
+  const { apiReponse } = useApi({
     method: "GET",
     pathName: apiEndpoints.allTask,
   });
