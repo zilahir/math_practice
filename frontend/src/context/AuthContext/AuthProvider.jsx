@@ -18,7 +18,6 @@ function handleLocalStorage(loggedInUser) {
 
 function helpLocalStorage() {
   const storageValue = window.localStorage.getItem("isLoggedIn");
-  console.log("storageValue", storageValue);
   let result = false;
   if (storageValue !== null) {
     try {
@@ -28,8 +27,6 @@ function helpLocalStorage() {
       console.error("error");
     }
   }
-
-  console.log("result", result);
   return result;
 }
 

@@ -122,7 +122,7 @@ function NewTask({
       <ImageUpload
         deletePreview={deletePreview}
         setTaskImagePath={setTaskImageId}
-        iPreviewImageUrl={taskImagePath}
+        isPreviewImageUrl={taskImagePath}
       />
       <DropDown
         labelValue="Válassz időszakot"
