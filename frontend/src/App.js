@@ -39,14 +39,7 @@ function App() {
               }
             />
           ))}
-          <Route
-            path="/tasks"
-            element={
-              <ProtectedRoute>
-                <Tasks />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/tasks" element={<Tasks />} />
           <Route
             path="/admin/task/:taskId"
             element={

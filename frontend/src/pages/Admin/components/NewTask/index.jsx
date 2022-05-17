@@ -105,7 +105,6 @@ function NewTask({
       }
     } else {
       const modifyObject = { ...newTaskObject, taskId };
-      console.log("modifyObject", modifyObject);
       modifyApiRequestHandler(modifyObject);
     }
   }
@@ -129,8 +128,8 @@ function NewTask({
         id="period"
         options={transformPeriodApiRespnse()}
         setValue={setPeriod}
-        loading={loading}
         value={period}
+        loading={loading}
       />
       <DropDown
         labelValue="Válassz témakört"

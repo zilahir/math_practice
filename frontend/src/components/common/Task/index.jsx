@@ -7,7 +7,7 @@ import { apiEndpoints, API_ROOT_URL } from "../../../api";
 import Button from "../Button";
 import styles from "./Task.module.scss";
 
-function Task({ task, handleTaskDelete }) {
+function Task({ task, handleTaskDelete, showAdminButtons, TaskInfo }) {
   const [isDeleted, setIsDeleted] = useState(false);
 
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ function Task({ task, handleTaskDelete }) {
     setIsDeleted(true);
     handleTaskDelete(task.id);
   }
+
   return (
     <div
       className={classnames(
@@ -23,16 +24,25 @@ function Task({ task, handleTaskDelete }) {
         isDeleted && styles.deleted,
       )}
     >
-      <div className={styles.innerContainer}>
-        <div className={styles.metaContainer}>
-          <p>Témakör: {task.categoryName}</p>
-          <p>Érettségi időszak: {task.periodName}</p>
-          <p>
-            Feladat sorszáma:
-            {task.task_no}
-          </p>
-          <p>Feladat pontszáma: {task.task_point_no}</p>
-        </div>
+      <div
+        className={classnames(
+          styles.innerContainer,
+          !showAdminButtons && styles.taskPage,
+        )}
+      >
+        {showAdminButtons ? (
+          <div className={styles.metaContainer}>
+            <p>Témakör: {task.categoryName}</p>
+            <p>Érettségi időszak: {task.periodName}</p>
+            <p>
+              Feladat sorszáma:
+              {task.task_no}
+            </p>
+            <p>Feladat pontszáma: {task.task_point_no}</p>
+          </div>
+        ) : (
+          <TaskInfo />
+        )}
 
         <div className={styles.imageContainer}>
           <img
@@ -41,22 +51,30 @@ function Task({ task, handleTaskDelete }) {
           />
         </div>
       </div>
-      <div className={styles.buttonContainer}>
-        <Button
-          onClickHandler={() => navigate(`/admin/task/${task.id}`)}
-          className={styles.button}
-          label="Módosítás"
-        />
-        <Button
-          onClickHandler={() => handleDelete()}
-          variant="danger"
-          className={styles.button}
-          label="Törlés"
-        />
-      </div>
+      {showAdminButtons && (
+        <div className={styles.buttonContainer}>
+          <Button
+            onClickHandler={() => navigate(`/admin/task/${task.id}`)}
+            className={styles.button}
+            label="Módosítás"
+          />
+          <Button
+            onClickHandler={() => handleDelete()}
+            variant="danger"
+            className={styles.button}
+            label="Törlés"
+          />
+        </div>
+      )}
     </div>
   );
 }
+
+Task.defaultProps = {
+  handleTaskDelete: null,
+  showAdminButtons: true,
+  TaskInfo: null,
+};
 
 Task.propTypes = {
   task: PropTypes.shape({
@@ -70,7 +88,9 @@ Task.propTypes = {
     categoryName: PropTypes.string.isRequired,
     periodName: PropTypes.string.isRequired,
   }).isRequired,
-  handleTaskDelete: PropTypes.func.isRequired,
+  handleTaskDelete: PropTypes.func,
+  showAdminButtons: PropTypes.bool,
+  TaskInfo: PropTypes.node,
 };
 
 export default Task;
