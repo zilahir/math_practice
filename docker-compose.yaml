@@ -50,7 +50,7 @@ services:
     ports:
       - "6033:3306"
   phpmyadmin:
-    image: phpmyadmin/phpmyadminack
+    image: phpmyadmin/phpmyadmin
     links:
       - db
     environment:

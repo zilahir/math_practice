@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import classnames from "classnames";
 
 import { apiEndpoints } from "../../api";
@@ -186,7 +186,7 @@ function Tasks() {
               task={task}
               key={task.id}
               showAdminButtons={false}
-              TaskInfo={<p>hello</p>}
+              TaskInfo={() => <p>hello</p>}
             />
           ))}
       </div>
