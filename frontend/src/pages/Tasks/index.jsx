@@ -40,6 +40,17 @@ function Tasks() {
     setFilterType(chosenFilterType);
   }
 
+  function sumTaskPoints(taskList) {
+    return taskList.reduce(
+      (a, b) => ({
+        task_point_no: a.task_point_no + b.task_point_no,
+      }),
+      {
+        task_point_no: 0,
+      },
+    );
+  }
+
   const { apiReponse: categories } = useApi({
     method: "GET",
     pathName: apiEndpoints.categories,
@@ -118,6 +129,8 @@ function Tasks() {
         currentPoints += initRandomized[i].task_point_no;
       }
     }
+
+    console.log(currentPoints);
 
     setFilteredTasks(result);
   }
@@ -251,6 +264,9 @@ function Tasks() {
                 Találatok: {getFilterTypeLabel(selectedFilterType).label}
               </span>
               <span>Összesen: {filteredTasks.length} feladat</span>
+              <span>
+                Összontszám: {sumTaskPoints(filteredTasks).task_point_no}
+              </span>
             </p>
           </div>
         )}
