@@ -1,3 +1,5 @@
+import { sortBy } from "lodash";
+
 import { serverConfig } from "../config";
 import MySQL from "../db/MySQL";
 
@@ -28,7 +30,6 @@ export async function modifyTask(request, response) {
     request.body;
 
   const updateSqlQuery = `UPDATE tasks set task_image_id = ${taskImageId}, category_id = ${categoryId}, period_id = ${periodId}, task_no = ${taskNo}, task_point_no = ${taskPoints} WHERE id = ${taskId}  `;
-  console.log("modifyQuery", updateSqlQuery);
   const sqlQueryResult = await database.query(updateSqlQuery);
 
   response.status(200).send({
@@ -47,7 +48,9 @@ export async function getAllTasks(request, response) {
 
   const sqlQueryResult = await database.query(sqlQuery);
 
-  response.status(200).send(sqlQueryResult);
+  const sortedTasks = sortBy(sqlQueryResult, ["task_no"]);
+
+  response.status(200).send(sortedTasks);
 }
 
 /**
