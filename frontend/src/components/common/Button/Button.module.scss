@@ -25,5 +25,9 @@
         background: rgba($color: $error-bg-color, $alpha: 0.8);
       }
     }
+
+    &:disabled {
+      cursor: initial;
+    }
   }
 }

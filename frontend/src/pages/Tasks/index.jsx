@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from "react";
 import classnames from "classnames";
+import { shuffle } from "lodash";
 
 import { apiEndpoints } from "../../api";
 import Button from "../../components/common/Button";
@@ -20,10 +21,13 @@ function Tasks() {
 
   const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
   const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
+  const GENERATE = "GENERATE";
+  const MAX_POINTS = 30;
 
   const filterTypes = [
     { label: "Időszak alapján", filterType: FILTER_BY_PERIOD },
     { label: "Témakör alapján", filterType: FILTER_BY_CATEGORIES },
+    { label: "Feladatsor generálás", filterType: GENERATE },
   ];
 
   const getFilterTypeLabel = (filterType) =>
@@ -96,7 +100,33 @@ function Tasks() {
     filterTasksByLogic();
   }
 
-  function TaskInfo({ pperiod, taskNo, taskPoints }) {
+  function generateExam() {
+    const tasks = allTasks.filter((task) =>
+      category.some((cat) => cat.value === task.category_id),
+    );
+
+    let currentPoints = 0;
+    // const missingPoints = MAX_POINTS;
+    const initRandomized = shuffle(tasks);
+    const result = [];
+
+    for (let i = 0; i < initRandomized.length; i++) {
+      if (
+        currentPoints < MAX_POINTS &&
+        currentPoints + initRandomized[i].task_point_no !== MAX_POINTS - 1
+      ) {
+        result.push(initRandomized[i]);
+        currentPoints += initRandomized[i].task_point_no;
+      }
+    }
+
+    console.log("currentPoints", currentPoints);
+    console.log("result", result);
+
+    setFilteredTasks(result);
+  }
+
+  function TaskInfo({ pperiod, taskNo, taskPoints, ccategory }) {
     if (selectedFilterType === FILTER_BY_CATEGORIES) {
       return (
         <div className={styles.taskMetaContainer}>
@@ -117,6 +147,10 @@ function Tasks() {
     }
     return (
       <div className={styles.taskMetaContainer}>
+        <p>
+          <span>Kategória: </span>
+          <span>{ccategory}</span>
+        </p>
         <p>
           <span>Feladat sorszáma:</span>
           <span>{taskNo}</span>
@@ -175,15 +209,40 @@ function Tasks() {
                 />
               </div>
             )}
-            <Button
-              disabled={
-                (selectedFilterType === FILTER_BY_CATEGORIES && !category) ||
-                (selectedFilterType === FILTER_BY_PERIOD && !period)
-              }
-              label="Keresés"
-              onClickHandler={() => handleTaskSearch()}
-              containerClassName={styles.searchBtnContainer}
-            />
+
+            {selectedFilterType === GENERATE && (
+              <div>
+                <div className={styles.filter}>
+                  <DropDown
+                    labelValue="Válassz témakört"
+                    id="topic"
+                    options={transformCategoriesApiResponse()}
+                    setValue={setCategory}
+                    loading={false}
+                    value={category}
+                    isMulti={isAuthenticated}
+                  />
+                  <Button
+                    label="Generálás"
+                    containerClassName={styles.searchBtnContainer}
+                    onClickHandler={() => generateExam()}
+                    disabled={!category || !Array.isArray(category)}
+                  />
+                </div>
+              </div>
+            )}
+            {(selectedFilterType === FILTER_BY_CATEGORIES ||
+              selectedFilterType === FILTER_BY_PERIOD) && (
+              <Button
+                disabled={
+                  (selectedFilterType === FILTER_BY_CATEGORIES && !category) ||
+                  (selectedFilterType === FILTER_BY_PERIOD && !period)
+                }
+                label="Keresés"
+                onClickHandler={() => handleTaskSearch()}
+                containerClassName={styles.searchBtnContainer}
+              />
+            )}
           </>
         )}
       </div>
@@ -211,6 +270,7 @@ function Tasks() {
                   pperiod={task.periodName}
                   taskNo={task.task_no}
                   taskPoints={task.task_point_no}
+                  ccategory={task.categoryName}
                 />
               )}
             />
