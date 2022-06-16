@@ -106,7 +106,6 @@ function Tasks() {
     );
 
     let currentPoints = 0;
-    // const missingPoints = MAX_POINTS;
     const initRandomized = shuffle(tasks);
     const result = [];
 
@@ -119,9 +118,6 @@ function Tasks() {
         currentPoints += initRandomized[i].task_point_no;
       }
     }
-
-    console.log("currentPoints", currentPoints);
-    console.log("result", result);
 
     setFilteredTasks(result);
   }
