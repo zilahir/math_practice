@@ -26,6 +26,9 @@ function Tasks() {
     { label: "Témakör alapján", filterType: FILTER_BY_CATEGORIES },
   ];
 
+  const getFilterTypeLabel = (filterType) =>
+    filterTypes.find((types) => types.filterType === filterType);
+
   function changeFilterType(chosenFilterType) {
     setCategory(null);
     setPeriod(null);
@@ -93,7 +96,7 @@ function Tasks() {
     filterTasksByLogic();
   }
 
-  function TaskInfo_({ pperiod, taskNo, taskPoints }) {
+  function TaskInfo({ pperiod, taskNo, taskPoints }) {
     if (selectedFilterType === FILTER_BY_CATEGORIES) {
       return (
         <div className={styles.taskMetaContainer}>
@@ -105,8 +108,8 @@ function Tasks() {
             <span>Feladat sorszáma:</span>
             <span>{taskNo}</span>
             <p>
-              <p>Pontszám:</p>
-              <p>{taskPoints}</p>
+              <span>Pontszám:</span>
+              <span>{taskPoints}</span>
             </p>
           </p>
         </div>
@@ -114,7 +117,14 @@ function Tasks() {
     }
     return (
       <div className={styles.taskMetaContainer}>
-        <p>hello</p>
+        <p>
+          <span>Feladat sorszáma:</span>
+          <span>{taskNo}</span>
+          <p>
+            <span>Pontszám:</span>
+            <span>{taskPoints}</span>
+          </p>
+        </p>
       </div>
     );
   }
@@ -179,6 +189,16 @@ function Tasks() {
       </div>
 
       <div className={styles.taskContainer}>
+        {Array.isArray(filteredTasks) && (
+          <div className={styles.searchResult}>
+            <p>
+              <span>
+                Találatok: {getFilterTypeLabel(selectedFilterType).label}
+              </span>
+              <span>Összesen: {filteredTasks.length} feladat</span>
+            </p>
+          </div>
+        )}
         {Array.isArray(filteredTasks) &&
           filteredTasks.length > 0 &&
           filteredTasks.map((task) => (
@@ -186,7 +206,13 @@ function Tasks() {
               task={task}
               key={task.id}
               showAdminButtons={false}
-              TaskInfo={() => <p>hello</p>}
+              TaskInfo={() => (
+                <TaskInfo
+                  pperiod={task.periodName}
+                  taskNo={task.task_no}
+                  taskPoints={task.task_point_no}
+                />
+              )}
             />
           ))}
       </div>
