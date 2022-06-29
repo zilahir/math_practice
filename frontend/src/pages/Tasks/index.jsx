@@ -120,7 +120,6 @@ function Tasks() {
     const initRandomized = shuffle(tasks);
     let remainingTasks = initRandomized;
 
-    console.log("rem", remainingTasks);
     let currentMissing = MAX_POINTS;
     const result = [];
     let i = 0;
@@ -140,14 +139,8 @@ function Tasks() {
           (task) => task.id !== currentTask.id,
         );
       }
-
-      console.log("i", i, remainingTasks.length);
       i += 1;
     }
-
-    console.log("result: ", result);
-
-    console.log(currentPoints);
 
     setFilteredTasks(result);
   }
