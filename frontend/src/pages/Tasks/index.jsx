@@ -118,17 +118,34 @@ function Tasks() {
 
     let currentPoints = 0;
     const initRandomized = shuffle(tasks);
-    const result = [];
+    let remainingTasks = initRandomized;
 
-    for (let i = 0; i < initRandomized.length; i++) {
-      if (
-        currentPoints < MAX_POINTS &&
-        currentPoints + initRandomized[i].task_point_no !== MAX_POINTS - 1
-      ) {
-        result.push(initRandomized[i]);
-        currentPoints += initRandomized[i].task_point_no;
+    console.log("rem", remainingTasks);
+    let currentMissing = MAX_POINTS;
+    const result = [];
+    let i = 0;
+
+    while (currentPoints < MAX_POINTS || i <= remainingTasks.length) {
+      // % modulo
+      const currentTask = remainingTasks.find(
+        (task) => currentMissing % task.task_point_no === 0,
+      );
+
+      if (currentTask) {
+        result.push(currentTask);
+        currentPoints += currentTask.task_point_no;
+        currentMissing -= currentPoints;
+        // remove this fromthe list
+        remainingTasks = remainingTasks.filter(
+          (task) => task.id !== currentTask.id,
+        );
       }
+
+      console.log("i", i, remainingTasks.length);
+      i += 1;
     }
+
+    console.log("result: ", result);
 
     console.log(currentPoints);
 
