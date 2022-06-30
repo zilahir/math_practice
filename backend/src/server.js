@@ -8,6 +8,7 @@ import userRoutes from "./user/user.routes";
 import categoriesRoutes from "./categories/categories.routes";
 import periodsRoutes from "./periods/periods.routes";
 import taskRoutes from "./tasks/tasks.routes";
+import systemRouter from "./system/system.routes";
 
 const app = express();
 
@@ -33,5 +34,7 @@ app.use("/user", userRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/periods", periodsRoutes);
 app.use("/tasks", taskRoutes);
+
+app.use("/system", systemRouter);
 
 export default app;

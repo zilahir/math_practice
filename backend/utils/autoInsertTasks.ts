@@ -82,18 +82,16 @@ async function processJson(): Promise<any> {
       // console.log("task", task);
       // 1. get period_id by periodName
       // 2. get category_id by cateogry Name
-      const categoryId = await getCategoryIdByCategoryName(task.category);
-      console.log(categoryId, index);
+      // const categoryId = await getCategoryIdByCategoryName(task.category);
+      // console.log(categoryId, index);
       // 3. upload the image
       const singleTask: Task = {
         period_id: 0,
-        category_id: categoryId,
+        category_id: 0,
         task_image_id: 0,
         task_no: task.task_no,
         task_point_no: task.task_point_no,
       };
-
-      console.log("singleTask", singleTask);
 
       // return insertTask(singleTask);
     });
