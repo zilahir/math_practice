@@ -71,8 +71,8 @@ export async function saveImageInDatabaseSync(filePath) {
 
     database
       .query(newImageQuery)
-      .then(() => {
-        resolve();
+      .then((result) => {
+        resolve(result);
       })
       .catch(() => {
         reject();

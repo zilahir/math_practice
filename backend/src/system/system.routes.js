@@ -31,7 +31,8 @@ async function insertTask({
   task_point_no,
 }) {
   return new Promise((resolve, reject) => {
-    const insertSqlQuery = `INSERT INTO tasks (task_image_id, category_id, period_id, task_no, task_point_no) VALUES (${task_image_id}, ${category_id}, ${period_id}, ${task_no}, ${task_point_no})`;
+    const insertSqlQuery = `INSERT INTO tasks (task_image_id, category_id, period_id, task_no, task_point_no) VALUES ("${task_image_id}", ${category_id}, ${period_id}, ${task_no}, ${task_point_no})`;
+    console.log("insertSqlQuery", insertSqlQuery);
     database
       .query(insertSqlQuery)
       .then(() => {
@@ -56,14 +57,13 @@ async function parseJson(request, response) {
       const categoryId = await getCategoryIdByCategoryName(task.category);
       const periodId = await getPeriodByPeriodName(task.period);
       const taskImage = await getFileByName(task.pictureName);
-      await saveImageInDatabaseSync(taskImage);
+      const taskImageId = await saveImageInDatabaseSync(taskImage);
 
-      // console.log(categoryId, index);
       // 3. upload the image
       const singleTask = {
         period_id: periodId.id,
         category_id: categoryId.id,
-        task_image_id: taskImage,
+        task_image_id: taskImageId.insertId,
         task_no: task.task_no,
         task_point_no: task.task_point_no,
       };
