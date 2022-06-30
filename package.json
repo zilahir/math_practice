@@ -37,6 +37,7 @@
   },
   "homepage": "https://github.com/zilahir/math_practice#readme",
   "dependencies": {
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.8.1"
   }
 }

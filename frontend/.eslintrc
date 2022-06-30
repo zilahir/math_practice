@@ -13,6 +13,8 @@
     "react"
   ],
   "rules": {
+    "func-names": ["error", "as-needed"],
+    "import/prefer-default-export": "off",
     "semi": "error",
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
