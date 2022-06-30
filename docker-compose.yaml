@@ -45,7 +45,7 @@ services:
     networks:
       - private
     environment:
-      - MYSQL_DATABASE=example
+      - MYSQL_DATABASE=erettsegi
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     ports:
       - "6033:3306"

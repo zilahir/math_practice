@@ -1,7 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-module.exports = (app) => {
+module.exports = function (app) {
   app.use(
     "/api",
     createProxyMiddleware({
