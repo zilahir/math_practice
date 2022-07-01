@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from "react";
 import classnames from "classnames";
-import { shuffle } from "lodash";
 
 import { apiEndpoints } from "../../api";
 import Button from "../../components/common/Button";
@@ -121,7 +120,7 @@ function Tasks() {
         b: task.task_point_no,
       }));
 
-    const generated = createRandomExam(tasks, 30);
+    const generated = createRandomExam(tasks, MAX_POINTS);
 
     if (Array.isArray(generated.set) && generated.set.length > 0) {
       setFilteredTasks(generated.set);
