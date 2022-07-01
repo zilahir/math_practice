@@ -112,7 +112,7 @@ export async function getFileByName(fileName) {
  * @param fileName
  */
 async function copyFile(source, fileName) {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
     const targetFileDir = path.join(
       __dirname,
       "../",

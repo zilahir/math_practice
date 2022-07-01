@@ -32,7 +32,6 @@ async function insertTask({
 }) {
   return new Promise((resolve, reject) => {
     const insertSqlQuery = `INSERT INTO tasks (task_image_id, category_id, period_id, task_no, task_point_no) VALUES ("${task_image_id}", ${category_id}, ${period_id}, ${task_no}, ${task_point_no})`;
-    console.log("insertSqlQuery", insertSqlQuery);
     database
       .query(insertSqlQuery)
       .then(() => {
@@ -71,12 +70,16 @@ async function parseJson(request, response) {
       return insertTask(singleTask);
     });
 
-    Promise.all([allTaskPromise]).then(() => {
-      response.status(200).send({
-        done: true,
+    Promise.all([allTaskPromise])
+      .then(() => {
+        response.status(200).send({
+          done: true,
+        });
+        resolve(true);
+      })
+      .catch(() => {
+        reject(false);
       });
-      resolve(true);
-    });
   });
 }
 
