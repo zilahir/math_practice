@@ -11,6 +11,7 @@ import { useAuth } from "../../context/AuthContext/AuthProvider";
 import useApi from "../../hooks/useAPI";
 import styles from "./Tasks.module.scss";
 import Task from "../../components/common/Task";
+import createRandomExam from "../../utils/generateExam";
 
 function Tasks() {
   const { isAuthenticated } = useAuth();
@@ -112,37 +113,20 @@ function Tasks() {
   }
 
   function generateExam() {
-    const tasks = allTasks.filter((task) =>
-      category.some((cat) => cat.value === task.category_id),
-    );
+    const tasks = allTasks
+      .filter((task) => category.some((cat) => cat.value === task.category_id))
+      .map((task) => ({
+        ...task,
+        w: task.task_point_no,
+        b: task.task_point_no,
+      }));
 
-    let currentPoints = 0;
-    const initRandomized = shuffle(tasks);
-    let remainingTasks = initRandomized;
+    const generated = createRandomExam(tasks, 30);
 
-    let currentMissing = MAX_POINTS;
-    const result = [];
-    let i = 0;
-
-    while (currentPoints < MAX_POINTS || i <= remainingTasks.length) {
-      // % modulo
-      const currentTask = remainingTasks.find(
-        (task) => currentMissing % task.task_point_no === 0,
-      );
-
-      if (currentTask) {
-        result.push(currentTask);
-        currentPoints += currentTask.task_point_no;
-        currentMissing -= currentPoints;
-        // remove this fromthe list
-        remainingTasks = remainingTasks.filter(
-          (task) => task.id !== currentTask.id,
-        );
-      }
-      i += 1;
+    if (Array.isArray(generated.set) && generated.set.length > 0) {
+      console.debug("generated", generated);
+      setFilteredTasks(generated.set);
     }
-
-    setFilteredTasks(result);
   }
 
   function TaskInfo({ pperiod, taskNo, taskPoints, ccategory }) {
