@@ -124,7 +124,6 @@ function Tasks() {
     const generated = createRandomExam(tasks, 30);
 
     if (Array.isArray(generated.set) && generated.set.length > 0) {
-      console.debug("generated", generated);
       setFilteredTasks(generated.set);
     }
   }
