@@ -48,6 +48,9 @@
     "eslint-plugin-unicorn": "40.1.0",
     "http-proxy-middleware": "^2.0.1",
     "jsdoc": "^3.6.10",
-    "react-scripts": "4.0.3"
+    "react-scripts": "4.0.3",
+    "prettier": "^2.6.1",
+    "prettier-plugin-jsdoc": "^0.3.36",
+    "eslint-config-prettier": "^8.5.0"
   }
 }
