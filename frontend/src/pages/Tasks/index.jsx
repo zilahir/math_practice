@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from "react";
 import classnames from "classnames";
+import { flatten } from "lodash";
 
 import { apiEndpoints } from "../../api";
 import Button from "../../components/common/Button";
@@ -14,7 +15,7 @@ import createRandomExam from "../../utils/generateExam";
 
 function Tasks() {
   const { isAuthenticated } = useAuth();
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState([null]);
   const [period, setPeriod] = useState(null);
   const [selectedFilterType, setFilterType] = useState(null);
   const [filteredTasks, setFilteredTasks] = useState(null);
@@ -34,7 +35,7 @@ function Tasks() {
     filterTypes.find((types) => types.filterType === filterType);
 
   function changeFilterType(chosenFilterType) {
-    setCategory(null);
+    setCategory([]);
     setPeriod(null);
     setFilteredTasks(null);
     setFilterType(chosenFilterType);
@@ -89,6 +90,7 @@ function Tasks() {
   }
 
   function filterTasksByLogic() {
+    console.log("caategory", category);
     if (Array.isArray(allTasks) && allTasks.length > 0) {
       if (selectedFilterType === FILTER_BY_PERIOD) {
         const tasks = allTasks.filter(
@@ -203,7 +205,7 @@ function Tasks() {
                   labelValue="Válassz témakört"
                   id="topic"
                   options={transformCategoriesApiResponse()}
-                  setValue={setCategory}
+                  setValue={(value) => setCategory(flatten(value))}
                   loading={false}
                   value={category}
                   isMulti={isAuthenticated}

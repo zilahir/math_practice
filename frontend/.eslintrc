@@ -5,7 +5,7 @@
       "jsx": true
     }
   },
-  "extends": ["react-app", "airbnb", "plugin:react/jsx-runtime", "prettier"],
+  "extends": ["react-app", "airbnb", "plugin:react/jsx-runtime"],
   "plugins": [
     "eslint-plugin-import",
     "eslint-plugin-react-hooks",
