@@ -5,8 +5,10 @@
   "dependencies": {
     "axios": "^0.26.0",
     "classnames": "^2.3.1",
+    "date-fns": "^2.29.1",
     "html2canvas": "^1.4.1",
     "joi": "^17.6.0",
+    "jspdf": "^2.5.1",
     "lodash": "^4.17.21",
     "node-sass": "6.0.1",
     "prop-types": "^15.8.1",
@@ -38,7 +40,9 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@types/redux-logger": "^3.0.9",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsdoc": "^37.9.7",
@@ -48,9 +52,8 @@
     "eslint-plugin-unicorn": "40.1.0",
     "http-proxy-middleware": "^2.0.1",
     "jsdoc": "^3.6.10",
-    "react-scripts": "4.0.3",
     "prettier": "^2.6.1",
     "prettier-plugin-jsdoc": "^0.3.36",
-    "eslint-config-prettier": "^8.5.0"
+    "react-scripts": "4.0.3"
   }
 }

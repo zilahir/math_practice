@@ -18,7 +18,10 @@
     "semi": "error",
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "operator-linebreak": 0,
+    "indent": 0,
+    "camelcase": ["error", { "ignoreDestructuring": true }]
   },
   "settings": {
     "import/core-modules": ["react"]

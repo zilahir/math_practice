@@ -29,12 +29,35 @@
   }
 
   .taskContainer {
-    .searchResult {
+    .searchResult,
+    .searchResultHelper {
       margin: 20px 0;
       p {
         font-size: 18px;
         span {
           margin: 0 10px;
+        }
+      }
+    }
+
+    .searchResultHelper {
+      display: none;
+      &.hiddenHelper {
+        display: none;
+      }
+      margin: 20px 0;
+      p {
+        font-size: 28px;
+        span {
+          margin: 10px;
+          display: block;
+
+          &.bold {
+            font-weight: bold;
+            margin: 0;
+            display: inline-block;
+            margin-right: 10px;
+          }
         }
       }
     }

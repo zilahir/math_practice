@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { sortBy } from "lodash";
+import classnames from "classnames";
+
 import { apiEndpoints } from "../../../../api";
 import SuccessNotification from "../../../../components/common/components/SuccessNotification";
+import DropDown from "../../../../components/common/Dropdown";
 import Task from "../../../../components/common/Task";
 import useApi from "../../../../hooks/useAPI";
+import { getPeriodTimeStamp } from "../../../../utils/periods";
+import styles from "./AllTasks.module.scss";
+import Button from "../../../../components/common/Button";
+import Loader from "../../../../components/common/Loader";
 
 function AllTask() {
   const [isDeleted, setIsDeleted] = useState(false);
+  const [period, setPeriod] = useState(null);
   const { apiReponse } = useApi({
     method: "GET",
     pathName: apiEndpoints.allTask,
   });
+
+  const [filteredTasks, setFilteredTasks] = useState(apiReponse);
 
   const { apiRequestHandler } = useApi({
     method: "POST",
@@ -26,6 +37,38 @@ function AllTask() {
       }, 3000);
     });
   }
+
+  const { apiReponse: periods } = useApi({
+    method: "GET",
+    pathName: apiEndpoints.periods,
+  });
+
+  function transformPeriodApiResponse() {
+    if (periods && Array.isArray(periods)) {
+      const resp = periods.map((currentPeriod) => ({
+        label: currentPeriod.periodName,
+        value: currentPeriod.id,
+        periodTimestamp: getPeriodTimeStamp(currentPeriod.periodName),
+      }));
+
+      return sortBy(resp, ["periodTimestamp"]);
+    }
+
+    return [];
+  }
+
+  function handleFilter(selectedPeriod) {
+    const periodId = selectedPeriod.value;
+    const filtered = apiReponse.filter(
+      ({ period_id: thisPeriodId }) => thisPeriodId === periodId,
+    );
+    setPeriod(selectedPeriod);
+    setFilteredTasks(filtered);
+  }
+
+  useEffect(() => {
+    setFilteredTasks(apiReponse);
+  }, [apiReponse]);
   return (
     <div>
       {isDeleted && (
@@ -33,8 +76,28 @@ function AllTask() {
           successMessages={["A feladat sikeresen törölve!"]}
         />
       )}
-      {apiReponse && Array.isArray(apiReponse) && apiReponse.length > 0 ? (
-        apiReponse.map((task) => (
+      <div className={styles.adminFilterRootContainer}>
+        <div className={classnames([styles.filter, period && styles.inline])}>
+          <DropDown
+            options={transformPeriodApiResponse()}
+            labelValue="Válassz időszakot"
+            id="period"
+            setValue={(pperiod) => handleFilter(pperiod)}
+            value={period}
+            className={styles.dropdownHelper}
+          />
+          {period && (
+            <Button
+              label="Szűrő törlése"
+              onClickHandler={() => setFilteredTasks(apiReponse)}
+            />
+          )}
+        </div>
+      </div>
+      {filteredTasks &&
+      Array.isArray(filteredTasks) &&
+      filteredTasks.length > 0 ? (
+        filteredTasks.map((task) => (
           <Task
             handleTaskDelete={() => handleTaskDelete(task.id)}
             task={task}
@@ -42,7 +105,7 @@ function AllTask() {
           />
         ))
       ) : (
-        <p>loading</p>
+        <Loader isLoading />
       )}
     </div>
   );

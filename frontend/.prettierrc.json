@@ -1,6 +1,7 @@
 {
-  "singleQuote": false,
-  "jsxBracketSameLine": false,
-  "rcVerbose": true,
-  "trailingComma": "all"
+    "singleQuote": false,
+    "jsxBracketSameLine": false,
+    "rcVerbose": true,
+    "trailingComma": "all",
+    "tabWidth": 2
 }

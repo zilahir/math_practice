@@ -1,7 +1,10 @@
+/* eslint-disable new-cap */
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from "react";
 import classnames from "classnames";
-import { flatten } from "lodash";
+import { flatten, sortBy } from "lodash";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 import { apiEndpoints } from "../../api";
 import Button from "../../components/common/Button";
@@ -12,6 +15,8 @@ import useApi from "../../hooks/useAPI";
 import styles from "./Tasks.module.scss";
 import Task from "../../components/common/Task";
 import createRandomExam from "../../utils/generateExam";
+import { getPeriodTimeStamp } from "../../utils/periods";
+import Loader from "../../components/common/Loader";
 
 function Tasks() {
   const { isAuthenticated } = useAuth();
@@ -19,6 +24,7 @@ function Tasks() {
   const [period, setPeriod] = useState(null);
   const [selectedFilterType, setFilterType] = useState(null);
   const [filteredTasks, setFilteredTasks] = useState(null);
+  const [isSaving, toggleSaving] = useState(false);
 
   const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
   const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
@@ -67,12 +73,15 @@ function Tasks() {
     pathName: apiEndpoints.allTask,
   });
 
-  function transformPeriodApiRespnse() {
+  function transformPeriodApiResponse() {
     if (periods && Array.isArray(periods)) {
-      return periods.map((currentPeriod) => ({
+      const resp = periods.map((currentPeriod) => ({
         label: currentPeriod.periodName,
         value: currentPeriod.id,
+        periodTimestamp: getPeriodTimeStamp(currentPeriod.periodName),
       }));
+
+      return sortBy(resp, ["periodTimestamp"]);
     }
 
     return [];
@@ -90,7 +99,6 @@ function Tasks() {
   }
 
   function filterTasksByLogic() {
-    console.log("caategory", category);
     if (Array.isArray(allTasks) && allTasks.length > 0) {
       if (selectedFilterType === FILTER_BY_PERIOD) {
         const tasks = allTasks.filter(
@@ -129,6 +137,27 @@ function Tasks() {
     }
   }
 
+  function printToPdf() {
+    toggleSaving(true);
+    html2canvas(document.getElementById("task-container"), {
+      onclone: (clonedDoc) => {
+        clonedDoc.getElementById("meta-helper").style.display = "block";
+      },
+    }).then((canvas) => {
+      // creaing the PDF itself here
+      const pdf = new jsPDF({
+        orientation: "p",
+        unit: "pt",
+        format: [canvas.width, canvas.height],
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      pdf.addImage(imgData, "JPEG", 0, 0);
+      pdf.save("download.pdf");
+      toggleSaving(false);
+    });
+  }
+
   function TaskInfo({ pperiod, taskNo, taskPoints, ccategory }) {
     if (selectedFilterType === FILTER_BY_CATEGORIES) {
       return (
@@ -138,8 +167,10 @@ function Tasks() {
             <span>{pperiod}</span>
           </p>
           <p>
-            <span>Feladat sorszáma:</span>
-            <span>{taskNo}</span>
+            <p data-html2canvas-ignore id="task-no-info">
+              <span>Feladat sorszáma:</span>
+              <span>{taskNo}</span>
+            </p>
             <p>
               <span>Pontszám:</span>
               <span>{taskPoints}</span>
@@ -190,7 +221,7 @@ function Tasks() {
             {selectedFilterType === FILTER_BY_PERIOD && (
               <div className={styles.filter}>
                 <DropDown
-                  options={transformPeriodApiRespnse()}
+                  options={transformPeriodApiResponse()}
                   labelValue="Válassz időszakot"
                   id="period"
                   setValue={setPeriod}
@@ -231,6 +262,14 @@ function Tasks() {
                     onClickHandler={() => generateExam()}
                     disabled={!category || !Array.isArray(category)}
                   />
+                  {filteredTasks &&
+                    Array.isArray(filteredTasks) &&
+                    filteredTasks.length > 0 && (
+                      <Button
+                        label="Nyomtatás PDF-be"
+                        onClickHandler={() => printToPdf()}
+                      />
+                    )}
                 </div>
               </div>
             )}
@@ -250,16 +289,44 @@ function Tasks() {
         )}
       </div>
 
-      <div className={styles.taskContainer}>
+      <div id="task-container" className={styles.taskContainer}>
         {Array.isArray(filteredTasks) && (
-          <div className={styles.searchResult}>
+          <div
+            data-html2canvas-ignore
+            id="task-searchresult"
+            className={styles.searchResult}
+          >
             <p>
               <span>
                 Találatok: {getFilterTypeLabel(selectedFilterType).label}
               </span>
-              <span>Összesen: {filteredTasks.length} feladat</span>
+              <span>
+                Összesen:
+                {filteredTasks.length} feladat
+              </span>
               <span>
                 Összontszám: {sumTaskPoints(filteredTasks).task_point_no}
+              </span>
+            </p>
+          </div>
+        )}
+        {Array.isArray(filteredTasks) && (
+          <div
+            id="meta-helper"
+            className={classnames([styles.searchResultHelper])}
+          >
+            <p>
+              <span>
+                <span className={styles.bold}>Összesen:</span>
+                {filteredTasks.length} feladat
+              </span>
+              <span>
+                <span className={styles.bold}>Választott kategóriák:</span>
+                {category.map(({ label }) => label).join(", ")}
+              </span>
+              <span>
+                <span className={styles.bold}>Összontszám:</span>{" "}
+                {sumTaskPoints(filteredTasks).task_point_no} pont
               </span>
             </p>
           </div>
@@ -282,6 +349,7 @@ function Tasks() {
             />
           ))}
       </div>
+      <Loader isPortal isLoading={false} />
     </div>
   );
 }

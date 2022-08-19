@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { sortBy } from "lodash";
 
 import DropDown from "../../../../components/common/Dropdown";
 import useApi from "../../../../hooks/useAPI";
@@ -11,6 +12,7 @@ import styles from "./NewTask.module.scss";
 import SuccessNotification from "../../../../components/common/components/SuccessNotification";
 import { newTaskSchema } from "../../../../api/schemas";
 import Error from "../../../../components/common/Error";
+import { getPeriodTimeStamp } from "../../../../utils/periods";
 
 function NewTask({
   taskImageId: iTaskImageId = null,
@@ -54,12 +56,14 @@ function NewTask({
     pathName: apiEndpoints.newTask,
   });
 
-  function transformPeriodApiRespnse() {
+  function transformPeriodApiResponse() {
     if (apiReponse && Array.isArray(apiReponse)) {
-      return apiReponse.map((currentPeriod) => ({
+      const resp = apiReponse.map((currentPeriod) => ({
         label: currentPeriod.periodName,
         value: currentPeriod.id,
+        periodTimestamp: getPeriodTimeStamp(currentPeriod.periodName),
       }));
+      return sortBy(resp, ["periodTimestamp"]);
     }
 
     return [];
@@ -126,7 +130,7 @@ function NewTask({
       <DropDown
         labelValue="Válassz időszakot"
         id="period"
-        options={transformPeriodApiRespnse()}
+        options={transformPeriodApiResponse()}
         setValue={setPeriod}
         value={period}
         loading={loading}
