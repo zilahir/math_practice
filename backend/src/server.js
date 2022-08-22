@@ -17,12 +17,10 @@ app.use(express.json());
 
 app.use("/static", express.static(path.join(__dirname, "../", "public")));
 
-app.get("/", function (req, res, next) {
-  database
-    .raw("select VERSION() version")
-    .then(([rows]) => rows[0])
-    .then((row) => res.json({ message: `Hello from MySQL ${row.version}` }))
-    .catch(next);
+app.get("/", function (req, res) {
+  res.status(200).send({
+    live: true,
+  });
 });
 
 app.get("/healthz", function (req, res) {
