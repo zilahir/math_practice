@@ -7,10 +7,8 @@
   "author": "",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack",
     "preinstall": "npm i nodemon -g",
-    "start:dev": "node src/index.js",
-    "start": "node dist/server.js",
+    "start": "node src/index.js",
     "start-watch": "nodemon src/index.js --inspect=0.0.0.0:9229",
     "start-wait-debuger": "nodemon src/index.js --inspect-brk=0.0.0.0:9229",
     "test": "cross-env NODE_ENV=test PORT=8081 mocha --timeout 10000 --exit --inspect=0.0.0.0:9230",
@@ -32,6 +30,7 @@
     "multer": "^1.4.4",
     "mysql2": "^2.1.0"
   },
+  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/node": "^7.16.8",
