@@ -19,6 +19,8 @@ function GetPageComponent({ pageName }) {
 }
 
 function App() {
+  console.log("hello");
+  console.log("env", process.env.NODE_ENV);
   return (
     <BrowserRouter>
       <AuthProvider>
