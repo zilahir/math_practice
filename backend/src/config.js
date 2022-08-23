@@ -13,7 +13,7 @@ export const serverConfig = {
       process.env.ENVIRONMENT === "production"
         ? process.env.DATABASE_PASSWORD
         : readFileSync("/run/secrets/db-password"),
-    dbName: process.env.DATABASE,
+    dbName: process.env.DATABASE_DB,
   },
   port: process.env.PORT || 8080,
 };
