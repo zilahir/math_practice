@@ -25,6 +25,7 @@ class MySQL {
     return new Promise((resolve, reject) => {
       this.connection.query(queryToExecute, (err, result) => {
         if (err) {
+          console.log("MYSQL ERROR", err);
           reject(err);
         }
         resolve(this.convertQueryResultToObject(result));
