@@ -3,9 +3,9 @@ import crypto from "crypto";
 import { serverConfig } from "../config";
 import MySQL from "../db/MySQL";
 
-const { host, port, user, password } = serverConfig.database;
+const { host, port, user, password, dbName } = serverConfig.database;
 
-const database = new MySQL(host, port, user, password, "erettsegi");
+const database = new MySQL(host, port, user, password, dbName);
 
 /**
  * @param request

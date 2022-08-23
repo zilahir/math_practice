@@ -10,6 +10,7 @@ export const serverConfig = {
     database: process.env.DATABASE_DB,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
+    dbName: process.env.DATABASE,
   },
   port: process.env.PORT || 8080,
 };

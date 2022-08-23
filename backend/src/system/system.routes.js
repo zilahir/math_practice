@@ -12,8 +12,8 @@ import {
 
 const router = Router();
 
-const { host, port, user, password } = serverConfig.database;
-const database = new MySQL(host, port, user, password, "erettsegi");
+const { host, port, user, password, dbName } = serverConfig.database;
+const database = new MySQL(host, port, user, password, dbName);
 
 /**
  * @param root0
