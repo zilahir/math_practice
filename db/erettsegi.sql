@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Jun 30, 2022 at 10:16 PM
+-- Generation Time: Aug 23, 2022 at 03:27 PM
 -- Server version: 10.6.4-MariaDB-1:10.6.4+maria~focal
--- PHP Version: 8.0.15
+-- PHP Version: 8.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `erettsegi`
 --
-CREATE DATABASE IF NOT EXISTS `erettsegi` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `erettsegi`;
 
 -- --------------------------------------------------------
 
@@ -2410,11 +2408,6 @@ ALTER TABLE `tasks`
   ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `fk_period` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`),
   ADD CONSTRAINT `fk_task_image` FOREIGN KEY (`task_image_id`) REFERENCES `task_images` (`id`);
---
--- Database: `example`
---
-CREATE DATABASE IF NOT EXISTS `example` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `example`;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
