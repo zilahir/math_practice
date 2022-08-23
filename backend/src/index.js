@@ -2,6 +2,7 @@ import app from "./server";
 import { serverConfig } from "./config";
 
 console.info("serverConfig.port", serverConfig.port);
+console.info("clearDbHost", process.env.CLEARDB_DATABASE_URL);
 
 const server = app.listen(serverConfig.port, function () {
   console.info("Webserver is ready");
