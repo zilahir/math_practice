@@ -7,9 +7,9 @@
         flex: 1;
       }
 
-      align-items: flex-end;
       display: flex;
       gap: 10px;
+      flex-direction: column;
     }
   }
 }

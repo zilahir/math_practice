@@ -75,6 +75,7 @@ function AllTask() {
       )}
       <div className={styles.adminFilterRootContainer}>
         <div className={classnames([styles.filter, period && styles.inline])}>
+          <h1>Feladat módosítása, törlése</h1>
           <DropDown
             options={transformPeriodApiResponse()}
             labelValue="Válassz időszakot"
