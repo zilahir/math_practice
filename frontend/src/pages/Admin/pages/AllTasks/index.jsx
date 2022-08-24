@@ -15,12 +15,12 @@ import Loader from "../../../../components/common/Loader";
 function AllTask() {
   const [isDeleted, setIsDeleted] = useState(false);
   const [period, setPeriod] = useState(null);
-  const { apiReponse } = useApi({
+  const { apiReponse, loading } = useApi({
     method: "GET",
     pathName: apiEndpoints.allTask,
   });
 
-  const [filteredTasks, setFilteredTasks] = useState(apiReponse);
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   const { apiRequestHandler } = useApi({
     method: "POST",
@@ -66,9 +66,6 @@ function AllTask() {
     setFilteredTasks(filtered);
   }
 
-  useEffect(() => {
-    setFilteredTasks(apiReponse);
-  }, [apiReponse]);
   return (
     <div>
       {isDeleted && (
@@ -105,7 +102,7 @@ function AllTask() {
           />
         ))
       ) : (
-        <Loader isLoading />
+        <Loader isLoading={loading} />
       )}
     </div>
   );
