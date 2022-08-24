@@ -11,7 +11,6 @@ const s3 = new AWS.S3({
 
 export const storageLocal = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.debug(__dirname);
     cb(null, path.resolve("public/upload"));
   },
 
