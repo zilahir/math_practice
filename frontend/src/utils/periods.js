@@ -28,7 +28,6 @@ export const getPeriodTimeStamp = (period) =>
     new Date(
       period.match(dateRegexp)[1],
       monthIndex(period.match(dateRegexp)[2]),
-
       15,
     ),
   );
