@@ -6,6 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { apiEndpoints, API_ROOT_URL } from "../../../api";
 import Button from "../Button";
 import styles from "./Task.module.scss";
+import pointNo2 from "../../../assets/points/2pont.png";
+import pointNo3 from "../../../assets/points/3pont.png";
+import pointNo4 from "../../../assets/points/4pont.png";
+
+const taskPointImages = {
+  2: pointNo2,
+  3: pointNo3,
+  4: pointNo4,
+};
 
 function Task({ task, handleTaskDelete, showAdminButtons, TaskInfo }) {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -47,8 +56,16 @@ function Task({ task, handleTaskDelete, showAdminButtons, TaskInfo }) {
         <div className={styles.imageContainer}>
           <img
             src={`${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`}
-            alt="feadat"
+            alt="feladat"
           />
+          <div
+            className={classnames([
+              "point-image",
+              styles.taskPointImageContainer,
+            ])}
+          >
+            <img alt="pont" src={taskPointImages[task.task_point_no]} />
+          </div>
         </div>
       </div>
       {showAdminButtons && (

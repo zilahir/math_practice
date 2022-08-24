@@ -65,6 +65,17 @@
 }
 
 .taskMetaContainer {
+  &.hidden {
+    display: none;
+  }
+
+  .taskNo {
+    display: none;
+    p {
+      font-size: 20px;
+    }
+  }
+
   p {
     span {
       &:first-of-type {

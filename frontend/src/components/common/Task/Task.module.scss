@@ -22,6 +22,15 @@
       img {
         width: 100%;
       }
+
+      .taskPointImageContainer {
+        display: none;
+        justify-content: flex-end;
+        margin: 10px 0;
+        img {
+          width: 500px;
+        }
+      }
     }
   }
 

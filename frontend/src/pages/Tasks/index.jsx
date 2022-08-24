@@ -142,6 +142,14 @@ function Tasks() {
     html2canvas(document.getElementById("task-container"), {
       onclone: (clonedDoc) => {
         clonedDoc.getElementById("meta-helper").style.display = "block";
+        console.debug("kepek", clonedDoc.querySelectorAll(".point-image"));
+        Array.from(clonedDoc.querySelectorAll(".point-image")).map((image) => {
+          image.style.display = "flex";
+        });
+
+        Array.from(clonedDoc.querySelectorAll(".task-no")).map((taskNo) => {
+          taskNo.style.display = "block";
+        });
       },
     }).then((canvas) => {
       // creaing the PDF itself here
@@ -158,41 +166,51 @@ function Tasks() {
     });
   }
 
-  function TaskInfo({ pperiod, taskNo, taskPoints, ccategory }) {
+  function TaskInfo({ pperiod, taskNo, taskPoints, ccategory, taskNumber }) {
     if (selectedFilterType === FILTER_BY_CATEGORIES) {
       return (
         <div className={styles.taskMetaContainer}>
+          <div className={classnames(["task-no", styles.taskNo])}>
+            <p>{taskNumber}</p>
+          </div>
+          <div data-html2canvas-ignore>
+            <p>
+              <span>Időszak:</span>
+              <span>{pperiod}</span>
+            </p>
+            <p>
+              <p id="task-no-info">
+                <span>Feladat sorszáma:</span>
+                <span>{taskNo}</span>
+              </p>
+              <p>
+                <span>Pontszám:</span>
+                <span>{taskPoints}</span>
+              </p>
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className={styles.taskMetaContainer}>
+        <div className={classnames(["task-no", styles.taskNo])}>
+          <p>{taskNumber}</p>
+        </div>
+        <div data-html2canvas-ignore>
           <p>
-            <span>Időszak:</span>
-            <span>{pperiod}</span>
+            <span>Kategória: </span>
+            <span>{ccategory}</span>
           </p>
           <p>
-            <p data-html2canvas-ignore id="task-no-info">
-              <span>Feladat sorszáma:</span>
-              <span>{taskNo}</span>
-            </p>
+            <span>Feladat sorszáma:</span>
+            <span>{taskNo}</span>
             <p>
               <span>Pontszám:</span>
               <span>{taskPoints}</span>
             </p>
           </p>
         </div>
-      );
-    }
-    return (
-      <div className={styles.taskMetaContainer}>
-        <p>
-          <span>Kategória: </span>
-          <span>{ccategory}</span>
-        </p>
-        <p>
-          <span>Feladat sorszáma:</span>
-          <span>{taskNo}</span>
-          <p>
-            <span>Pontszám:</span>
-            <span>{taskPoints}</span>
-          </p>
-        </p>
       </div>
     );
   }
@@ -333,7 +351,7 @@ function Tasks() {
         )}
         {Array.isArray(filteredTasks) &&
           filteredTasks.length > 0 &&
-          filteredTasks.map((task) => (
+          filteredTasks.map((task, index) => (
             <Task
               task={task}
               key={task.id}
@@ -344,6 +362,7 @@ function Tasks() {
                   taskNo={task.task_no}
                   taskPoints={task.task_point_no}
                   ccategory={task.categoryName}
+                  taskNumber={index + 1}
                 />
               )}
             />
