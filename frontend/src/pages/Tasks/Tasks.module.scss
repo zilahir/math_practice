@@ -26,6 +26,26 @@
     .searchBtnContainer {
       margin: 10px 0;
     }
+
+    .complexTaskRootContainer {
+      .printToPdfButtonContainer {
+        margin: 20px 0;
+      }
+
+      .taskNoInputContainer {
+        margin: 20px 0;
+
+        .taskNoInput {
+          input {
+            background: rgba($color: #ccc, $alpha: 1);
+
+            &:hover {
+              background: rgba($color: #ccc, $alpha: 0.75);
+            }
+          }
+        }
+      }
+    }
   }
 
   .taskContainer {

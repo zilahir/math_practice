@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useState } from "react";
 import classnames from "classnames";
-import { flatten, sortBy } from "lodash";
+import { flatten, sortBy, shuffle } from "lodash";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
@@ -17,6 +17,7 @@ import Task from "../../components/common/Task";
 import createRandomExam from "../../utils/generateExam";
 import { getPeriodTimeStamp } from "../../utils/periods";
 import Loader from "../../components/common/Loader";
+import Input from "../../components/common/Input";
 
 function Tasks() {
   const { isAuthenticated } = useAuth();
@@ -25,16 +26,19 @@ function Tasks() {
   const [selectedFilterType, setFilterType] = useState(null);
   const [filteredTasks, setFilteredTasks] = useState(null);
   const [isSaving, toggleSaving] = useState(false);
+  const [taskNo, setTaxNo] = useState(0);
 
   const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
   const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
   const GENERATE = "GENERATE";
+  const COMPLEX = "COMPLEX";
   const MAX_POINTS = 30;
 
   const filterTypes = [
     { label: "Időszak alapján", filterType: FILTER_BY_PERIOD },
     { label: "Témakör alapján", filterType: FILTER_BY_CATEGORIES },
     { label: "Feladatsor generálás", filterType: GENERATE },
+    { label: "Összetett feladatok", filterType: COMPLEX },
   ];
 
   const getFilterTypeLabel = (filterType) =>
@@ -89,10 +93,12 @@ function Tasks() {
 
   function transformCategoriesApiResponse() {
     if (categories && Array.isArray(categories)) {
-      return categories.map((currentCat) => ({
-        label: currentCat.name,
-        value: currentCat.id,
-      }));
+      return categories
+        .map((currentCat) => ({
+          label: currentCat.name,
+          value: currentCat.id,
+        }))
+        .filter(({ value }) => value !== 17);
     }
 
     return [];
@@ -214,6 +220,15 @@ function Tasks() {
       </div>
     );
   }
+
+  function getRandomComplexTasks() {
+    const complexTasks = allTasks.filter(
+      ({ category_id }) => category_id === 17,
+    );
+
+    const randomCompleyTasks = shuffle(complexTasks).slice(0, taskNo);
+    setFilteredTasks(randomCompleyTasks);
+  }
   return (
     <div className={styles.tasksRootContainer}>
       <h1>Feladatok</h1>
@@ -288,6 +303,36 @@ function Tasks() {
                         onClickHandler={() => printToPdf()}
                       />
                     )}
+                </div>
+              </div>
+            )}
+            {selectedFilterType === COMPLEX && (
+              <div className={styles.complexTaskRootContainer}>
+                <div className={styles.taskNoInputContainer}>
+                  <Input
+                    inputType="number"
+                    value={taskNo > 0 ? taskNo : undefined}
+                    placeHolder="Feladatok száma"
+                    htmlFor="task-no"
+                    onChangeHandler={(value) => setTaxNo(value)}
+                    className={styles.taskNoInput}
+                  />
+                </div>
+                <div>
+                  <Button
+                    onClickHandler={() => getRandomComplexTasks()}
+                    label="Generálás"
+                  />
+                  <div className={styles.printToPdfButtonContainer}>
+                    {filteredTasks &&
+                      Array.isArray(filteredTasks) &&
+                      filteredTasks.length > 0 && (
+                        <Button
+                          label="Nyomtatás PDF-be"
+                          onClickHandler={() => printToPdf()}
+                        />
+                      )}
+                  </div>
                 </div>
               </div>
             )}
