@@ -25,12 +25,6 @@ export const adminRoutes = [
     isMenu: true,
     menuLabel: "Összes feladat",
   },
-  /* {
-    path: "/admin/task/:taskId",
-    name: "editTask",
-    PageComponent: "EditPage",
-    isMenu: false,
-  }, */
 ];
 
 const menuItems = [
