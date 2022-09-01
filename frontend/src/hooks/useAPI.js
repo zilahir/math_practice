@@ -15,22 +15,27 @@ function useApi({ pathName, method }) {
   const apiRequestHandler = useCallback(
     async (body) => {
       isLoading(true);
+      setError(undefined);
       if (method === "POST") {
         try {
           const response = await api.post(pathName, body);
           setApiResponse(response.data);
+          isLoading(false);
           return response.data;
         } catch (apiError) {
-          setError(apiError);
+          setError(apiError.response.data);
+          isLoading(false);
           return apiError;
         }
       } else if (method === "PATCH") {
         try {
           const response = await api.patch(pathName, body);
           setApiResponse(response.data);
+          isLoading(false);
           return response.data;
         } catch (apiError) {
-          setError(apiError);
+          setError(apiError.response.data);
+          isLoading(false);
           return apiError;
         }
       }

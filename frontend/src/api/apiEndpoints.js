@@ -1,5 +1,6 @@
 const apiEndpoints = {
   signUp: "/user",
+  login: "/user/login",
   uploadImage: "/upload",
   static: "/static/upload",
   periods: "/periods",

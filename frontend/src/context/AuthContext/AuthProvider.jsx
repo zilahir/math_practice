@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import AuthContext from "./context";
@@ -52,18 +51,15 @@ function AuthProvider({ children }) {
    * @param root0.password
    * @param callback
    */
-  function signIn({ email, password }, callback) {
-    const hasUser = fakeUsers.find(
-      (user) => user.email === email && user.password === password,
-    );
-    if (hasUser) {
+  function signIn(user, callback) {
+    if (user) {
       // we have the user and the password is correct, we can login
       setAuthenticated(true);
       handleLocalStorage({
         isLoggedIn: true,
-        user: hasUser,
+        user,
       });
-      setLoggedInUser(hasUser);
+      setLoggedInUser(user);
       callback();
     } else {
       // TODO: handle login error
@@ -76,13 +72,17 @@ function AuthProvider({ children }) {
     handleLocalStorage(undefined);
   }
 
-  const value = {
-    loggedInUser,
-    isAuthenticated,
-    setAuthenticated,
-    signIn,
-    signOut,
-  };
+  const value = useMemo(
+    () => ({
+      loggedInUser,
+      isAuthenticated,
+      setAuthenticated,
+      signIn,
+      signOut,
+    }),
+    [loggedInUser],
+  );
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

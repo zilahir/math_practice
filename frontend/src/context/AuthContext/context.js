@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const authContext = createContext({
+export const authContext = createContext({
   isAuthenticated: false,
   signIn: undefined,
   signOut: undefined,

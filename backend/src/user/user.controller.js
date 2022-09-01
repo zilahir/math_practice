@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 import crypto from "crypto";
 
 import { serverConfig } from "../config";
@@ -56,11 +57,18 @@ export function loginUser(request, response) {
         id: user.id,
         email: user.email,
         is_admin: user.is_admin,
+        userLevel: Boolean(user.is_admin) ? "ADMIN" : "USER",
       },
     });
   } else {
     return response.status(500).send({
       loginSuccess: false,
+      errors: [
+        {
+          value: "password",
+          msg: "Hibás jelszó",
+        },
+      ],
     });
   }
 }
