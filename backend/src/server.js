@@ -30,7 +30,8 @@ app.use(function (req, res, next) {
 
 app.get("/", function (req, res) {
   res.status(200).send({
-    live: true,
+    prod: true,
+    timestamp: new Date().getTime(),
   });
 });
 
