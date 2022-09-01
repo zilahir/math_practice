@@ -1,8 +1,13 @@
 import { Router } from "express";
 import { body } from "express-validator";
 
-import { createUser } from "./user.controller";
-import { validateNewUserRequest, checkForEmail } from "./user.middlewares";
+import { createUser, loginUser } from "./user.controller";
+import {
+  validateNewUserRequest,
+  checkForEmail,
+  getUserByEmail,
+  veryRequiredLoginFields,
+} from "./user.middlewares";
 import { errorMessages } from "../utils/errorMessages";
 
 const router = Router();
@@ -20,6 +25,8 @@ router.post("/", [
 router.get("/:userId", [
   // get a single user
 ]);
+
+router.post("/login", [veryRequiredLoginFields, getUserByEmail, loginUser]);
 
 router.delete("/:userId", [
   // delete user

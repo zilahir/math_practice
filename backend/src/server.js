@@ -2,7 +2,7 @@ import morgan from "morgan";
 import express from "express";
 import path from "path";
 
-import database from "./database";
+// import database from "./database";
 import uploadRoutes from "./files/routes.files";
 import userRoutes from "./user/user.routes";
 import categoriesRoutes from "./categories/categories.routes";

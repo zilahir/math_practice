@@ -30,3 +30,37 @@ export async function createUser(request, response) {
     },
   });
 }
+
+/**
+ * @param request
+ * @param response
+ */
+export function loginUser(request, response) {
+  const { password } = request.body;
+  const { user } = request;
+  // check password
+
+  const userPassword = user.passw;
+
+  const passwordFields = userPassword.split("$");
+  const salt = passwordFields[0];
+  const hash = crypto
+    .createHmac("sha512", salt)
+    .update(password)
+    .digest("base64");
+  if (hash === passwordFields[1]) {
+    // password is OK
+    return response.status(200).send({
+      loginSuccess: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        is_admin: user.is_admin,
+      },
+    });
+  } else {
+    return response.status(500).send({
+      loginSuccess: false,
+    });
+  }
+}
