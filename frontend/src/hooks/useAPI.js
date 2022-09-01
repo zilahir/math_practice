@@ -18,7 +18,9 @@ function useApi({ pathName, method }) {
       setError(undefined);
       if (method === "POST") {
         try {
-          const response = await api.post(pathName, body);
+          const response = await api.post(pathName, body, {
+            withCredentials: false,
+          });
           setApiResponse(response.data);
           isLoading(false);
           return response.data;

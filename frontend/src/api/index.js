@@ -2,14 +2,14 @@ import axios from "axios";
 
 import apiEndpoints from "./apiEndpoints";
 
-export const API_ROOT_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://math-node-backend.herokuapp.com"
-    : "/api";
+export const API_ROOT_URL = "/api";
 
 const api = axios.create({
   baseURL: API_ROOT_URL,
-  timeout: 3000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
 export default api;
