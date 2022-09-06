@@ -46,7 +46,6 @@ export const imageFilter = function (req, file, cb) {
 };
 
 export const upload = multer({
-  storage:
-    process.env.ENVIRONMENT !== "production" ? storageLocal : { storage },
+  storage,
   fileFilter: imageFilter,
 });
