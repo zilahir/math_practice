@@ -24,3 +24,5 @@ yarn-error.log*
 !**/upload/*.png
 **/upload/new/*.png
 backend/dist
+
+.env*

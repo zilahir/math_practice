@@ -2,7 +2,6 @@ import { useState, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import AuthContext from "./context";
-import { fakeUsers } from "../../fakeApi/fakeUsers";
 
 export const useAuth = () => useContext(AuthContext);
 
