@@ -44,8 +44,8 @@ function uploadFile(request, response, next) {
 export const s3 = new S3({
   region: "us-east-1",
   credentials: {
-    accessKeyId: "",
-    secretAccessKey: "",
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
   },
 });
 
@@ -137,7 +137,7 @@ export async function getFileByName(fileName) {
  * @param source
  * @param fileName
  */
-async function copyFile(source, fileName) {
+export async function copyFile(source, fileName) {
   return new Promise(function (resolve) {
     const targetFileDir = path.join(
       __dirname,
