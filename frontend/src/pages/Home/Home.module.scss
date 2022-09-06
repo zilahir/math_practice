@@ -1,0 +1,50 @@
+.homeRootContainer {
+  h1 {
+    background-color: rgba($color: #ccc, $alpha: 1);
+    color: black;
+    font-size: 35px;
+    margin: 25px 50px;
+    padding: 25px;
+  }
+
+  h2 {
+    margin: 0px 50px;
+    padding: 15px;
+    background-color: rgba($color: #ccc, $alpha: 1);
+    font-size: 28px;
+  }
+
+  .segment {
+    margin: 10px 0;
+
+    .belso {
+      border: 1px solid rgba($color: #ccc, $alpha: 1);
+      margin: 0px 50px;
+      padding: 10px 0;
+
+      p {
+        margin: 0;
+        padding: 5px 30px;
+        font-size: 20px;
+        line-height: 2rem;
+
+        span {
+          font-weight: 700;
+        }
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        padding-left: 20px;
+        text-align: left;
+        margin: 5px 30px;
+        font-size: 20px;
+
+        li {
+          margin: 10px 0;
+        }
+      }
+    }
+  }
+}
