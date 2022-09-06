@@ -22,18 +22,16 @@ export const storageLocal = multer.diskStorage({
   },
 });
 
-export const storage = multer({
-  storage: multerS3({
-    s3,
-    acl: "public-read",
-    bucket: "erettsegi-prod",
-    key: function (req, file, cb) {
-      cb(
-        null,
-        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-      );
-    },
-  }),
+export const storage = multerS3({
+  s3,
+  acl: "public-read",
+  bucket: "erettsegi-prod",
+  key: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
 });
 
 export const imageFilter = function (req, file, cb) {
@@ -46,6 +44,6 @@ export const imageFilter = function (req, file, cb) {
 };
 
 export const upload = multer({
-  storage: storage.storage,
+  storage: process.env.ENVIRONMENT !== "production" ? storageLocal : storage,
   fileFilter: imageFilter,
 });
