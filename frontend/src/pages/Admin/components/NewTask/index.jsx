@@ -32,21 +32,17 @@ function NewTask({
   const [deletePreview, setDeletePreview] = useState(false);
   const [taskPoint, setTaskPoint] = useState(iTaskPoint);
   const [taskNo, setTaskNo] = useState(iTaskNo);
-  const { apiReponse, loading } = useApi({
+  const { apiReponse: periodsApiResponse, loading } = useApi({
     method: "GET",
     pathName: apiEndpoints.periods,
   });
 
-  const {
-    apiReponse: modifyApiResponse,
-    loading: modifyApiLoading,
-    apiRequestHandler: modifyApiRequestHandler,
-  } = useApi({
+  const { apiRequestHandler: modifyApiRequestHandler } = useApi({
     method: "PATCH",
     pathName: apiEndpoints.modifyTask,
   });
 
-  const { apiReponse: categories } = useApi({
+  const { apiReponse: categoriesApiResponse } = useApi({
     method: "GET",
     pathName: apiEndpoints.categories,
   });
@@ -57,8 +53,8 @@ function NewTask({
   });
 
   function transformPeriodApiResponse() {
-    if (apiReponse && Array.isArray(apiReponse)) {
-      const resp = apiReponse.map((currentPeriod) => ({
+    if (periodsApiResponse && Array.isArray(periodsApiResponse)) {
+      const resp = periodsApiResponse.map((currentPeriod) => ({
         label: currentPeriod.periodName,
         value: currentPeriod.id,
         periodTimestamp: getPeriodTimeStamp(currentPeriod.periodName),
@@ -70,8 +66,8 @@ function NewTask({
   }
 
   function transformCategoriesApiResponse() {
-    if (categories && Array.isArray(categories)) {
-      return categories.map((currentCat) => ({
+    if (categoriesApiResponse && Array.isArray(categoriesApiResponse)) {
+      return categoriesApiResponse.map((currentCat) => ({
         label: currentCat.name,
         value: currentCat.id,
       }));

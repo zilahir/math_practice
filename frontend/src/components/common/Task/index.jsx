@@ -87,6 +87,7 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
 Task.defaultProps = {
   handleTaskDelete: null,
   showAdminButtons: true,
+  renderTaskInfo: undefined,
 };
 
 Task.propTypes = {
@@ -102,7 +103,7 @@ Task.propTypes = {
   }).isRequired,
   handleTaskDelete: PropTypes.func,
   showAdminButtons: PropTypes.bool,
-  renderTaskInfo: PropTypes.func.isRequired,
+  renderTaskInfo: PropTypes.func,
 };
 
 export default Task;

@@ -57,6 +57,7 @@ function Login() {
           placeHolder="Felhasználói név"
           value={username}
           onChangeHandler={setUsername}
+          htmlFor="email"
         />
         <Input
           className={classnames(styles.loginInput, styles.textBox)}
@@ -64,6 +65,7 @@ function Login() {
           placeHolder="Jelszó"
           value={password}
           onChangeHandler={setPassword}
+          htmlFor="password"
         />
         <Button
           label="Bejelentkezés"

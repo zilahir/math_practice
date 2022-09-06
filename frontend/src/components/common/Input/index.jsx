@@ -29,15 +29,16 @@ Input.defaultProps = {
   className: undefined,
   inputType: "text",
   inputLabel: false,
+  value: undefined,
 };
 
 Input.propTypes = {
   className: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChangeHandler: PropTypes.func.isRequired,
   inputType: PropTypes.oneOf(["text", "password", "number"]),
   placeHolder: PropTypes.string.isRequired,
-  inputLabel: PropTypes.string,
+  inputLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   htmlFor: PropTypes.string.isRequired,
 };
 

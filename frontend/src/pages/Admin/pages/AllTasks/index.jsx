@@ -9,7 +9,6 @@ import Task from "../../../../components/common/Task";
 import useApi from "../../../../hooks/useAPI";
 import { getPeriodTimeStamp } from "../../../../utils/periods";
 import styles from "./AllTasks.module.scss";
-import Button from "../../../../components/common/Button";
 import Loader from "../../../../components/common/Loader";
 
 function AllTask() {
@@ -84,12 +83,6 @@ function AllTask() {
             value={period}
             className={styles.dropdownHelper}
           />
-          {period && (
-            <Button
-              label="Szűrő törlése"
-              onClickHandler={() => setFilteredTasks(apiReponse)}
-            />
-          )}
         </div>
       </div>
       {filteredTasks &&
