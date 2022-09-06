@@ -11,7 +11,7 @@ const s3 = new AWS.S3({
 
 export const storageLocal = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve("public/upload"));
+    cb(null, path.res olve("public/upload"));
   },
 
   filename: function (req, file, cb) {
@@ -42,7 +42,7 @@ export const imageFilter = function (req, file, cb) {
     req.fileValidationError = "Only image files are allowed!";
     return cb(new Error("Only image files are allowed!"), false);
   }
-  cb(null, true);
+  return cb(null, true);
 };
 
 export const upload = multer({
