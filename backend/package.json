@@ -22,6 +22,7 @@
     "node": ">=16"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.163.0",
     "aws-sdk": "^2.1201.0",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.2",
