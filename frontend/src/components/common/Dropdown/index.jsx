@@ -57,10 +57,18 @@ DropDown.propTypes = {
   ).isRequired,
   setValue: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  value: PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-  }),
+  value: PropTypes.oneOfType([
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    }),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
+      }),
+    ),
+  ]),
   isMulti: PropTypes.bool,
 };
 
