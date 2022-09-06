@@ -26,6 +26,13 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
     handleTaskDelete(task.id);
   }
 
+  function filePathUrl() {
+    if (process.env.NODE_ENV === "production") {
+      return `https://erettsegi-prod.s3.amazonaws.com/${task.filePath}`;
+    }
+    return `${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`;
+  }
+
   return (
     <div
       className={classnames(
@@ -51,10 +58,7 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
         )}
 
         <div className={styles.imageContainer}>
-          <img
-            src={`${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`}
-            alt="feladat"
-          />
+          <img src={filePathUrl()} alt="feladat" />
           <div
             className={classnames([
               "point-image",
