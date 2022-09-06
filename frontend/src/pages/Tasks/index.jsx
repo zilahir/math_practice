@@ -1,7 +1,8 @@
 /* eslint-disable new-cap */
-/* eslint-disable react/no-unstable-nested-components */
+
 import { useState } from "react";
 import classnames from "classnames";
+import PropTypes from "prop-types";
 import { flatten, sortBy, shuffle } from "lodash";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
@@ -19,6 +20,77 @@ import { getPeriodTimeStamp } from "../../utils/periods";
 import Loader from "../../components/common/Loader";
 import Input from "../../components/common/Input";
 
+const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
+const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
+const GENERATE = "GENERATE";
+const COMPLEX = "COMPLEX";
+const MAX_POINTS = 30;
+
+function TaskInfo({
+  pperiod,
+  taskNo,
+  taskPoints,
+  ccategory,
+  taskNumber,
+  selectedFilterType,
+}) {
+  if (selectedFilterType === FILTER_BY_CATEGORIES) {
+    return (
+      <div className={styles.taskMetaContainer}>
+        <div className={classnames(["task-no", styles.taskNo])}>
+          <p>{taskNumber}</p>
+        </div>
+        <div data-html2canvas-ignore>
+          <p>
+            <span>Időszak:</span>
+            <span>{pperiod}</span>
+          </p>
+          <p>
+            <p id="task-no-info">
+              <span>Feladat sorszáma:</span>
+              <span>{taskNo}</span>
+            </p>
+            <p>
+              <span>Pontszám:</span>
+              <span>{taskPoints}</span>
+            </p>
+          </p>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className={styles.taskMetaContainer}>
+      <div className={classnames(["task-no", styles.taskNo])}>
+        <p>{taskNumber}</p>
+      </div>
+      <div data-html2canvas-ignore>
+        <p>
+          <span>Kategória: </span>
+          <span>{ccategory}</span>
+        </p>
+        <p>
+          <span>Feladat sorszáma:</span>
+          <span>{taskNo}</span>
+          <p>
+            <span>Pontszám:</span>
+            <span>{taskPoints}</span>
+          </p>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+TaskInfo.propTypes = {
+  pperiod: PropTypes.string.isRequired,
+  taskNo: PropTypes.number.isRequired,
+  taskPoints: PropTypes.number.isRequired,
+  ccategory: PropTypes.string.isRequired,
+  taskNumber: PropTypes.number.isRequired,
+  selectedFilterType: PropTypes.string.isRequired,
+};
+
 function Tasks() {
   const { isAuthenticated } = useAuth();
   const [category, setCategory] = useState([null]);
@@ -27,12 +99,6 @@ function Tasks() {
   const [filteredTasks, setFilteredTasks] = useState(null);
   const [isSaving, toggleSaving] = useState(false);
   const [taskNo, setTaxNo] = useState(0);
-
-  const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
-  const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
-  const GENERATE = "GENERATE";
-  const COMPLEX = "COMPLEX";
-  const MAX_POINTS = 30;
 
   const filterTypes = [
     { label: "Időszak alapján", filterType: FILTER_BY_PERIOD },
@@ -148,13 +214,14 @@ function Tasks() {
     html2canvas(document.getElementById("task-container"), {
       onclone: (clonedDoc) => {
         clonedDoc.getElementById("meta-helper").style.display = "block";
-        console.debug("kepek", clonedDoc.querySelectorAll(".point-image"));
         Array.from(clonedDoc.querySelectorAll(".point-image")).map((image) => {
           image.style.display = "flex";
+          return true;
         });
 
-        Array.from(clonedDoc.querySelectorAll(".task-no")).map((taskNo) => {
-          taskNo.style.display = "block";
+        Array.from(clonedDoc.querySelectorAll(".task-no")).map((thisTask) => {
+          thisTask.style.display = "block";
+          return true;
         });
       },
     }).then((canvas) => {
@@ -170,55 +237,6 @@ function Tasks() {
       pdf.save("download.pdf");
       toggleSaving(false);
     });
-  }
-
-  function TaskInfo({ pperiod, taskNo, taskPoints, ccategory, taskNumber }) {
-    if (selectedFilterType === FILTER_BY_CATEGORIES) {
-      return (
-        <div className={styles.taskMetaContainer}>
-          <div className={classnames(["task-no", styles.taskNo])}>
-            <p>{taskNumber}</p>
-          </div>
-          <div data-html2canvas-ignore>
-            <p>
-              <span>Időszak:</span>
-              <span>{pperiod}</span>
-            </p>
-            <p>
-              <p id="task-no-info">
-                <span>Feladat sorszáma:</span>
-                <span>{taskNo}</span>
-              </p>
-              <p>
-                <span>Pontszám:</span>
-                <span>{taskPoints}</span>
-              </p>
-            </p>
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div className={styles.taskMetaContainer}>
-        <div className={classnames(["task-no", styles.taskNo])}>
-          <p>{taskNumber}</p>
-        </div>
-        <div data-html2canvas-ignore>
-          <p>
-            <span>Kategória: </span>
-            <span>{ccategory}</span>
-          </p>
-          <p>
-            <span>Feladat sorszáma:</span>
-            <span>{taskNo}</span>
-            <p>
-              <span>Pontszám:</span>
-              <span>{taskPoints}</span>
-            </p>
-          </p>
-        </div>
-      </div>
-    );
   }
 
   function getRandomComplexTasks() {
@@ -361,14 +379,11 @@ function Tasks() {
           >
             <p>
               <span>
-                Találatok: {getFilterTypeLabel(selectedFilterType).label}
+                {`Találatok: ${getFilterTypeLabel(selectedFilterType).label}`}
               </span>
+              <span>{`összesen: ${filteredTasks.length} feladat`}</span>
               <span>
-                Összesen:
-                {filteredTasks.length} feladat
-              </span>
-              <span>
-                Összontszám: {sumTaskPoints(filteredTasks).task_point_no}
+                {`Összpontszám: ${sumTaskPoints(filteredTasks).task_point_no}`}
               </span>
             </p>
           </div>
@@ -381,15 +396,15 @@ function Tasks() {
             <p>
               <span>
                 <span className={styles.bold}>Összesen:</span>
-                {filteredTasks.length} feladat
+                {`${filteredTasks.length} feladat`}
               </span>
               <span>
                 <span className={styles.bold}>Választott kategóriák:</span>
                 {category.map(({ label }) => label).join(", ")}
               </span>
               <span>
-                <span className={styles.bold}>Összontszám:</span>{" "}
-                {sumTaskPoints(filteredTasks).task_point_no} pont
+                <span className={styles.bold}>Összontszám:</span>
+                {`${sumTaskPoints(filteredTasks).task_point_no} pont`}
               </span>
             </p>
           </div>
@@ -401,13 +416,14 @@ function Tasks() {
               task={task}
               key={task.id}
               showAdminButtons={false}
-              TaskInfo={() => (
+              renderTaskInfo={() => (
                 <TaskInfo
                   pperiod={task.periodName}
                   taskNo={task.task_no}
                   taskPoints={task.task_point_no}
                   ccategory={task.categoryName}
                   taskNumber={index + 1}
+                  selectedFilterType={selectedFilterType}
                 />
               )}
             />

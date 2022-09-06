@@ -16,7 +16,7 @@ const taskPointImages = {
   4: pointNo4,
 };
 
-function Task({ task, handleTaskDelete, showAdminButtons, TaskInfo }) {
+function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
   const [isDeleted, setIsDeleted] = useState(false);
 
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ function Task({ task, handleTaskDelete, showAdminButtons, TaskInfo }) {
             <p>Feladat pontszáma: {task.task_point_no}</p>
           </div>
         ) : (
-          <TaskInfo />
+          renderTaskInfo()
         )}
 
         <div className={styles.imageContainer}>

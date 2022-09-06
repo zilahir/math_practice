@@ -21,7 +21,6 @@ function SignUp() {
   const navigate = useNavigate();
 
   function handleRegistration() {
-    console.log("signing up now");
     setErrors([]);
     apiRequestHandler({
       email,

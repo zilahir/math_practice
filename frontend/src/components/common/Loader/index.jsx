@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import PropTypes from "prop-types";
@@ -6,11 +5,12 @@ import PropTypes from "prop-types";
 import styles from "./Loader.module.scss";
 
 function Loader({ isLoading, className, isPortal }) {
-  return isLoading && !isPortal ? (
+  return !isPortal ? (
     <div
       className={classnames([
         styles.loaderRootContainer,
         className && className,
+        !isLoading && styles.hidden,
       ])}
     >
       <div className={styles.loader}>
@@ -20,13 +20,14 @@ function Loader({ isLoading, className, isPortal }) {
         <div />
       </div>
     </div>
-  ) : isLoading && isPortal ? (
+  ) : (
     ReactDOM.createPortal(
       <div
         className={classnames([
           styles.loaderRootContainer,
           styles.portal,
           className && className,
+          !isLoading && styles.hidden,
         ])}
       >
         <div className={styles.loader}>
@@ -38,7 +39,7 @@ function Loader({ isLoading, className, isPortal }) {
       </div>,
       document.body,
     )
-  ) : null;
+  );
 }
 
 Loader.defaultProps = {

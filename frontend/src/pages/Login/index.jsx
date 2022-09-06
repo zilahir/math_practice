@@ -13,7 +13,7 @@ import Error from "../../components/common/Error";
 
 function Login() {
   const { state } = useLocation();
-  const { loading, error, apiRequestHandler } = useApi({
+  const { error, apiRequestHandler } = useApi({
     pathName: apiEndpoints.login,
     method: "POST",
   });

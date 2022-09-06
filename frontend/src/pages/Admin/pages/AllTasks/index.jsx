@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { sortBy } from "lodash";
 import classnames from "classnames";
 

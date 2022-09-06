@@ -123,8 +123,6 @@ async function copyFile(source, fileName) {
     );
     const newFileName = `file-${Date.now()}.png`;
     fs.copyFileSync(`${source}/${fileName}`, `${targetFileDir}/${newFileName}`);
-    // console.log("newFileName", newFileName);
-    // const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${newFileName}") `;
     resolve(newFileName);
   });
 }
