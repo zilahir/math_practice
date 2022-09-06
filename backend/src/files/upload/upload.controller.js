@@ -1,6 +1,7 @@
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { S3 } from "@aws-sdk/client-s3";
 
 import { imageFilter, storage } from "../storage";
 import { serverConfig } from "../../config";
@@ -38,6 +39,28 @@ function uploadFile(request, response, next) {
 
     next();
   });
+}
+
+export const s3 = new S3({
+  region: "us-east-1",
+  credentials: {
+    accessKeyId: "",
+    secretAccessKey: "",
+  },
+});
+
+/**
+ * @param file
+ * @param fileName
+ */
+export async function uploadFileToS3(file, fileName) {
+  const putObjectResult = await s3.putObject({
+    Bucket: "erettsegi-prod",
+    Key: `${fileName}.png`,
+    Body: file,
+  });
+
+  return putObjectResult;
 }
 
 /**
@@ -97,8 +120,11 @@ export async function getFileByName(fileName) {
         const file = files.find((file) => file === `${fileName}.png`);
         if (err) reject(err);
         if (file) {
-          const result = copyFile(newFileDirPath, file);
-          resolve(result);
+          // const result = copyFile(newFileDirPath, file);
+          const thisImageFile = fs.readFileSync(
+            `${newFileDirPath}/${fileName}.png`
+          );
+          resolve(thisImageFile);
         }
       });
     } catch (err) {

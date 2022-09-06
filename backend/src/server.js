@@ -2,7 +2,7 @@ import morgan from "morgan";
 import express from "express";
 import path from "path";
 
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 
 // import database from "./database";
 import uploadRoutes from "./files/routes.files";
@@ -11,6 +11,8 @@ import categoriesRoutes from "./categories/categories.routes";
 import periodsRoutes from "./periods/periods.routes";
 import taskRoutes from "./tasks/tasks.routes";
 import systemRouter from "./system/system.routes";
+
+dotenv.config();
 
 const app = express();
 
