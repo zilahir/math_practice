@@ -43,15 +43,13 @@ function TaskInfo({
             <span>Időszak:</span>
             <span>{pperiod}</span>
           </p>
+          <p id="task-no-info">
+            <span>Feladat sorszáma:</span>
+            <span>{taskNo}</span>
+          </p>
           <p>
-            <p id="task-no-info">
-              <span>Feladat sorszáma:</span>
-              <span>{taskNo}</span>
-            </p>
-            <p>
-              <span>Pontszám:</span>
-              <span>{taskPoints}</span>
-            </p>
+            <span>Pontszám:</span>
+            <span>{taskPoints}</span>
           </p>
         </div>
       </div>
@@ -70,24 +68,15 @@ function TaskInfo({
         <p>
           <span>Feladat sorszáma:</span>
           <span>{taskNo}</span>
-          <p>
-            <span>Pontszám:</span>
-            <span>{taskPoints}</span>
-          </p>
+        </p>
+        <p>
+          <span>Pontszám:</span>
+          <span>{taskPoints}</span>
         </p>
       </div>
     </div>
   );
 }
-
-TaskInfo.propTypes = {
-  pperiod: PropTypes.string.isRequired,
-  taskNo: PropTypes.number.isRequired,
-  taskPoints: PropTypes.number.isRequired,
-  ccategory: PropTypes.string.isRequired,
-  taskNumber: PropTypes.number.isRequired,
-  selectedFilterType: PropTypes.string.isRequired,
-};
 
 function Tasks() {
   const { isAuthenticated } = useAuth();

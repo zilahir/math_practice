@@ -41,13 +41,10 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
       >
         {showAdminButtons ? (
           <div className={styles.metaContainer}>
-            <p>Témakör: {task.categoryName}</p>
-            <p>Érettségi időszak: {task.periodName}</p>
-            <p>
-              Feladat sorszáma:
-              {task.task_no}
-            </p>
-            <p>Feladat pontszáma: {task.task_point_no}</p>
+            <p>{`Témakör: ${task.categoryName}`}</p>
+            <p>{`Érettségi időszak: ${task.periodName}`}</p>
+            <p>{`Feladat sorszáma: ${task.task_no}`}</p>
+            <p>{`Feladat pontszáma: ${task.task_point_no}`}</p>
           </div>
         ) : (
           renderTaskInfo()
@@ -90,24 +87,22 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
 Task.defaultProps = {
   handleTaskDelete: null,
   showAdminButtons: true,
-  TaskInfo: null,
 };
 
 Task.propTypes = {
   task: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    task_image_id: PropTypes.number.isRequired,
     category_id: PropTypes.number.isRequired,
-    period_id: PropTypes.number.isRequired,
-    task_no: PropTypes.number.isRequired,
     task_point_no: PropTypes.number.isRequired,
     filePath: PropTypes.string.isRequired,
     categoryName: PropTypes.string.isRequired,
     periodName: PropTypes.string.isRequired,
+    // eslint-disable-next-line camelcase
+    task_no: PropTypes.number.isRequired,
   }).isRequired,
   handleTaskDelete: PropTypes.func,
   showAdminButtons: PropTypes.bool,
-  TaskInfo: PropTypes.node,
+  renderTaskInfo: PropTypes.func.isRequired,
 };
 
 export default Task;

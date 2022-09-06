@@ -41,6 +41,8 @@ function DropDown({
 DropDown.defaultProps = {
   isMulti: false,
   className: null,
+  loading: false,
+  value: null,
 };
 
 DropDown.propTypes = {
@@ -54,8 +56,11 @@ DropDown.propTypes = {
     }),
   ).isRequired,
   setValue: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  value: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  value: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+  }),
   isMulti: PropTypes.bool,
 };
 
