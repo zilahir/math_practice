@@ -78,6 +78,15 @@ function TaskInfo({
   );
 }
 
+TaskInfo.propTypes = {
+  pperiod: PropTypes.string.isRequired,
+  taskNo: PropTypes.number.isRequired,
+  taskPoints: PropTypes.number.isRequired,
+  ccategory: PropTypes.string.isRequired,
+  taskNumber: PropTypes.number.isRequired,
+  selectedFilterType: PropTypes.string.isRequired,
+};
+
 function Tasks() {
   const { isAuthenticated } = useAuth();
   const [category, setCategory] = useState([null]);
