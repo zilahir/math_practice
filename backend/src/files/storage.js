@@ -46,6 +46,6 @@ export const imageFilter = function (req, file, cb) {
 };
 
 export const upload = multer({
-  storage,
+  storage: storage.storage,
   fileFilter: imageFilter,
 });
