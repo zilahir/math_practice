@@ -73,7 +73,9 @@ async function parseJson(request, response) {
         task_point_no: task.task_point_no,
       };
 
-      return insertTask(singleTask);
+      return insertTask(singleTask).then(() => {
+        resolve();
+      });
     });
 
     Promise.all([allTaskPromise])
@@ -89,6 +91,6 @@ async function parseJson(request, response) {
   });
 }
 
-router.post("/parse-tasks", [parseJson]);
+// router.post("/parse-tasks", [parseJson]);
 
 export default router;
