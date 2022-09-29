@@ -290,7 +290,6 @@ function Tasks() {
                   setValue={(value) => setCategory(flatten(value))}
                   loading={false}
                   value={category}
-                  isMulti={isAuthenticated}
                 />
               </div>
             )}
@@ -305,7 +304,6 @@ function Tasks() {
                     setValue={setCategory}
                     loading={false}
                     value={category}
-                    isMulti={isAuthenticated}
                   />
                   <Button
                     label="Generálás"
@@ -317,7 +315,7 @@ function Tasks() {
                     Array.isArray(filteredTasks) &&
                     filteredTasks.length > 0 && (
                       <Button
-                        disabled={isSaving}
+                        disabled={isSaving || !isAuthenticated}
                         label={
                           !isSaving
                             ? "Nyomtatás PDF-be"
@@ -353,6 +351,7 @@ function Tasks() {
                       filteredTasks.length > 0 && (
                         <Button
                           label="Nyomtatás PDF-be"
+                          disabled={!isAuthenticated}
                           onClickHandler={() => printToPdf()}
                         />
                       )}
