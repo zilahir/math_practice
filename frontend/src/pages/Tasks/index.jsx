@@ -208,6 +208,8 @@ function Tasks() {
   function printToPdf() {
     toggleSaving(true);
     html2canvas(document.getElementById("task-container"), {
+      useCORS: true,
+      logging: false,
       onclone: (clonedDoc) => {
         clonedDoc.getElementById("meta-helper").style.display = "block";
         Array.from(clonedDoc.querySelectorAll(".point-image")).map((image) => {

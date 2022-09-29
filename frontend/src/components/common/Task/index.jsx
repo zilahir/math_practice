@@ -30,7 +30,9 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
     if (process.env.NODE_ENV === "production") {
       return `https://erettsegi-prod.s3.amazonaws.com/${task.filePath}.png`;
     }
-    return `${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`;
+
+    return `https://erettsegi-prod.s3.amazonaws.com/${task.filePath}.png`;
+    // return `${API_ROOT_URL}${apiEndpoints.static}/${task.filePath}`;
   }
 
   return (
