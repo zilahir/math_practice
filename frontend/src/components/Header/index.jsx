@@ -27,7 +27,11 @@ function Header() {
         {getMenuItems().map((value) => (
           <MenuItem
             key={value.target}
-            isActive={value.target === location.pathname}
+            isActive={
+              (location.pathname.includes(value.target) &&
+                value.target !== "/") ||
+              (location.pathname === "/" && value.target === "/")
+            }
             to={value.target}
             label={value.label}
           />
