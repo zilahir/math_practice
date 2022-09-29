@@ -139,6 +139,7 @@ function NewTask({
         setValue={setCategory}
         loading={false}
         value={category}
+        isMulti={false}
       />
       <Input
         htmlFor="point"
