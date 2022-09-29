@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { flatten, sortBy, shuffle } from "lodash";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import { format } from "date-fns";
 
 import { apiEndpoints } from "../../api";
 import Button from "../../components/common/Button";
@@ -232,7 +233,8 @@ function Tasks() {
 
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
       pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.save("download.pdf");
+      const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
+      pdf.save(`erettsegi_${fileName}`);
       toggleSaving(false);
     });
   }
@@ -315,7 +317,12 @@ function Tasks() {
                     Array.isArray(filteredTasks) &&
                     filteredTasks.length > 0 && (
                       <Button
-                        label="Nyomtatás PDF-be"
+                        disabled={isSaving}
+                        label={
+                          !isSaving
+                            ? "Nyomtatás PDF-be"
+                            : "PDF Nyomtatás folyamatban"
+                        }
                         onClickHandler={() => printToPdf()}
                       />
                     )}
