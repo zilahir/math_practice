@@ -95,7 +95,7 @@ function Tasks() {
   const [selectedFilterType, setFilterType] = useState(null);
   const [filteredTasks, setFilteredTasks] = useState(null);
   const [isSaving, toggleSaving] = useState(false);
-  const [taskNo, setTaxNo] = useState(0);
+  const [taskNo, setTaxNo] = useState("");
 
   const filterTypes = [
     { label: "Időszak alapján", filterType: FILTER_BY_PERIOD },
@@ -334,7 +334,7 @@ function Tasks() {
                 <div className={styles.taskNoInputContainer}>
                   <Input
                     inputType="number"
-                    value={taskNo > 0 ? taskNo : undefined}
+                    value={taskNo}
                     placeHolder="Feladatok száma"
                     htmlFor="task-no"
                     onChangeHandler={(value) => setTaxNo(value)}
@@ -345,6 +345,7 @@ function Tasks() {
                   <Button
                     onClickHandler={() => getRandomComplexTasks()}
                     label="Generálás"
+                    disabled={!taskNo || taskNo < 1}
                   />
                   <div className={styles.printToPdfButtonContainer}>
                     {filteredTasks &&
