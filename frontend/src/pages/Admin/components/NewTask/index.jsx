@@ -18,8 +18,8 @@ function NewTask({
   taskImageId: iTaskImageId = null,
   category: iCategory = null,
   period: iPeriod = null,
-  taskPoint: iTaskPoint = null,
-  taskNo: iTaskNo = null,
+  taskPoint: iTaskPoint = undefined,
+  taskNo: iTaskNo = undefined,
   isModify = false,
   taskId = null,
   taskImagePath = null,
@@ -140,6 +140,7 @@ function NewTask({
         value={category}
       />
       <Input
+        htmlFor="point"
         value={taskPoint}
         onChangeHandler={setTaskPoint}
         placeholder="Pontszám"
@@ -148,6 +149,7 @@ function NewTask({
         className={styles.input}
       />
       <Input
+        htmlFor="taskNo"
         value={taskNo}
         onChangeHandler={setTaskNo}
         placeholder="Feladat sorszáma"
@@ -164,8 +166,8 @@ NewTask.defaultProps = {
   taskImageId: null,
   category: null,
   period: null,
-  taskPoint: null,
-  taskNo: null,
+  taskPoint: undefined,
+  taskNo: undefined,
   isModify: false,
   taskId: null,
   taskImagePath: null,
