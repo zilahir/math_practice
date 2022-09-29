@@ -130,6 +130,7 @@ function NewTask({
         setValue={setPeriod}
         value={period}
         loading={loading}
+        isMulti={false}
       />
       <DropDown
         labelValue="Válassz témakört"

@@ -82,6 +82,7 @@ function AllTask() {
             setValue={(pperiod) => handleFilter(pperiod)}
             value={period}
             className={styles.dropdownHelper}
+            isMulti={false}
           />
         </div>
       </div>

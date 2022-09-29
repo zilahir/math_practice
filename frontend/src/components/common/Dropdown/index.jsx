@@ -11,6 +11,7 @@ function DropDown({
   setValue,
   value,
   loading,
+  isMulti,
   className,
 }) {
   function handleChange(event) {
@@ -31,13 +32,14 @@ function DropDown({
         name={id}
         isLoading={loading}
         placeholder={labelValue}
-        isMulti
+        isMulti={isMulti}
       />
     </div>
   );
 }
 
 DropDown.defaultProps = {
+  isMulti: true,
   className: null,
   loading: false,
   value: null,
@@ -67,6 +69,7 @@ DropDown.propTypes = {
       }),
     ),
   ]),
+  isMulti: PropTypes.bool,
 };
 
 export default DropDown;

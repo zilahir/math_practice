@@ -277,6 +277,7 @@ function Tasks() {
                   id="period"
                   setValue={setPeriod}
                   value={period}
+                  isMulti={false}
                 />
               </div>
             )}
