@@ -44,12 +44,6 @@ function AuthProvider({ children }) {
       : undefined,
   );
 
-  /**
-   * @param root0
-   * @param root0.email
-   * @param root0.password
-   * @param callback
-   */
   function signIn(user, callback) {
     if (user) {
       // we have the user and the password is correct, we can login

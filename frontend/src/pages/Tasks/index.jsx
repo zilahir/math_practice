@@ -225,9 +225,10 @@ function Tasks() {
       },
     }).then((canvas) => {
       // creaing the PDF itself here
+      console.log("canvas", canvas.width, canvas.height);
       const pdf = new jsPDF({
         orientation: "p",
-        unit: "pt",
+        unit: "px",
         format: [canvas.width, canvas.height],
       });
 
