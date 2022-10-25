@@ -37,21 +37,29 @@ function TaskInfo({
     return (
       <div className={styles.taskMetaContainer}>
         <div className={classnames(["task-no", styles.taskNo])}>
-          <p>{taskNumber}</p>
+          <p>{`${taskNumber}.`}</p>
         </div>
-        <div data-html2canvas-ignore>
-          <p>
-            <span>Időszak:</span>
-            <span>{pperiod}</span>
-          </p>
-          <p id="task-no-info">
-            <span>Feladat sorszáma:</span>
-            <span>{`${taskNo}.`}</span>
-          </p>
-          <p>
-            <span>Pontszám:</span>
-            <span>{taskPoints}</span>
-          </p>
+        <div className={styles.taskMetaInnerContainer} data-html2canvas-ignore>
+          <div className={styles.col}>
+            <p>
+              <span>Időszak:</span>
+              <span>{pperiod}</span>
+            </p>
+            <p>
+              <span>Témakör:</span>
+              <span>{ccategory}</span>
+            </p>
+          </div>
+          <div className={styles.col}>
+            <p id="task-no-info">
+              <span>Feladat sorszáma:</span>
+              <span>{`${taskNo}.`}</span>
+            </p>
+            <p>
+              <span>Pontszám:</span>
+              <span>{taskPoints}</span>
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -59,7 +67,7 @@ function TaskInfo({
   return (
     <div className={styles.taskMetaContainer}>
       <div className={classnames(["task-no", styles.taskNo])}>
-        <p>{taskNumber}</p>
+        <p>{`${taskNumber}.`}</p>
       </div>
       <div data-html2canvas-ignore>
         <p>
