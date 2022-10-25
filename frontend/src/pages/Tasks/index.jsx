@@ -232,15 +232,32 @@ function Tasks() {
         });
       },
     }).then((canvas) => {
+      // canvas is ready
+
       // creaing the PDF itself here
       const pdf = new jsPDF({
         orientation: "p",
-        unit: "px",
-        format: [canvas.width, canvas.height],
+        unit: "mm",
       });
 
+      let position = 0;
+      const pageWidth = 190;
+      const pageHeight = 290;
+
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+      let heightLeft = imgHeight;
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      pdf.addImage(imgData, "JPEG", 0, 0);
+
+      pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
+      heightLeft -= pageHeight;
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
+        heightLeft -= pageHeight;
+      }
+
+      // pdf.addImage(imgData, "JPEG", 0, 0);
       const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
       pdf.save(`erettsegi_${fileName}`);
       toggleSaving(false);
