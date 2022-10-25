@@ -46,7 +46,7 @@ function TaskInfo({
           </p>
           <p id="task-no-info">
             <span>Feladat sorszáma:</span>
-            <span>{taskNo}</span>
+            <span>{`${taskNo}.`}</span>
           </p>
           <p>
             <span>Pontszám:</span>
@@ -68,7 +68,7 @@ function TaskInfo({
         </p>
         <p>
           <span>Feladat sorszáma:</span>
-          <span>{taskNo}</span>
+          <span>{`${taskNo}.`}</span>
         </p>
         <p>
           <span>Pontszám:</span>
@@ -225,7 +225,6 @@ function Tasks() {
       },
     }).then((canvas) => {
       // creaing the PDF itself here
-      console.log("canvas", canvas.width, canvas.height);
       const pdf = new jsPDF({
         orientation: "p",
         unit: "px",

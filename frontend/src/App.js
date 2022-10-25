@@ -12,6 +12,7 @@ import SignOut from "./pages/SignOut";
 import { adminRoutes } from "./fakeApi/menuItems";
 import { AdminPages } from "./pages/Admin";
 import EditPage from "./pages/Admin/pages/Edit";
+import Pdf from "./pages/Pdf";
 
 function GetPageComponent({ pageName }) {
   return AdminPages[pageName]();
@@ -24,6 +25,7 @@ function App() {
         <Header />
         <Routes>
           <Route index element={<Home />} />
+          <Route path="/pdf" element={<Pdf />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signout" element={<SignOut />} />

@@ -43,7 +43,7 @@ export async function getUserByEmail(request, response, next) {
     errors: [
       {
         value: email,
-        msg: `Nincs felhasználó a(z) ${email} email címmel `,
+        msg: `Nincs felhasználó a(z) ${email} e-mail címmel `,
       },
     ],
   });
@@ -70,7 +70,7 @@ export async function checkForEmail(request, response, next) {
     errors: [
       {
         value: email,
-        msg: "Az email cím már használatban van!",
+        msg: "Az e-mail cím már használatban van!",
       },
     ],
   });

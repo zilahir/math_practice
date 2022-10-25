@@ -52,7 +52,7 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
           <div className={styles.metaContainer}>
             <p>{`Témakör: ${task.categoryName}`}</p>
             <p>{`Érettségi időszak: ${task.periodName}`}</p>
-            <p>{`Feladat sorszáma: ${task.task_no}`}</p>
+            <p>{`Feladat sorszáma: ${task.task_no}.`}</p>
             <p>{`Feladat pontszáma: ${task.task_point_no}`}</p>
           </div>
         ) : (
