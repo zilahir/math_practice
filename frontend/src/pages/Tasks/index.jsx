@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 import { flatten, sortBy, shuffle } from "lodash";
@@ -18,6 +18,7 @@ import createRandomExam from "../../utils/generateExam";
 import { getPeriodTimeStamp } from "../../utils/periods";
 import Loader from "../../components/common/Loader";
 import Input from "../../components/common/Input";
+import { SizeContext } from "../../context/SizeContext";
 
 const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
 const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
@@ -25,6 +26,30 @@ const GENERATE = "GENERATE";
 const COMPLEX = "COMPLEX";
 const MAX_POINTS = 30;
 
+function sumUntil(array, threshold) {
+  let i;
+  let result = 0;
+
+  // we loop til the end of the array
+  // or right before result > threshold
+  for (i = 0; i < array.length && result + array[i] < threshold; i += 1) {
+    result += array[i];
+    console.log("result", result);
+  }
+
+  return {
+    index: i - 1, // -1 because it is incremented at the end of the last loop
+    result,
+  };
+}
+
+const sumPixels = (pixels) =>
+  pixels.reduce(
+    (previousValue, currentValue) => previousValue + currentValue,
+    0,
+  );
+
+const convertToMm = (sumOfPixels) => sumOfPixels * Number(0.2645833333);
 function TaskInfo({
   pperiod,
   taskNo,
@@ -70,10 +95,17 @@ function TaskInfo({
         <p>{`${taskNumber}.`}</p>
       </div>
       <div data-html2canvas-ignore>
-        <p>
-          <span>Kategória: </span>
-          <span>{ccategory}</span>
-        </p>
+        {selectedFilterType !== COMPLEX ? (
+          <p>
+            <span>Kategória: </span>
+            <span>{ccategory}</span>
+          </p>
+        ) : (
+          <p>
+            <span>Időszak:</span>
+            <span>{pperiod}</span>
+          </p>
+        )}
         <p>
           <span>Feladat sorszáma:</span>
           <span>{`${taskNo}.`}</span>
@@ -214,8 +246,22 @@ function Tasks() {
     }
   }
 
+  const { sizes, refs } = useContext(SizeContext);
+
   function printToPdf() {
     toggleSaving(true);
+    const sumOfSizes = sumPixels(sizes);
+    const sumInMm = convertToMm(sumOfSizes);
+    let sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
+    console.log("sumOfSizes", sumOfSizes);
+    console.log("sumInMm", sumInMm);
+    console.log("sizes", sizes);
+    console.log("refs", refs);
+    console.log("sizesInMm", sizesInMm);
+
+    //
+
+    //
     html2canvas(document.getElementById("task-container"), {
       useCORS: true,
       logging: false,
@@ -232,9 +278,6 @@ function Tasks() {
         });
       },
     }).then((canvas) => {
-      // canvas is ready
-
-      // creaing the PDF itself here
       const pdf = new jsPDF({
         orientation: "p",
         unit: "mm",
@@ -246,6 +289,17 @@ function Tasks() {
 
       const imgHeight = (canvas.height * pageWidth) / canvas.width;
       let heightLeft = imgHeight;
+
+      console.log("canvas.height", canvas.height);
+      console.log("imageHeight", imgHeight);
+
+      // pl 3 elem kell h sum 3 in mm < imgHeight
+
+      const elementNeeded = sumUntil(sizesInMm, heightLeft);
+      sizesInMm = sizesInMm.slice(elementNeeded.index);
+      console.log("elementNeeded", elementNeeded);
+
+      // csak azt a 3 elemet tegyünk canvasra
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
       pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
@@ -255,6 +309,10 @@ function Tasks() {
         pdf.addPage();
         pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
         heightLeft -= pageHeight;
+        console.log("heightLeft", heightLeft);
+        const elementN = sumUntil(sizesInMm, heightLeft);
+        sizesInMm = sizesInMm.slice(elementN.index);
+        console.log("elementNeeded", elementN);
       }
 
       // pdf.addImage(imgData, "JPEG", 0, 0);
@@ -272,6 +330,7 @@ function Tasks() {
     const randomCompleyTasks = shuffle(complexTasks).slice(0, taskNo);
     setFilteredTasks(randomCompleyTasks);
   }
+
   return (
     <div className={styles.tasksRootContainer}>
       <h1>Feladatok</h1>
@@ -429,10 +488,12 @@ function Tasks() {
                 <span className={styles.bold}>Összesen:</span>
                 {`${filteredTasks.length} feladat`}
               </span>
-              <span>
-                <span className={styles.bold}>Választott kategóriák:</span>
-                {category.map(({ label }) => label).join(", ")}
-              </span>
+              {selectedFilterType !== COMPLEX && (
+                <span>
+                  <span className={styles.bold}>Választott kategóriák:</span>
+                  {category.map(({ label }) => label).join(", ")}
+                </span>
+              )}
               <span>
                 <span className={styles.bold}>Összontszám:</span>
                 {`${sumTaskPoints(filteredTasks).task_point_no} pont`}

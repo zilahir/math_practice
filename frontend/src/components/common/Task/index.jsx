@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import { useNavigate } from "react-router-dom";
 
-import { apiEndpoints, API_ROOT_URL } from "../../../api";
+// import { apiEndpoints, API_ROOT_URL } from "../../../api";
 import Button from "../Button";
 import styles from "./Task.module.scss";
 import pointNo2 from "../../../assets/points/2pont.png";
 import pointNo3 from "../../../assets/points/3pont.png";
 import pointNo4 from "../../../assets/points/4pont.png";
+import { SizeContext } from "../../../context/SizeContext";
 
 const taskPointImages = {
   2: pointNo2,
@@ -18,8 +19,24 @@ const taskPointImages = {
 
 function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
   const [isDeleted, setIsDeleted] = useState(false);
-
   const navigate = useNavigate();
+
+  const ref = useRef(null);
+
+  const { setSizes, setRefs } = useContext(SizeContext);
+
+  useEffect(() => {
+    let timeout = null;
+    if (ref && ref.current) {
+      timeout = setTimeout(() => {
+        const size = ref.current.getBoundingClientRect().height;
+        setSizes((values) => [...values, size]);
+        setRefs((values) => [...values, ref.current]);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   function handleDelete() {
     setIsDeleted(true);
@@ -41,6 +58,7 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
         styles.singleTaskRootContainer,
         isDeleted && styles.deleted,
       )}
+      ref={ref}
     >
       <div
         className={classnames(
