@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import { flatten, sortBy, shuffle } from "lodash";
+import { flatten, sortBy, shuffle, difference } from "lodash";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { format } from "date-fns";
@@ -32,9 +32,8 @@ function sumUntil(array, threshold) {
 
   // we loop til the end of the array
   // or right before result > threshold
-  for (i = 0; i < array.length && result + array[i] < threshold; i += 1) {
+  for (i = 0; i < array.length && result + array[i] <= threshold; i += 1) {
     result += array[i];
-    console.log("result", result);
   }
 
   return {
@@ -246,80 +245,103 @@ function Tasks() {
     }
   }
 
+  const pageHeight = 250;
   const { sizes, refs } = useContext(SizeContext);
 
-  function printToPdf() {
-    toggleSaving(true);
-    const sumOfSizes = sumPixels(sizes);
-    const sumInMm = convertToMm(sumOfSizes);
-    let sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
-    console.log("sumOfSizes", sumOfSizes);
-    console.log("sumInMm", sumInMm);
-    console.log("sizes", sizes);
-    console.log("refs", refs);
-    console.log("sizesInMm", sizesInMm);
+  function recursiveHandler(sizesArray, elementsArray, canvasArray) {
+    return new Promise((resolveMain) => {
+      if (Array.isArray(sizesArray) && sizesArray.length > 0) {
+        const currentNeeded = sumUntil(sizesArray, pageHeight);
 
-    //
+        if (currentNeeded.index !== -1) {
+          let remainingSizes = [];
+          let remainingElements = [];
 
-    //
-    html2canvas(document.getElementById("task-container"), {
-      useCORS: true,
-      logging: false,
-      onclone: (clonedDoc) => {
-        clonedDoc.getElementById("meta-helper").style.display = "block";
-        Array.from(clonedDoc.querySelectorAll(".point-image")).map((image) => {
-          image.style.display = "flex";
-          return true;
-        });
+          const theseElements = elementsArray.slice(0, currentNeeded.index + 1);
 
-        Array.from(clonedDoc.querySelectorAll(".task-no")).map((thisTask) => {
-          thisTask.style.display = "block";
-          return true;
-        });
-      },
-    }).then((canvas) => {
-      const pdf = new jsPDF({
-        orientation: "p",
-        unit: "mm",
-      });
+          theseElements.map((item) =>
+            document.getElementById("copy").append(item.cloneNode(true)),
+          );
 
-      let position = 0;
-      const pageWidth = 190;
-      const pageHeight = 290;
+          const promise = new Promise((resolve) => {
+            html2canvas(document.getElementById("copy"), {
+              useCORS: true,
+              logging: false,
+              onclone: (clonedDoc) => {
+                clonedDoc.getElementById("meta-helper").style.display = "block";
+                Array.from(clonedDoc.querySelectorAll(".point-image")).map(
+                  (image) => {
+                    image.style.display = "flex";
+                    return true;
+                  },
+                );
 
-      const imgHeight = (canvas.height * pageWidth) / canvas.width;
-      let heightLeft = imgHeight;
+                Array.from(clonedDoc.querySelectorAll(".task-no")).map(
+                  (thisTask) => {
+                    thisTask.style.display = "block";
+                    return true;
+                  },
+                );
+              },
+            }).then((canvas) => {
+              // canvas is ready we need to clean up for the next iteration
+              document.getElementById("copy").innerHTML = "";
+              // remaining items az mindig az a shallow-copy of tasks amikbol canvas-t kell csinlani
+              remainingSizes = difference(
+                sizesArray,
+                sizesArray.slice(0, currentNeeded.index + 1),
+              );
 
-      console.log("canvas.height", canvas.height);
-      console.log("imageHeight", imgHeight);
+              remainingElements = difference(
+                elementsArray,
+                elementsArray.slice(0, currentNeeded.index + 1),
+              );
 
-      // pl 3 elem kell h sum 3 in mm < imgHeight
+              canvasArray.push({
+                canvas,
+                currentNeeded,
+              });
+              resolve(canvas);
+            });
+          });
 
-      const elementNeeded = sumUntil(sizesInMm, heightLeft);
-      sizesInMm = sizesInMm.slice(elementNeeded.index);
-      console.log("elementNeeded", elementNeeded);
-
-      // csak azt a 3 elemet tegyünk canvasra
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-      pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
-      heightLeft -= pageHeight;
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 10, position, pageWidth, imgHeight + 25);
-        heightLeft -= pageHeight;
-        console.log("heightLeft", heightLeft);
-        const elementN = sumUntil(sizesInMm, heightLeft);
-        sizesInMm = sizesInMm.slice(elementN.index);
-        console.log("elementNeeded", elementN);
+          promise.then(() =>
+            resolveMain(
+              recursiveHandler(remainingSizes, remainingElements, canvasArray),
+            ),
+          );
+        }
+      } else {
+        resolveMain(canvasArray);
       }
-
-      // pdf.addImage(imgData, "JPEG", 0, 0);
-      const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
-      pdf.save(`erettsegi_${fileName}`);
-      toggleSaving(false);
     });
+  }
+
+  function printToPdf() {
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "mm",
+    });
+    const sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
+    toggleSaving(true);
+    const canvases = [];
+    const pageWidth = 190;
+    recursiveHandler(sizesInMm, refs, canvases).then((createdCanvases) => {
+      if (Array.isArray(canvases)) {
+        createdCanvases.map(({ canvas, currentNeeded: { result } }, index) => {
+          const imgData = canvas.toDataURL("image/jpeg", 1.0);
+          pdf.addImage(imgData, "PNG", 10, 10, pageWidth, result);
+          if (index < canvases.length - 1) {
+            return pdf.addPage();
+          }
+          return true;
+        });
+
+        const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
+        pdf.save(`erettsegi_${fileName}`);
+      }
+    });
+    toggleSaving(false);
   }
 
   function getRandomComplexTasks() {
