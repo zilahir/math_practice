@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import { flatten, sortBy, shuffle } from "lodash";
+import { flatten, sortBy, shuffle, difference } from "lodash";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { format } from "date-fns";
@@ -18,6 +18,7 @@ import createRandomExam from "../../utils/generateExam";
 import { getPeriodTimeStamp } from "../../utils/periods";
 import Loader from "../../components/common/Loader";
 import Input from "../../components/common/Input";
+import { SizeContext } from "../../context/SizeContext";
 
 const FILTER_BY_PERIOD = "FILTER_BY_PERIOD";
 const FILTER_BY_CATEGORIES = "FILTER_BY_CATEGORIES";
@@ -25,6 +26,29 @@ const GENERATE = "GENERATE";
 const COMPLEX = "COMPLEX";
 const MAX_POINTS = 30;
 
+function sumUntil(array, threshold) {
+  let i;
+  let result = 0;
+
+  // we loop til the end of the array
+  // or right before result > threshold
+  for (i = 0; i < array.length && result + array[i] <= threshold; i += 1) {
+    result += array[i];
+  }
+
+  return {
+    index: i - 1, // -1 because it is incremented at the end of the last loop
+    result,
+  };
+}
+
+const sumPixels = (pixels) =>
+  pixels.reduce(
+    (previousValue, currentValue) => previousValue + currentValue,
+    0,
+  );
+
+const convertToMm = (sumOfPixels) => sumOfPixels * Number(0.2645833333);
 function TaskInfo({
   pperiod,
   taskNo,
@@ -37,21 +61,29 @@ function TaskInfo({
     return (
       <div className={styles.taskMetaContainer}>
         <div className={classnames(["task-no", styles.taskNo])}>
-          <p>{taskNumber}</p>
+          <p>{`${taskNumber}.`}</p>
         </div>
-        <div data-html2canvas-ignore>
-          <p>
-            <span>Időszak:</span>
-            <span>{pperiod}</span>
-          </p>
-          <p id="task-no-info">
-            <span>Feladat sorszáma:</span>
-            <span>{taskNo}</span>
-          </p>
-          <p>
-            <span>Pontszám:</span>
-            <span>{taskPoints}</span>
-          </p>
+        <div className={styles.taskMetaInnerContainer} data-html2canvas-ignore>
+          <div className={styles.col}>
+            <p>
+              <span>Időszak:</span>
+              <span>{pperiod}</span>
+            </p>
+            <p>
+              <span>Témakör:</span>
+              <span>{ccategory}</span>
+            </p>
+          </div>
+          <div className={styles.col}>
+            <p id="task-no-info">
+              <span>Feladat sorszáma:</span>
+              <span>{`${taskNo}.`}</span>
+            </p>
+            <p>
+              <span>Pontszám:</span>
+              <span>{taskPoints}</span>
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -59,16 +91,23 @@ function TaskInfo({
   return (
     <div className={styles.taskMetaContainer}>
       <div className={classnames(["task-no", styles.taskNo])}>
-        <p>{taskNumber}</p>
+        <p>{`${taskNumber}.`}</p>
       </div>
       <div data-html2canvas-ignore>
-        <p>
-          <span>Kategória: </span>
-          <span>{ccategory}</span>
-        </p>
+        {selectedFilterType !== COMPLEX ? (
+          <p>
+            <span>Kategória: </span>
+            <span>{ccategory}</span>
+          </p>
+        ) : (
+          <p>
+            <span>Időszak:</span>
+            <span>{pperiod}</span>
+          </p>
+        )}
         <p>
           <span>Feladat sorszáma:</span>
-          <span>{taskNo}</span>
+          <span>{`${taskNo}.`}</span>
         </p>
         <p>
           <span>Pontszám:</span>
@@ -206,37 +245,103 @@ function Tasks() {
     }
   }
 
-  function printToPdf() {
-    toggleSaving(true);
-    html2canvas(document.getElementById("task-container"), {
-      useCORS: true,
-      logging: false,
-      onclone: (clonedDoc) => {
-        clonedDoc.getElementById("meta-helper").style.display = "block";
-        Array.from(clonedDoc.querySelectorAll(".point-image")).map((image) => {
-          image.style.display = "flex";
-          return true;
-        });
+  const pageHeight = 250;
+  const { sizes, refs } = useContext(SizeContext);
 
-        Array.from(clonedDoc.querySelectorAll(".task-no")).map((thisTask) => {
-          thisTask.style.display = "block";
-          return true;
-        });
-      },
-    }).then((canvas) => {
-      // creaing the PDF itself here
-      const pdf = new jsPDF({
-        orientation: "p",
-        unit: "pt",
-        format: [canvas.width, canvas.height],
-      });
+  function recursiveHandler(sizesArray, elementsArray, canvasArray) {
+    return new Promise((resolveMain) => {
+      if (Array.isArray(sizesArray) && sizesArray.length > 0) {
+        const currentNeeded = sumUntil(sizesArray, pageHeight);
 
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
-      pdf.save(`erettsegi_${fileName}`);
-      toggleSaving(false);
+        if (currentNeeded.index !== -1) {
+          let remainingSizes = [];
+          let remainingElements = [];
+
+          const theseElements = elementsArray.slice(0, currentNeeded.index + 1);
+
+          theseElements.map((item) =>
+            document.getElementById("copy").append(item.cloneNode(true)),
+          );
+
+          const promise = new Promise((resolve) => {
+            html2canvas(document.getElementById("copy"), {
+              useCORS: true,
+              logging: false,
+              onclone: (clonedDoc) => {
+                clonedDoc.getElementById("meta-helper").style.display = "block";
+                Array.from(clonedDoc.querySelectorAll(".point-image")).map(
+                  (image) => {
+                    image.style.display = "flex";
+                    return true;
+                  },
+                );
+
+                Array.from(clonedDoc.querySelectorAll(".task-no")).map(
+                  (thisTask) => {
+                    thisTask.style.display = "block";
+                    return true;
+                  },
+                );
+              },
+            }).then((canvas) => {
+              // canvas is ready we need to clean up for the next iteration
+              document.getElementById("copy").innerHTML = "";
+              // remaining items az mindig az a shallow-copy of tasks amikbol canvas-t kell csinlani
+              remainingSizes = difference(
+                sizesArray,
+                sizesArray.slice(0, currentNeeded.index + 1),
+              );
+
+              remainingElements = difference(
+                elementsArray,
+                elementsArray.slice(0, currentNeeded.index + 1),
+              );
+
+              canvasArray.push({
+                canvas,
+                currentNeeded,
+              });
+              resolve(canvas);
+            });
+          });
+
+          promise.then(() =>
+            resolveMain(
+              recursiveHandler(remainingSizes, remainingElements, canvasArray),
+            ),
+          );
+        }
+      } else {
+        resolveMain(canvasArray);
+      }
     });
+  }
+
+  function printToPdf() {
+    const pdf = new jsPDF({
+      orientation: "p",
+      unit: "mm",
+    });
+    const sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
+    toggleSaving(true);
+    const canvases = [];
+    const pageWidth = 190;
+    recursiveHandler(sizesInMm, refs, canvases).then((createdCanvases) => {
+      if (Array.isArray(canvases)) {
+        createdCanvases.map(({ canvas, currentNeeded: { result } }, index) => {
+          const imgData = canvas.toDataURL("image/jpeg", 1.0);
+          pdf.addImage(imgData, "PNG", 10, 10, pageWidth, result);
+          if (index < canvases.length - 1) {
+            return pdf.addPage();
+          }
+          return true;
+        });
+
+        const fileName = format(new Date(), "yyyy-MM-dd_hh:mm");
+        pdf.save(`erettsegi_${fileName}`);
+      }
+    });
+    toggleSaving(false);
   }
 
   function getRandomComplexTasks() {
@@ -247,6 +352,7 @@ function Tasks() {
     const randomCompleyTasks = shuffle(complexTasks).slice(0, taskNo);
     setFilteredTasks(randomCompleyTasks);
   }
+
   return (
     <div className={styles.tasksRootContainer}>
       <h1>Feladatok</h1>
@@ -404,10 +510,12 @@ function Tasks() {
                 <span className={styles.bold}>Összesen:</span>
                 {`${filteredTasks.length} feladat`}
               </span>
-              <span>
-                <span className={styles.bold}>Választott kategóriák:</span>
-                {category.map(({ label }) => label).join(", ")}
-              </span>
+              {selectedFilterType !== COMPLEX && (
+                <span>
+                  <span className={styles.bold}>Választott kategóriák:</span>
+                  {category.map(({ label }) => label).join(", ")}
+                </span>
+              )}
               <span>
                 <span className={styles.bold}>Összontszám:</span>
                 {`${sumTaskPoints(filteredTasks).task_point_no} pont`}

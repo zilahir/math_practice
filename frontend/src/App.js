@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,10 +10,10 @@ import Tasks from "./pages/Tasks";
 import SignUp from "./pages/SignUp";
 import SignOut from "./pages/SignOut";
 import { adminRoutes } from "./fakeApi/menuItems";
-
 import { AdminPages } from "./pages/Admin";
 import EditPage from "./pages/Admin/pages/Edit";
-import Demo from "./pages/Demo";
+import Pdf from "./pages/Pdf";
+import SizeContextProvider from "./context/SizeContext";
 
 function GetPageComponent({ pageName }) {
   return AdminPages[pageName]();
@@ -22,34 +23,36 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Header />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/demo" element={<Demo />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signout" element={<SignOut />} />
-          {adminRoutes.map(({ path, name, PageComponent }) => (
+        <SizeContextProvider>
+          <Header />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="/pdf" element={<Pdf />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signout" element={<SignOut />} />
+            <Route path="/tasks" element={<Tasks />} />
+            {adminRoutes.map(({ path, name, PageComponent }) => (
+              <Route
+                path={path}
+                key={name}
+                element={
+                  <ProtectedRoute>
+                    <GetPageComponent key={name} pageName={PageComponent} />
+                  </ProtectedRoute>
+                }
+              />
+            ))}
             <Route
-              path={path}
-              key={name}
+              path="/admin/task/:taskId"
               element={
                 <ProtectedRoute>
-                  <GetPageComponent key={name} pageName={PageComponent} />
+                  <EditPage />
                 </ProtectedRoute>
               }
             />
-          ))}
-          <Route path="/tasks" element={<Tasks />} />
-          <Route
-            path="/admin/task/:taskId"
-            element={
-              <ProtectedRoute>
-                <EditPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+          </Routes>
+        </SizeContextProvider>
       </AuthProvider>
     </BrowserRouter>
   );

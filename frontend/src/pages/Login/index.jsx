@@ -17,12 +17,8 @@ function Login() {
     pathName: apiEndpoints.login,
     method: "POST",
   });
-  const [username, setUsername] = useState(
-    process.env.NODE_ENV === "development" ? "zilahi@gmail.com" : "",
-  );
-  const [password, setPassword] = useState(
-    process.env.NODE_ENV === "development" ? "DemoPassword123" : "",
-  );
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const { signIn } = useAuth();
   const navigate = useNavigate();

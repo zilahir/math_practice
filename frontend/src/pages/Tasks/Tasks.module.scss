@@ -89,6 +89,15 @@
     display: none;
   }
 
+  .taskMetaInnerContainer {
+    display: flex;
+    margin-bottom: 10px;
+
+    .col {
+      flex: 1;
+    }
+  }
+
   .taskNo {
     display: none;
     p {
@@ -97,6 +106,7 @@
   }
 
   p {
+    margin: 6px 0;
     span {
       &:first-of-type {
         font-size: 20px;
