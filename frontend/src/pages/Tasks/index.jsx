@@ -42,13 +42,6 @@ function sumUntil(array, threshold) {
   };
 }
 
-const sumPixels = (pixels) =>
-  pixels.reduce(
-    (previousValue, currentValue) => previousValue + currentValue,
-    0,
-  );
-
-const convertToMm = (sumOfPixels) => sumOfPixels * Number(0.2645833333);
 function TaskInfo({
   pperiod,
   taskNo,
