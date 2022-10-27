@@ -322,6 +322,7 @@ function Tasks() {
       orientation: "p",
       unit: "mm",
     });
+    document.getElementById("copy").innerHTML = "";
     const sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
     toggleSaving(true);
     const canvases = [];
