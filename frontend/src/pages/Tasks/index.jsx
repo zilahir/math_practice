@@ -238,7 +238,7 @@ function Tasks() {
     }
   }
 
-  const pageHeight = 250;
+  const pageHeight = 280;
   const { sizes, refs } = useContext(SizeContext);
 
   function recursiveHandler(sizesArray, elementsArray, canvasArray) {
@@ -315,16 +315,19 @@ function Tasks() {
       orientation: "p",
       unit: "mm",
     });
+    // document.getElementById("copy").setAttribute("style", "max-width: 400px");
     document.getElementById("copy").innerHTML = "";
     const sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
     toggleSaving(true);
     const canvases = [];
-    const pageWidth = 190;
     recursiveHandler(sizesInMm, refs, canvases).then((createdCanvases) => {
       if (Array.isArray(canvases)) {
-        createdCanvases.map(({ canvas, currentNeeded: { result } }, index) => {
+        createdCanvases.map(({ canvas }, index) => {
           const imgData = canvas.toDataURL("image/jpeg", 1.0);
-          pdf.addImage(imgData, "PNG", 10, 10, pageWidth, result);
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
           if (index < canvases.length - 1) {
             return pdf.addPage();
           }

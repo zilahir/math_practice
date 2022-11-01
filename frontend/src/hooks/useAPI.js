@@ -62,7 +62,7 @@ function useApi({ pathName, method }) {
           .finally(() => {
             isLoading(false);
           });
-      }, 500);
+      }, 1500);
     }
   }, [method, pathName]);
 

@@ -79,17 +79,20 @@ function Task({ task, handleTaskDelete, showAdminButtons, renderTaskInfo }) {
 
         <div className={styles.imageContainer}>
           <img crossOrigin="anonymous" src={filePathUrl()} alt="feladat" />
-          <div
-            className={classnames([
-              "point-image",
-              styles.taskPointImageContainer,
-            ])}
-          >
-            <img
-              crossOrigin="anonymous"
-              alt="pont"
-              src={taskPointImages[task.task_point_no]}
-            />
+          <div id="outer">
+            <div id="inner-1" />
+            <div
+              className={classnames([
+                "point-image",
+                styles.taskPointImageContainer,
+              ])}
+            >
+              <img
+                crossOrigin="anonymous"
+                alt="pont"
+                src={taskPointImages[task.task_point_no]}
+              />
+            </div>
           </div>
         </div>
       </div>

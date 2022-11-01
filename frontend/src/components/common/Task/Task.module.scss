@@ -20,6 +20,7 @@
       flex: 1;
       img {
         width: 100%;
+        max-width: 100%;
       }
 
       .taskPointImageContainer {
@@ -27,7 +28,7 @@
         justify-content: flex-end;
         margin: 10px 0;
         img {
-          width: 700px;
+          width: 60vw;
         }
       }
     }
