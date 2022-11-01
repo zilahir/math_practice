@@ -3,7 +3,7 @@ import multer from "multer";
 import { S3 } from "@aws-sdk/client-s3";
 import multerS3 from "multer-s3";
 
-const s3 = new S3({
+export const s3 = new S3({
   region: "us-east-1",
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -46,6 +46,6 @@ export const imageFilter = function (req, file, cb) {
 };
 
 export const upload = multer({
-  storage: process.env.ENVIRONMENT !== "production" ? storageLocal : storage,
+  storage: process.env.ENVIRONMENT !== "production" ? storage : storageLocal,
   fileFilter: imageFilter,
 });

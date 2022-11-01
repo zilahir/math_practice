@@ -7,6 +7,17 @@ import { apiEndpoints, API_ROOT_URL } from "../../../../api";
 import useApi from "../../../../hooks/useAPI";
 import { baseStyle, focusedStyle, acceptStyle, rejectStyle } from "./styles";
 
+function filePathUrl(path) {
+  if (
+    process.env.NODE_ENV === "production" ||
+    process.env.NODE_ENV === "development"
+  ) {
+    return path;
+  }
+
+  return `${API_ROOT_URL}${apiEndpoints.static}/${path}`;
+}
+
 function ImageUpload({ setTaskImagePath, deletePreview, isPreviewImageUrl }) {
   const [previewImageUrl, setPreviewImageUrl] = useState(isPreviewImageUrl);
   const { apiRequestHandler } = useApi({
@@ -24,7 +35,7 @@ function ImageUpload({ setTaskImagePath, deletePreview, isPreviewImageUrl }) {
       const fd = new FormData();
       fd.append("file", acceptedFiles[0]);
       apiRequestHandler(fd).then((response) => {
-        setPreviewImageUrl(response.filePath);
+        setPreviewImageUrl(response.imagePath);
         setTaskImagePath(response.insertId);
       });
     },
@@ -71,7 +82,7 @@ function ImageUpload({ setTaskImagePath, deletePreview, isPreviewImageUrl }) {
           <img
             className={styles.previewImage}
             alt="preview"
-            src={`${API_ROOT_URL}${apiEndpoints.static}/${previewImageUrl}`}
+            src={filePathUrl(previewImageUrl)}
           />
         )}
       </div>

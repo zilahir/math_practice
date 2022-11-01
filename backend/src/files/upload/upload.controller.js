@@ -3,10 +3,11 @@ import path from "path";
 import fs from "fs";
 import { S3 } from "@aws-sdk/client-s3";
 
-import { imageFilter, storage } from "../storage";
+// import { imageFilter, storage } from "../storage";
 import { serverConfig } from "../../config";
 import MySQL from "../../db/MySQL";
 import { reject } from "lodash";
+import { s3 } from "../storage";
 
 const { host, port, user, password, dbName } = serverConfig.database;
 
@@ -17,37 +18,13 @@ const database = new MySQL(host, port, user, password, dbName);
  * @param response
  * @param next
  */
-function uploadFile(request, response, next) {
-  const upload = multer({ storage: storage, fileFilter: imageFilter }).single(
-    "file"
-  );
-  upload(request, response, function (err) {
-    // request.file contains information of uploaded file
-    // request.body contains information of text fields, if there were any
+async function uploadFile(request, response, next) {
+  const thisFileName = `file-${new Date().getTime()}`;
 
-    if (request.fileValidationError) {
-      return response.send(request.fileValidationError);
-    } else if (!request.file) {
-      return response.send("Please select an image to upload");
-    } else if (err instanceof multer.MulterError) {
-      return response.send(err);
-    } else if (err) {
-      return response.send(err);
-    }
+  const uploadResponse = await uploadFileToS3(request.file, thisFileName);
 
-    request.filePath = request.file.filename;
-
-    next();
-  });
+  next();
 }
-
-export const s3 = new S3({
-  region: "us-east-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-  },
-});
 
 /**
  * @param file
@@ -69,7 +46,8 @@ export async function uploadFileToS3(file, fileName) {
  * @param next
  */
 export async function saveImageInDatabase(request, response) {
-  const { filePath } = request;
+  const { file } = request;
+  const filePath = file.key;
 
   let sqlQueryResult = {};
   const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${filePath}") `;
@@ -82,7 +60,8 @@ export async function saveImageInDatabase(request, response) {
   }
 
   response.status(200).send({
-    filePath: filePath,
+    filePath: file.key,
+    imagePath: file.location,
     ...sqlQueryResult,
   });
 }

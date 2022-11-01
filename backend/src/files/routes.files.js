@@ -5,6 +5,6 @@ import uploadFile, { saveImageInDatabase } from "./upload/upload.controller";
 
 const router = Router();
 
-router.post("/", [upload.single("file"), uploadFile, saveImageInDatabase]);
+router.post("/", [upload.single("file"), saveImageInDatabase]);
 
 export default router;
