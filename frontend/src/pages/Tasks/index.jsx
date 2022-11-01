@@ -244,6 +244,8 @@ function Tasks() {
   function recursiveHandler(sizesArray, elementsArray, canvasArray) {
     return new Promise((resolveMain) => {
       if (Array.isArray(sizesArray) && sizesArray.length > 0) {
+        // TODO: ez a logika nem teljesen jó
+        // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         const currentNeeded = sumUntil(sizesArray, pageHeight);
 
         if (currentNeeded.index !== -1) {
