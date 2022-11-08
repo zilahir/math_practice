@@ -15,7 +15,7 @@ function EditPage() {
     <div>
       <NewTask
         taskImageId={apiReponse.task_image_id}
-        taskImagePath={apiReponse.filePath}
+        taskImagePath={`https://erettsegi-prod.s3.amazonaws.com/${apiReponse.filePath}.png`}
         category={{
           value: apiReponse.category_id,
           label: apiReponse.categoryName,
