@@ -6,16 +6,19 @@ import Button from "../../../../components/common/Button";
 import Error from "../../../../components/common/Error";
 import Input from "../../../../components/common/Input";
 import styles from "./Periods.module.scss";
+import SuccessNotification from "../../../../components/common/components/SuccessNotification";
 
 function Periods() {
   const [period, setPeriod] = useState("");
   const [errors, setErrors] = useState([]);
+  const [successMessage, setSuccessMessage] = useState(undefined);
   const { apiRequestHandler } = useApi({
     pathName: apiEndpoints.periods,
     method: "POST",
   });
 
   async function handlePeriodSave() {
+    setSuccessMessage(undefined);
     if (period.length === 0) {
       setErrors((currentErrors) => [
         ...currentErrors,
@@ -26,7 +29,9 @@ function Periods() {
         period,
       };
 
-      await apiRequestHandler(newPeriod);
+      await apiRequestHandler(newPeriod).then(() => {
+        setSuccessMessage("Az időszak sikeresen mentve!");
+      });
       setPeriod("");
     }
   }
@@ -39,6 +44,9 @@ function Periods() {
             errorText={error}
           />
         ))}
+      {successMessage && (
+        <SuccessNotification successMessages={[successMessage]} />
+      )}
       <Input
         value={period}
         onChangeHandler={setPeriod}
