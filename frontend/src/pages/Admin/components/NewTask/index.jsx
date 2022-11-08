@@ -32,6 +32,8 @@ function NewTask({
   const [deletePreview, setDeletePreview] = useState(false);
   const [taskPoint, setTaskPoint] = useState(iTaskPoint);
   const [taskNo, setTaskNo] = useState(iTaskNo);
+  const [updateSuccessFulMessage, setUpdateSucessfulMessage] =
+    useState(undefined);
   const { apiReponse: periodsApiResponse, loading } = useApi({
     method: "GET",
     pathName: apiEndpoints.periods,
@@ -104,8 +106,11 @@ function NewTask({
         });
       }
     } else {
+      setUpdateSucessfulMessage(undefined);
       const modifyObject = { ...newTaskObject, taskId };
-      modifyApiRequestHandler(modifyObject);
+      modifyApiRequestHandler(modifyObject).then(() => {
+        setUpdateSucessfulMessage("Módosítás sikeres!");
+      });
     }
   }
 
@@ -118,6 +123,9 @@ function NewTask({
       )}
 
       {error && <Error errorText={error} />}
+      {updateSuccessFulMessage && (
+        <SuccessNotification successMessages={[updateSuccessFulMessage]} />
+      )}
       <ImageUpload
         deletePreview={deletePreview}
         setTaskImagePath={setTaskImageId}
