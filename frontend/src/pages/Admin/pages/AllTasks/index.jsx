@@ -61,6 +61,8 @@ function AllTask() {
     const filtered = apiReponse.filter(
       ({ period_id: thisPeriodId }) => thisPeriodId === periodId,
     );
+
+    console.log("filteded", filtered);
     setPeriod(selectedPeriod);
     setFilteredTasks(filtered);
   }

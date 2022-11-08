@@ -49,8 +49,12 @@ export async function saveImageInDatabase(request, response) {
   const { file } = request;
   const filePath = file.key;
 
+  const fileName = file.originalname.split(".")[0];
+
+  console.log("file.originalname", file.originalname);
+
   let sqlQueryResult = {};
-  const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${filePath}") `;
+  const newImageQuery = `INSERT INTO task_images (filePath) VALUES ("${fileName}") `;
   try {
     sqlQueryResult = await database.query(newImageQuery);
   } catch {
