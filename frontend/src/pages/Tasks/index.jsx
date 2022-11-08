@@ -238,14 +238,12 @@ function Tasks() {
     }
   }
 
-  const pageHeight = 280;
+  const pageHeight = selectedFilterType !== COMPLEX ? 280 : 400;
   const { sizes, refs } = useContext(SizeContext);
 
   function recursiveHandler(sizesArray, elementsArray, canvasArray) {
     return new Promise((resolveMain) => {
       if (Array.isArray(sizesArray) && sizesArray.length > 0) {
-        // TODO: ez a logika nem teljesen jó
-        // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         const currentNeeded = sumUntil(sizesArray, pageHeight);
 
         if (currentNeeded.index !== -1) {
@@ -305,6 +303,8 @@ function Tasks() {
               recursiveHandler(remainingSizes, remainingElements, canvasArray),
             ),
           );
+        } else {
+          // mit csinaljunk ha nem fer ra egy oldalra
         }
       } else {
         resolveMain(canvasArray);
@@ -317,12 +317,13 @@ function Tasks() {
       orientation: "p",
       unit: "mm",
     });
-    // document.getElementById("copy").setAttribute("style", "max-width: 400px");
+
     document.getElementById("copy").innerHTML = "";
     const sizesInMm = sizes.map((thisSize) => thisSize * Number(0.2645833333));
     toggleSaving(true);
     const canvases = [];
     recursiveHandler(sizesInMm, refs, canvases).then((createdCanvases) => {
+      console.log("refs", refs);
       if (Array.isArray(canvases)) {
         createdCanvases.map(({ canvas }, index) => {
           const imgData = canvas.toDataURL("image/jpeg", 1.0);
