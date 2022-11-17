@@ -221,8 +221,11 @@ function Tasks() {
   function handleTaskSearch() {
     filterTasksByLogic();
   }
+  const { sizes, refs, setSizes, setRefs } = useContext(SizeContext);
 
   function generateExam() {
+    setRefs([]);
+    setSizes([]);
     const tasks = allTasks
       .filter((task) => category.some((cat) => cat.value === task.category_id))
       .map((task) => ({
@@ -239,7 +242,6 @@ function Tasks() {
   }
 
   const pageHeight = selectedFilterType !== COMPLEX ? 280 : 400;
-  const { sizes, refs } = useContext(SizeContext);
 
   function recursiveHandler(sizesArray, elementsArray, canvasArray) {
     return new Promise((resolveMain) => {
@@ -344,6 +346,8 @@ function Tasks() {
   }
 
   function getRandomComplexTasks() {
+    setSizes([]);
+    setRefs([]);
     const complexTasks = allTasks.filter(
       ({ category_id }) => category_id === 17,
     );
