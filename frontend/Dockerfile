@@ -1,4 +1,4 @@
-FROM node:lts AS development
+FROM node:16 AS development
 
 ENV CI=false
 ENV PORT=3000
