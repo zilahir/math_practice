@@ -71,6 +71,7 @@ services:
       - 3000:3000
     volumes:
       - ./frontend/src:/code/src
+      - ./frontend/node_modules:/code/node_modules
       - /code/node_modules
     networks:
       - public
