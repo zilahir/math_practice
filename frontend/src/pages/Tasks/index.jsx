@@ -323,7 +323,6 @@ function Tasks() {
     toggleSaving(true);
     const canvases = [];
     recursiveHandler(sizesInMm, refs, canvases).then((createdCanvases) => {
-      console.log("refs", refs);
       if (Array.isArray(canvases)) {
         createdCanvases.map(({ canvas }, index) => {
           const imgData = canvas.toDataURL("image/jpeg", 1.0);
